@@ -59,6 +59,18 @@ body {
     margin: 0;
 }
 
+.nav-section {
+    margin-bottom: 1rem;
+}
+
+.nav-container h3 {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
 .nav-item {
     display: flex;
     align-items: center;
