@@ -8,9 +8,8 @@
     <meta name="keywords"
         content="rap việt, v-pop, vpopmusic, vpop, nghe nhạc, music streaming, playlist, lofi, html5, tailwind css">
 
-    <title>Bài Tập Lớn</title>
+    <title>Thể Loại - Bài Tập Lớn</title>
 
-    <!-- File CSS chung, tránh chỉnh sửa -->
     <link rel="stylesheet" href="./assets/css/layout.css">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
@@ -20,21 +19,114 @@
 </head>
 
 <body>
-    <!-- Header -->
-    <div id="header-placeholder"></div>
+    <header class="header-container flex">
+        <div class="flex">
+            <h1 class="text-2xl font-bold">Bài Tập Lớn</h1>
+        </div>
+    </header>
 
     <div class="layout-container flex">
-        <!-- Sidebar -->
-        <div id="sidebar-placeholder"></div>
+        <aside class="sidebar-container flex">
+            <nav class="nav-container">
+                <div class="list-container">
+                    <ul>
+                        <section class="nav-section">
+                            <h3>Khám Phá</h3>
+                            <li><a href="#" class="nav-item"><i class="fa-regular fa-house"></i> Trang Chủ</a>
+                            </li>
+                            <li class="nav-item active"><a href="#"><i class="fa-solid fa-record-vinyl"></i></i>Thể Loại</a></li>
+                        </section>
+                        <section class="nav-section">
+                            <h3>Thư Viện</h3>
+                            <li class="nav-item"><a href="#">Playlist</a></li>
+                            <li class="nav-item"><a href="#">Album</a></li>
+                            <li class="nav-item"><a href="#">Yêu Thích</a></li>
+                        </section>
+                    </ul>
+                </div>
+            </nav>
+        </aside>
 
-        <!-- Main Content (Làm ở đây) -->
-        <main class="main-container flex">
-            <h2>Danh Sách Bài Hát</h2>
+        <!-- Main Content -->
+        <main class="main-container flex-1 p-8 overflow-y-auto">
+            <h2 class="text-3xl font-bold mb-8 text-[var(--text-primary)]">Thể Loại Nhạc</h2>
+
+            <!-- THANH LỌC THỂ LOẠI (Scroll ngang dùng Icon FontAwesome) -->
+            <div class="flex items-center gap-3 overflow-x-auto pb-2 [&::-webkit-scrollbar]:hidden whitespace-nowrap w-full">
+                
+                <!-- V-Pop -->
+                <button class="flex items-center gap-2 px-5 py-2 rounded-full bg-[var(--bg-surface)] hover:bg-[var(--bg-surface-hover)] border border-[var(--border-color)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-all cursor-pointer group">
+                    <i class="fa-solid fa-star group-hover:text-[var(--accent-primary)] transition-colors"></i>
+                    <span class="text-sm font-medium">V-Pop</span>
+                </button>
+
+                <!-- K-Pop (Trạng thái Active - Dùng màu Accent của bạn) -->
+                <button class="flex items-center gap-2 px-5 py-2 rounded-full bg-[var(--accent-glow)] border border-[var(--accent-primary)] text-[var(--accent-primary)] transition-all cursor-pointer shadow-[0_0_15px_var(--accent-glow)]">
+                    <i class="fa-solid fa-heart"></i>
+                    <span class="text-sm font-bold">K-Pop</span>
+                </button>
+
+                <!-- US/UK -->
+                <button class="flex items-center gap-2 px-5 py-2 rounded-full bg-[var(--bg-surface)] hover:bg-[var(--bg-surface-hover)] border border-[var(--border-color)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-all cursor-pointer group">
+                    <i class="fa-solid fa-globe group-hover:text-[var(--accent-primary)] transition-colors"></i>
+                    <span class="text-sm font-medium">US/UK</span>
+                </button>
+
+                <!-- Nhạc trẻ -->
+                <button class="flex items-center gap-2 px-5 py-2 rounded-full bg-[var(--bg-surface)] hover:bg-[var(--bg-surface-hover)] border border-[var(--border-color)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-all cursor-pointer group">
+                    <i class="fa-solid fa-fire group-hover:text-[var(--accent-primary)] transition-colors"></i>
+                    <span class="text-sm font-medium">Nhạc trẻ</span>
+                </button>
+
+                <!-- Chill -->
+                <button class="flex items-center gap-2 px-5 py-2 rounded-full bg-[var(--bg-surface)] hover:bg-[var(--bg-surface-hover)] border border-[var(--border-color)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-all cursor-pointer group">
+                    <i class="fa-solid fa-mug-hot group-hover:text-[var(--accent-primary)] transition-colors"></i>
+                    <span class="text-sm font-medium">Chill</span>
+                </button>
+
+                <!-- Rap Việt -->
+                <button class="flex items-center gap-2 px-5 py-2 rounded-full bg-[var(--bg-surface)] hover:bg-[var(--bg-surface-hover)] border border-[var(--border-color)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-all cursor-pointer group">
+                    <i class="fa-solid fa-microphone-lines group-hover:text-[var(--accent-primary)] transition-colors"></i>
+                    <span class="text-sm font-medium">Rap Việt</span>
+                </button>
+
+                <!-- Ballad -->
+                <button class="flex items-center gap-2 px-5 py-2 rounded-full bg-[var(--bg-surface)] hover:bg-[var(--bg-surface-hover)] border border-[var(--border-color)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-all cursor-pointer group">
+                    <i class="fa-solid fa-guitar group-hover:text-[var(--accent-primary)] transition-colors"></i>
+                    <span class="text-sm font-medium">Ballad</span>
+                </button>
+
+                <!-- EDM -->
+                <button class="flex items-center gap-2 px-5 py-2 rounded-full bg-[var(--bg-surface)] hover:bg-[var(--bg-surface-hover)] border border-[var(--border-color)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-all cursor-pointer group">
+                    <i class="fa-solid fa-bolt group-hover:text-[var(--accent-primary)] transition-colors"></i>
+                    <span class="text-sm font-medium">EDM</span>
+                </button>
+                
+                <!-- OST -->
+                <button class="flex items-center gap-2 px-5 py-2 rounded-full bg-[var(--bg-surface)] hover:bg-[var(--bg-surface-hover)] border border-[var(--border-color)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-all cursor-pointer group">
+                    <i class="fa-solid fa-film group-hover:text-[var(--accent-primary)] transition-colors"></i>
+                    <span class="text-sm font-medium">OST</span>
+                </button>
+
+                <!-- Indie -->
+                <button class="flex items-center gap-2 px-5 py-2 rounded-full bg-[var(--bg-surface)] hover:bg-[var(--bg-surface-hover)] border border-[var(--border-color)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-all cursor-pointer group">
+                    <i class="fa-solid fa-seedling group-hover:text-[var(--accent-primary)] transition-colors"></i>
+                    <span class="text-sm font-medium">Indie</span>
+                </button>
+
+            </div>
+
+            <!-- KHU VỰC CHỨA DANH SÁCH BÀI HÁT TƯƠNG ỨNG VỚI THỂ LOẠI -->
+            <div class="mt-8 text-[var(--text-secondary)]">
+                <!-- Chỗ này sau sẽ nhúng danh sách bài hát vào -->
+            </div>
+            
         </main>
     </div>
 
-    <!-- Music Player -->
-    <div id="player-placeholder"></div>
+    <footer class="footer-container flex">
+        <h1>MUSIC PLAYER</h1>
+    </footer>
 
     <script src="./assets/javascript/main.js"></script>
 </body>
