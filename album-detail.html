@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="referrer" content="no-referrer">
+    <title>Bài Tập Lớn - Chi Tiết Album Nghệ Sĩ</title>
+    <link rel="stylesheet" href="./assets/css/layout.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body>
+    <header class="header-container flex">
+        <div class="flex">
+            <h1 class="text-2xl font-bold">Bài Tập Lớn</h1>
+        </div>
+    </header>
+
+    <div class="layout-container flex">
+        <aside class="sidebar-container flex">
+            <nav class="nav-container">
+                <div class="list-container">
+                    <ul>
+                        <section class="nav-section">
+                            <h3>Khám Phá</h3>
+                            <li><a href="index.html" class="nav-item"><i class="fa-regular fa-house"></i> Trang Chủ</a></li>
+                            <li class="nav-item"><a href="#"><i class="fa-solid fa-door-closed"></i>Thể Loại</a></li>
+                        </section>
+                        <section class="nav-section">
+                            <h3>Thư Viện</h3>
+                            <li class="nav-item"><a href="#">Playlist</a></li>
+                            <li class="nav-item"><a href="album.html" class="nav-item active">Album</a></li>
+                            <li class="nav-item"><a href="#">Yêu Thích</a></li>
+                        </section>
+                    </ul>
+                </div>
+            </nav>
+        </aside>
+
+        <main class="main-container flex flex-col w-full p-6 overflow-y-auto text-white">
+            
+            <div class="mb-4">
+                <a href="album.html" class="text-gray-400 hover:text-[#39C] transition-colors flex items-center gap-2 text-sm">
+                    <i class="fa-solid fa-arrow-left"></i> Quay lại danh sách Album
+                </a>
+            </div>
+
+            <div class="flex flex-col sm:flex-row gap-6 items-center sm:items-end mb-8 bg-white/5 p-6 rounded-2xl">
+                <img id="album-cover" src="" alt="Cover" class="w-40 h-40 object-cover rounded-xl shadow-lg" />
+                <div class="flex-1 text-center sm:text-left">
+                    <span class="text-xs font-bold uppercase tracking-widest text-[#39C]">ALBUM NGHỆ SĨ</span>
+                    <h2 id="album-title" class="text-3xl font-extrabold mt-1 mb-2">Đang tải...</h2>
+                    <p class="text-sm text-gray-300">Thể loại: V-Pop Hits • Nghệ sĩ: <span id="artist-header-name" class="text-[#39C] font-semibold">...</span></p>
+                    
+                    <button class="mt-4 bg-[#39C] text-black px-6 py-2 rounded-full font-bold text-sm hover:scale-105 transition-transform flex items-center gap-2 mx-auto sm:mx-0">
+                        <i class="fa-solid fa-play"></i> PHÁT TẤT CẢ
+                    </button>
+                </div>
+            </div>
+
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="border-b border-gray-800 text-gray-400 text-xs uppercase tracking-wider">
+                            <th class="py-3 pl-4 w-12 text-center">#</th>
+                            <th class="py-3 pl-4">Bài hát</th>
+                            <th class="py-3 hidden md:table-cell">Lượt nghe</th>
+                            <th class="py-3 pr-4 text-right w-20"><i class="fa-regular fa-clock"></i></th>
+                        </tr>
+                    </thead>
+                    <tbody id="song-list" class="text-sm divide-y divide-gray-900/50"></tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+
+    <footer class="footer-container flex">
+        <h1>MUSIC PLAYER</h1>
+    </footer>
+
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const artistKey = urlParams.get('artist') || 'sontung';
+
+       const database = {
+    sontung: {
+        name: "Sơn Tùng M-TP",
+        album: "Chúng Tra Của Tương Lai",
+        cover: "https://i.scdn.co/image/ab67616d0000b27376c7900b396e9cb08fa7585f",
+        songs: ["Chúng Ta Của Tương Lai", "Chúng Ta Của Hiện Tại", "Nơi Này Có Anh", "Chạy Ngay Đi", "Muộn Rồi Mà Sao Còn", "Hãy Trao Cho Anh", "Lạc Trôi", "Có Chắc Yêu Là Đây", "Âm Thầm Bên Em", "Em Của Ngày Hôm Qua", "Cơn Mưa Ngang Qua", "Nắng Ấm Xa Dần", "Thái Bình Mồ Hôi Rơi", "Một Năm Mới Bình An", "Buông Đôi Tay Nhau Ra"]
+    },
+    denvau: {
+        name: "Đen",
+        album: "Luôn Yêu Đời (EP)",
+        cover: "https://i.scdn.co/image/ab67616d0000b2730ca7f884f0949d291afb492b",
+        songs: ["Luôn Yêu Đời", "Mang Tiền Về Cho Mẹ", "Trốn Tìm", "Bài Này Chill Phết", "Hai Triệu Năm", "Lối Nhỏ", "Ngày Lang Thang", "Đưa Nhau Đi Trốn", "Đi Về Nhà", "Anh Đếch Cần Gì Nhiều Ngoài Em", "Mười Năm", "Trời Hôm Nay Nhiều Mây Cực", "Gieo Quẻ", "Nấu Ăn Cho Em", "Đi Theo Bóng Mặt Trời"]
+    },
+    mck: {
+        name: "RPT MCK",
+        album: "99%",
+        cover: "https://i.scdn.co/image/ab67616d0000b2733d396b27e69c6cf06da44f91",
+        songs: ["Chìm Sâu", "Tại Vì Sao", "Thôi Em Đừng Đi", "Suit & Tie", "Bảnh", "Va Vào Giai Định Này", "Chương 2", "Chỉ Một Đêm Thôi", "Ai Mới Là Kẻ Xấu Xí", "Tình Đắng Như Ly Cà Phê", "Tay To", "Dân Chơi Xóm", "Rap Chậm Thôi", "Thờ Er", "Đánh Đổi"]
+    },
+    tlinh: {
+        name: "tlinh",
+        album: "ái (Album Phòng Đơn)",
+        cover: "https://i.scdn.co/image/ab67616d0000b273413da66282298bc685f0ef30",
+        songs: ["Nếu Lúc Đó", "Ghệ Iu Dấu Của Em Ơi", "Thích Quá Rùi Nà", "Xích Thêm Chút", "Nữ Siêu Anh Hùng", "ái", "Lướt", "Khước", "Tình Yêu Có Nghĩa Là Gì", "Người Điên", "Sleepless", "Ngọt Ngào", "Kết Thúc Bằng Một Nụ Hôn", "Không Cần Phải Nói Nhiều", "Dại Khờ"]
+    },
+    vu: {
+        name: "Vũ.",
+        album: "Một Vạn Năm",
+        cover: "https://i.scdn.co/image/ab67616d0000b273297a77e8ca06606f238b1f5f",
+        songs: ["Lạ Lùng", "Bước Qua Nhau", "Bước Qua Mùa Cô Đơn", "Đông Kiếm Em", "Phút Ban Đầu", "Những Lời Hứa Bỏ Quên", "Anh Nhớ Ra", "Dành Hết Xuân Thì Để Chờ Nhau", "Bình Yên", "Chậm Lại", "Lời Yêu Em", "Tôi Và Em", "Hành Tinh", "Mùa Mưa Ngâu Nằm Cạnh", "Còn Tuổi Nào Cho Em"]
+    },
+    hieuthuhai: {
+        name: "HIEUTHUHAI",
+        album: "Ai Cũng Phải Bắt Đầu Từ Đâu",
+        cover: "https://i.scdn.co/image/ab67616d0000b2734688b776229bca63a56653df",
+        songs: ["Ngủ Một Mình", "Cua", "Vệ Tinh", "Không Thể Say", "Giờ Thì Ai Cười", "Hẹn Gặp Lại Em", "Bật Nhạc Lên", "Dynamic Duo", "Phải Là Yêu", "Mama Boy", "Exit Sign", "Quay Xe", "Kim Phút Kim Giờ", "Cho Mình Em", "Họ Đều Thích Anh"]
+    },
+    wren: {
+        name: "Wren Evans",
+        album: "Loi Choi",
+        cover: "https://i.scdn.co/image/ab67616d0000b273bc63e00fc9d54e5884ba555c",
+        songs: ["Từng Quen", "Thích Em Hơi Nhiều", "Gặp May", "Baby Boo", "Cơn Đau", "Bé Ơi Từ Từ", "Tò Te Tí", "Call Me", "Quyết Tâm Huỷ Diệt", "Đứa Nào Làm Em Buồn", "Phóng Đổ Tim Em", "Để Em An Tâm", "Ngõ Vắng", "Việt Kiều", "Fashion 3"]
+    },
+    greyd: {
+        name: "GREY D",
+        album: "Dự Báo Thời Tiết Hôm Nay (EP)",
+        cover: "https://i.scdn.co/image/ab67616d0000b273200ff3d5e2365af097cb00ef",
+        songs: ["Dự Báo Thời Tiết Hôm Nay", "vaicaunoicongkhiennguoitathaydoi", "tinhdautinhdoi", "Đưa Em Về Nhà", "Trái Đất Ôm Mặt Trời", "Có Hẹn Với Thanh Xuân", "Nhạt Nhòa", "Ranh Giới", "Giữ Lấy Làm Gì", "Người Ta Đâu Thương Em", "Có Những Ngày", "Tết Đến Rồi", "Nhạt", "Có Khi", "Khúc Giao Mùa"]
+    },
+    hoangthuylinh: {
+        name: "Hoàng Thùy Linh",
+        album: "LINK",
+        cover: "https://i.scdn.co/image/ab67616d0000b27364673966567087095066cc99",
+        songs: ["See Tình", "Để Mị Nói Cho Mà Nghe", "Gieo Quẻ", "Duyên Âm", "Tứ Phủ", "Bo Xì Bo", "Kẻ Cắp Gặp Bà Già", "Bánh Trôi Nước", "Tình Cũ Bao Giờ Cũng Tốt Hơn", "Cho Nhau Lối Đi Riêng", "Rơi", "Nhịp Đập Giấc Mơ", "I'm Gonna Break", "Kính Vạn Hoa", "Miền Cát Trắng"]
+    },
+    mytam: {
+        name: "Mỹ Tâm",
+        album: "Tâm 9",
+        cover: "https://i.scdn.co/image/ab67616d0000b273faee1f17df3029177a46ad47",
+        songs: ["Người Hãy Quên Em Đi", "Đâu Chỉ Riêng Em", "Muộn Màng Là Từ Lúc", "Đúng Cũng Thành Sai", "Hẹn Ước Từ Hư Vô", "Ước Gì", "Hát Với Dòng Sông", "Chuyện Như Chưa Bắt Đầu", "Vì Em Quá Yêu Anh", "Yêu Dại Khờ", "Nụ Hôn Bất Ngờ", "Tình Xót Xa Thôi", "Giọt Sương", "Cô Gái Đến Từ Hôm Qua", "Cuộc Tình Không May"]
+    },
+    justatee: {
+        name: "JustaTee",
+        album: "Không Sao Mà Em Đây Rồi",
+        cover: "https://i.scdn.co/image/ab67616d0000b273a0a3cc1e4f4b9319e09d17aa",
+        songs: ["Thằng Điên", "Đã Lỡ Yêu Em Nhiều", "Bâng Khuâng", "Forever Alone", "Người Nào Đó", "Crying Over You", "Xin Anh Đừng", "Ngọn Nến Trước Gió", "2AM", "She Neva Knows", "Cuộc Sống Mới", "Real Love", "Mặt Trời Dịu Êm", "Kẹo", "EZ Papa"]
+    },
+    phuongly: {
+        name: "Phương Ly",
+        album: "Little Love",
+        cover: "https://i.scdn.co/image/ab67616d0000b27376db186837000dfb39d15024",
+        songs: ["Mặt Trời Của Em", "Anh Là Ai", "Missing You", "Thích Thích", "Little Love", "Cứ Đi Thôi", "Chút Tình Chiều Mưa", "Đâu Chịu Ngồi Yên", "Hải Âu", "Ta Là Cho Nhau", "Bản Tình Ca Đầu Tiên", "Phố Hoa", "Nụ Cười Việt Nam", "Tình Yêu Tìm Thấy", "Tình Về Nơi Đâu"]
+    },
+    mono: {
+        name: "MONO",
+        album: "22 (Album)",
+        cover: "https://i.scdn.co/image/ab67616d0000b273aa20165c71b695c029107936",
+        songs: ["Waiting For You", "Em Là", "Quên Anh Đi", "Anh Không Thể", "Kill Me", "Đi Tìm Tình Yêu", "Thờ Ơ", "Liệu Ngày Mai", "Mình Cưới Nhau Nha", "Chăm Hoa", "Open Your Eyes", "Do You", "Khóa Cửa", "Đợi", "Cười Lên"]
+    },
+    trucnhan: {
+        name: "Trúc Nhân",
+        album: "Có Không Giữ Mất Đừng Tìm",
+        cover: "https://i.scdn.co/image/ab67616d0000b273874be072210a562479e377da",
+        songs: ["Có Không Giữ Mất Đừng Tìm", "Sáng Mắt Chưa", "Thật Bất Ngờ", "Bốn Chữ Lắm", "Người Ta Có Thương Mình Đâu", "Vẽ", "Đông", "Thu Cạn", "Bác Làm Vườn Cu Đơ", "Lớn Rồi Còn Khóc Nhè", "Muốn Khóc Thật To", "Chiếc Khăn Piêu", "Sóng Lụa Ven Đô", "Vẽ Thế Giới", "Ngồi Lại Bên Nhau"]
+    },
+    haanhtuan: {
+        name: "Hà Anh Tuấn",
+        album: "Truyện Ngắn",
+        cover: "https://i.scdn.co/image/ab67616d0000b2730da96fc05df8cb7eef37fb62",
+        songs: ["Tháng Tư Là Lời Nói Dối Của Em", "Xuân Thì", "Người Tình Mùa Đông", "Có Chàng Trai Viết Lên Cây", "Nước Mắt Thành Sông", "Thành Phố Buồn", "Thuở Ấy Có Em", "Giấc Mơ Chỉ Là Giấc Mơ", "Tuyết Rơi Mùa Hè", "Mong Manh Tình Về", "Cơn Mưa Tình Yêu", "Thiên Đường Gọi Tên", "Chuyện Của Mùa Đông", "Tái Bút Anh Yêu Em", "Nuối Tiếc"]
+    },
+    amee: {
+        name: "AMEE",
+        album: "dreAMEE",
+        cover: "https://i.scdn.co/image/ab67616d0000b273e970a0b12f27f0709405f6bd",
+        songs: ["Anh Nhà Ở Đâu Thế", "Đen Đá Không Đường", "Trời Giấu Trời Mang Đi", "Sao Anh Chưa Về Nhà", "Yêu Thì Yêu Không Yêu Thì Yêu", "Từ Thích Thích Thành Thương Thương", "Tình Bạn Diệu Kỳ", "Shay Nắnggg", "Hai Mươi Hai", "Chủ Nhật Boy", "Ưng Quá Chừng", "Mộng Yu", "Ex's Hate Me", "Tên Cậu Là Gì", "Đập Hộp"]
+    },
+    soobin: {
+        name: "SOOBIN",
+        album: "The Playah (EP)",
+        cover: "https://i.scdn.co/image/ab67616d0000b2733367b848df740924976fa8de",
+        songs: ["Phía Sau Một Cô Gái", "Tháng Năm", "BlackJack", "Trò Chơi", "Xin Đừng Lặng Im", "Đi Để Trở Về", "Lalala", "Ngày Mai Em Đi", "Nếu Ngày Ấy", "Đã Đến Lúc", "Anh Đã Quen Với Cô Đơn", "Say Goodbye", "Beautiful Monster", "Giá Như", "Heyyy"]
+    },
+    bichphuong: {
+        name: "Bích Phương",
+        album: "Tâm Trạng Tan Hơi Chậm",
+        cover: "https://i.scdn.co/image/ab67616d0000b273fa5d909ebdf70e44e23cf67f",
+        songs: ["Bùa Yêu", "Đi Đu Đưa Đi", "Rằng Em Mãi Ở Bên", "Gửi Anh Xa Nhớ", "Bao Giờ Lấy Chồng", "Em Bỏ Hút Thuốc Chưa", "Một Cú Lừa", "Tuổi Gì Mà Chẳng Thích Lì Xì", "Có Khi Nào Rời Xa", "Mình Yêu Nhau Đi", "Chuyện Đã Qua", "Sâu Trong Em", "Nụ Hồng Mong Manh", "Cớ Sao Lại Chia Tay", "Từ Nay Về Sau"]
+    },
+    karik: {
+        name: "Karik",
+        album: "421 (Album)",
+        cover: "https://i.scdn.co/image/ab67616d0000b273a2fcbc8d6265773173e44534",
+        songs: ["Người Lạ Ơi", "Bạn Đời", "Có Chơi Có Chịu", "Quan Trọng Là Thần Thái", "Tôi Là Người Cô Đơn", "Thương", "Đau Đớn Chia Ly", "Anh Là Sinh Viên", "Ế", "Từng Là Tất Cả", "Ba Chúng Ta", "Không Đáng", "Khu Tao Sống", "Hai Thế Giới", "Cạn Cả Nước Mắt"]
+    },
+    phanmanhquynh: {
+        name: "Phan Mạnh Quỳnh",
+        album: "Tuyển Tập Mắt Biếc",
+        cover: "https://i.scdn.co/image/ab67616d0000b2739fa821ffcfb665fa637f769f",
+        songs: ["Vợ Người Ta", "Có Chàng Trai Viết Lên Cây", "Từ Đó", "Hà Lan", "Ngày Chưa Giông Bão", "Huyền Thoại", "Nhạt", "Ai Cũng Có Ngày Mai", "Nước Ngoài", "Tri Kỷ", "Hồi Ứức", "Bước Qua Thế Giới", "Hãy Ra Khỏi Người Đó Đi", "Khi Người Mình Yêu Khóc", "Chàng Trai Phục Vụ"]
+    }
+};
+        // Lấy dữ liệu nghệ sĩ được chọn
+        const currentArtist = database[artistKey] || database['sontung'];
+        
+        // Đổ dữ liệu lên giao diện chính
+        document.getElementById('album-cover').src = currentArtist.cover;
+        document.getElementById('album-title').innerText = currentArtist.album;
+        document.getElementById('artist-header-name').innerText = currentArtist.name;
+
+        // Render danh sách 15 bài hát thật
+        const songListBody = document.getElementById('song-list');
+        let finalHtml = '';
+        
+        const thumbs = [
+            "https://images.unsplash.com/photo-1614680376593-902f74fa0d41?w=100",
+            "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=100",
+            "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=100",
+            "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=100",
+            "https://images.unsplash.com/photo-1511379938547-c1f69419868d?w=100"
+        ];
+
+        currentArtist.songs.forEach((songName, index) => {
+            const randomThumb = thumbs[index % thumbs.length];
+            const randomViews = (Math.floor(Math.random() * 8000) + 500).toFixed(1) + "K";
+            const randomMin = Math.floor(Math.random() * 2) + 3;
+            const randomSec = String(Math.floor(Math.random() * 50) + 10).padStart(2, '0');
+
+            finalHtml += `
+                <tr class="hover:bg-white/5 transition-colors group">
+                    <td class="py-4 pl-4 text-center text-gray-500 group-hover:text-[#39C]">${index + 1}</td>
+                    <td class="py-2 pl-4 font-medium flex items-center gap-3">
+                        <div class="relative w-10 h-10 shrink-0">
+                            <img src="${randomThumb}" class="w-full h-full object-cover rounded-md" />
+                            <div class="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity rounded-md">
+                                <i class="fa-solid fa-play text-xs text-[#39C]"></i>
+                            </div>
+                        </div>
+                        <div>
+                            <p class="text-gray-200 group-hover:text-[#39C]">${songName}</p>
+                            <p class="text-xs text-gray-500">${currentArtist.name}</p>
+                        </div>
+                    </td>
+                    <td class="py-4 text-gray-400 hidden md:table-cell">${randomViews}</td>
+                    <td class="py-4 pr-4 text-right text-gray-400">${randomMin}:${randomSec}</td>
+                </tr>
+            `;
+        });
+
+        songListBody.innerHTML = finalHtml;
+    </script>
+</body>
+</html>
