@@ -11,6 +11,7 @@
     <title>Thể Loại - Bài Tập Lớn</title>
 
     <link rel="stylesheet" href="./assets/css/layout.css">
+    <link rel="stylesheet" href="./assets/css/theloai.css">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
         integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
@@ -51,74 +52,74 @@
         <main class="main-container flex-1 p-8 overflow-y-auto">
             <h2 class="text-3xl font-bold mb-8 text-[var(--text-primary)]">Thể Loại Nhạc</h2>
 
-            <!-- THANH LỌC THỂ LOẠI (Scroll ngang dùng Icon FontAwesome) -->
+            <!-- THANH LỌC THỂ LOẠI (Dùng Custom CSS Class) -->
             <div class="flex items-center gap-3 overflow-x-auto pb-2 [&::-webkit-scrollbar]:hidden whitespace-nowrap w-full">
                 
                 <!-- V-Pop -->
-                <button class="flex items-center gap-2 px-5 py-2 rounded-full bg-[var(--bg-surface)] hover:bg-[var(--bg-surface-hover)] border border-[var(--border-color)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-all cursor-pointer group">
-                    <i class="fa-solid fa-star group-hover:text-[var(--accent-primary)] transition-colors"></i>
+                <button class="btn-the-loai">
+                    <i class="fa-solid fa-star"></i>
                     <span class="text-sm font-medium">V-Pop</span>
                 </button>
 
-                <!-- K-Pop (Trạng thái Active - Dùng màu Accent của bạn) -->
-                <button class="flex items-center gap-2 px-5 py-2 rounded-full bg-[var(--accent-glow)] border border-[var(--accent-primary)] text-[var(--accent-primary)] transition-all cursor-pointer shadow-[0_0_15px_var(--accent-glow)]">
+                <!-- K-Pop (Có thêm class 'active') -->
+                <button class="btn-the-loai active">
                     <i class="fa-solid fa-heart"></i>
                     <span class="text-sm font-bold">K-Pop</span>
                 </button>
 
                 <!-- US/UK -->
-                <button class="flex items-center gap-2 px-5 py-2 rounded-full bg-[var(--bg-surface)] hover:bg-[var(--bg-surface-hover)] border border-[var(--border-color)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-all cursor-pointer group">
-                    <i class="fa-solid fa-globe group-hover:text-[var(--accent-primary)] transition-colors"></i>
+                <button class="btn-the-loai">
+                    <i class="fa-solid fa-globe"></i>
                     <span class="text-sm font-medium">US/UK</span>
                 </button>
 
                 <!-- Nhạc trẻ -->
-                <button class="flex items-center gap-2 px-5 py-2 rounded-full bg-[var(--bg-surface)] hover:bg-[var(--bg-surface-hover)] border border-[var(--border-color)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-all cursor-pointer group">
-                    <i class="fa-solid fa-fire group-hover:text-[var(--accent-primary)] transition-colors"></i>
+                <button class="btn-the-loai">
+                    <i class="fa-solid fa-fire"></i>
                     <span class="text-sm font-medium">Nhạc trẻ</span>
                 </button>
 
                 <!-- Chill -->
-                <button class="flex items-center gap-2 px-5 py-2 rounded-full bg-[var(--bg-surface)] hover:bg-[var(--bg-surface-hover)] border border-[var(--border-color)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-all cursor-pointer group">
-                    <i class="fa-solid fa-mug-hot group-hover:text-[var(--accent-primary)] transition-colors"></i>
+                <button class="btn-the-loai">
+                    <i class="fa-solid fa-mug-hot"></i>
                     <span class="text-sm font-medium">Chill</span>
                 </button>
 
                 <!-- Rap Việt -->
-                <button class="flex items-center gap-2 px-5 py-2 rounded-full bg-[var(--bg-surface)] hover:bg-[var(--bg-surface-hover)] border border-[var(--border-color)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-all cursor-pointer group">
-                    <i class="fa-solid fa-microphone-lines group-hover:text-[var(--accent-primary)] transition-colors"></i>
+                <button class="btn-the-loai">
+                    <i class="fa-solid fa-microphone-lines"></i>
                     <span class="text-sm font-medium">Rap Việt</span>
                 </button>
 
                 <!-- Ballad -->
-                <button class="flex items-center gap-2 px-5 py-2 rounded-full bg-[var(--bg-surface)] hover:bg-[var(--bg-surface-hover)] border border-[var(--border-color)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-all cursor-pointer group">
-                    <i class="fa-solid fa-guitar group-hover:text-[var(--accent-primary)] transition-colors"></i>
+                <button class="btn-the-loai">
+                    <i class="fa-solid fa-guitar"></i>
                     <span class="text-sm font-medium">Ballad</span>
                 </button>
 
                 <!-- EDM -->
-                <button class="flex items-center gap-2 px-5 py-2 rounded-full bg-[var(--bg-surface)] hover:bg-[var(--bg-surface-hover)] border border-[var(--border-color)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-all cursor-pointer group">
-                    <i class="fa-solid fa-bolt group-hover:text-[var(--accent-primary)] transition-colors"></i>
+                <button class="btn-the-loai">
+                    <i class="fa-solid fa-bolt"></i>
                     <span class="text-sm font-medium">EDM</span>
                 </button>
                 
                 <!-- OST -->
-                <button class="flex items-center gap-2 px-5 py-2 rounded-full bg-[var(--bg-surface)] hover:bg-[var(--bg-surface-hover)] border border-[var(--border-color)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-all cursor-pointer group">
-                    <i class="fa-solid fa-film group-hover:text-[var(--accent-primary)] transition-colors"></i>
+                <button class="btn-the-loai">
+                    <i class="fa-solid fa-film"></i>
                     <span class="text-sm font-medium">OST</span>
                 </button>
 
                 <!-- Indie -->
-                <button class="flex items-center gap-2 px-5 py-2 rounded-full bg-[var(--bg-surface)] hover:bg-[var(--bg-surface-hover)] border border-[var(--border-color)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-all cursor-pointer group">
-                    <i class="fa-solid fa-seedling group-hover:text-[var(--accent-primary)] transition-colors"></i>
+                <button class="btn-the-loai">
+                    <i class="fa-solid fa-seedling"></i>
                     <span class="text-sm font-medium">Indie</span>
                 </button>
 
             </div>
 
             <!-- KHU VỰC CHỨA DANH SÁCH BÀI HÁT TƯƠNG ỨNG VỚI THỂ LOẠI -->
-            <div class="mt-8 text-[var(--text-secondary)]">
-                <!-- Chỗ này sau sẽ nhúng danh sách bài hát vào -->
+            <div id="song-list-container" class="mt-8 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-6">
+                <!-- JavaScript sẽ tự động bơm các thẻ vuông (Card) bài hát vào đây -->
             </div>
             
         </main>
@@ -129,6 +130,7 @@
     </footer>
 
     <script src="./assets/javascript/main.js"></script>
+    <script src="./assets/javascript/theloai.js"></script>
 </body>
 
 </html>
