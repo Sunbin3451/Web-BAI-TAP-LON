@@ -22,3 +22,15 @@ document.addEventListener("DOMContentLoaded", () => {
     loadComponent("header-placeholder", "./components/header.html");
     loadComponent("player-placeholder", "./components/player.html");
 });
+document.addEventListener("click", (e) => {
+    console.log("Đã click vào:", e.target);
+    const playlistLink = e.target.closest("#playlist-link");
+    console.log("playlistLink tìm được:", playlistLink);
+    if (playlistLink) {
+        e.preventDefault();
+        console.log("default-view:", document.getElementById("default-view"));
+        console.log("playlist-view:", document.getElementById("playlist-view"));
+        document.getElementById("default-view")?.classList.add("hidden");
+        document.getElementById("playlist-view")?.classList.remove("hidden");
+    }
+});
