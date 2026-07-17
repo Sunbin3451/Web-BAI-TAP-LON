@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Website nghe nhạc trực tuyến đa nền tảng, thiết kế giao diện hiện đại">
+    <meta name="keywords"
+        content="rap việt, v-pop, vpopmusic, vpop, nghe nhạc, music streaming, playlist, lofi, html5, tailwind css">
+
+    <title>Bài Tập Lớn - Trang Chủ</title>
+
+    <link rel="stylesheet" href="./assets/css/layout.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+        integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body>
+    <header class="header-container flex">
+        <div class="flex">
+            <h1 class="text-2xl font-bold">Bài Tập Lớn</h1>
+        </div>
+    </header>
+
+    <div class="layout-container flex">
+        <aside class="sidebar-container flex">
+            <nav class="nav-container">
+                <div class="list-container">
+                    <ul>
+                        <section class="nav-section">
+                            <h3>Khám Phá</h3>
+                            <li><a href="index.html" class="nav-item active"><i class="fa-regular fa-house"></i> Trang Chủ</a></li>
+                            <li class="nav-item"><a href="#"><i class="fa-solid fa-door-closed"></i>Thể Loại</a></li>
+                        </section>
+                        <section class="nav-section">
+                            <h3>Thư Viện</h3>
+                            <li class="nav-item"><a href="#">Playlist</a></li>
+                            <li class="nav-item"><a href="album.html">Album</a></li>
+                            <li class="nav-item"><a href="#">Yêu Thích</a></li>
+                        </section>
+                    </ul>
+                </div>
+            </nav>
+        </aside>
+
+        <main class="main-container flex flex-col w-full p-6 overflow-y-auto">
+            <div class="mb-4 border-b border-gray-800 pb-2">
+                <h2 class="text-xl font-bold text-white">Danh Sách Bài Hát</h2>
+            </div>
+            
+            <div class="p-8 text-center border-2 border-dashed border-gray-800 rounded-xl text-gray-500 italic">
+                Nội dung Trang Chủ (Danh sách bài hát, bảng xếp hạng...) sẽ hiển thị ở đây.
+            </div>
+        </main>
+    </div>
+
+    <footer class="footer-container flex">
+        <h1>MUSIC PLAYER</h1>
+    </footer>
+
+    <script src="./assets/javascript/main.js"></script>
+</body>
+
+</html>
