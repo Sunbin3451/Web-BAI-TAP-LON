@@ -1,0 +1,8 @@
+.search-result-row:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.search-add-btn.added {
+    border-color: #1ed760 !important;
+    color: #1ed760 !important;
+}
