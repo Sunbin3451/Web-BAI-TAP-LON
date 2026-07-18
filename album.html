@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="referrer" content="no-referrer">
+    <title>Bài Tập Lớn - 20 Album Nghệ Sĩ</title>
+    <link rel="stylesheet" href="./assets/css/layout.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="header-container flex">
+        <div class="flex">
+            <h1 class="text-2xl font-bold">Bài Tập Lớn</h1>
+        </div>
+    </header>
+
+    <div class="layout-container flex">
+        <!-- Sidebar -->
+        <aside class="sidebar-container flex">
+            <nav class="nav-container">
+                <div class="list-container">
+                    <ul>
+                        <section class="nav-section">
+                            <h3>Khám Phá</h3>
+                            <li><a href="index.html" class="nav-item"><i class="fa-regular fa-house"></i> Trang Chủ</a></li>
+                            <li class="nav-item"><a href="#"><i class="fa-solid fa-door-closed"></i>Thể Loại</a></li>
+                        </section>
+                        <section class="nav-section">
+                            <h3>Thư Viện</h3>
+                            <li class="nav-item"><a href="#">Playlist</a></li>
+                            <li class="nav-item"><a href="album.html" class="nav-item active">Album</a></li>
+                            <li class="nav-item"><a href="#">Yêu Thích</a></li>
+                        </section>
+                    </ul>
+                </div>
+            </nav>
+        </aside>
+
+        <!-- Main Content: Lưới 20 Album Nghệ Sĩ -->
+        <main class="main-container flex flex-col w-full p-6 overflow-y-auto">
+            
+            <div class="mb-6 border-b border-gray-800 pb-2">
+                <h2 class="text-xl font-bold text-[#39C]">ALBUM THEO NGHỆ SĨ HOT (20)</h2>
+                <p class="text-xs text-gray-400 mt-1">Bấm vào bất kỳ nghệ sĩ nào để xem 15 bài hát riêng của họ</p>
+            </div>
+            
+ <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-5 gap-5 mb-40">
+    
+    <div class="bg-white/5 p-4 rounded-xl text-center hover:bg-white/10 hover:-translate-y-1 transition-all duration-300">
+        <a href="album-detail.html?artist=sontung">
+            <img src="images/sontung.jpg" alt="Sơn Tùng M-TP" class="w-full h-44 object-cover rounded-lg mb-3" />
+        </a>
+        <p class="text-base md:text-lg font-bold text-gray-100 tracking-wide line-clamp-1">
+            <a href="album-detail.html?artist=sontung" class="hover:text-[#39C] transition-colors duration-200">
+                Sơn Tùng M-TP
+            </a>
+        </p>
+    </div>
+
+    <div class="bg-white/5 p-4 rounded-xl text-center hover:bg-white/10 hover:-translate-y-1 transition-all duration-300">
+        <a href="album-detail.html?artist=denvau">
+            <img src="images/denvau.jpg" alt="Đen Vâu" class="w-full h-44 object-cover rounded-lg mb-3" />
+        </a>
+        <p class="text-base md:text-lg font-bold text-gray-100 tracking-wide line-clamp-1">
+            <a href="album-detail.html?artist=denvau" class="hover:text-[#39C] transition-colors duration-200">
+                Đen Vâu
+            </a>
+        </p>
+    </div>
+
+    <div class="bg-white/5 p-4 rounded-xl text-center hover:bg-white/10 hover:-translate-y-1 transition-all duration-300">
+        <a href="album-detail.html?artist=mck">
+            <img src="images/mck.jpg" alt="RPT MCK" class="w-full h-44 object-cover rounded-lg mb-3" />
+        </a>
+        <p class="text-base md:text-lg font-bold text-gray-100 tracking-wide line-clamp-1">
+            <a href="album-detail.html?artist=mck" class="hover:text-[#39C] transition-colors duration-200">
+                RPT MCK
+            </a>
+        </p>
+    </div>
+
+    <div class="bg-white/5 p-4 rounded-xl text-center hover:bg-white/10 hover:-translate-y-1 transition-all duration-300">
+        <a href="album-detail.html?artist=tlinh">
+            <img src="images/tlinh.jpg" alt="tlinh" class="w-full h-44 object-cover rounded-lg mb-3" />
+        </a>
+        <p class="text-base md:text-lg font-bold text-gray-100 tracking-wide line-clamp-1">
+            <a href="album-detail.html?artist=tlinh" class="hover:text-[#39C] transition-colors duration-200">
+                tlinh
+            </a>
+        </p>
+    </div>
+
+    <div class="bg-white/5 p-4 rounded-xl text-center hover:bg-white/10 hover:-translate-y-1 transition-all duration-300">
+        <a href="album-detail.html?artist=vu">
+            <img src="images/vu.jpg" alt="Vũ." class="w-full h-44 object-cover rounded-lg mb-3" />
+        </a>
+        <p class="text-base md:text-lg font-bold text-gray-100 tracking-wide line-clamp-1">
+            <a href="album-detail.html?artist=vu" class="hover:text-[#39C] transition-colors duration-200">
+                Vũ.
+            </a>
+        </p>
+    </div>
+
+    <div class="bg-white/5 p-4 rounded-xl text-center hover:bg-white/10 hover:-translate-y-1 transition-all duration-300">
+        <a href="album-detail.html?artist=hieuthuhai">
+            <img src="images/hieuthuhai.jpg" alt="HIEUTHUHAI" class="w-full h-44 object-cover rounded-lg mb-3" />
+        </a>
+        <p class="text-base md:text-lg font-bold text-gray-100 tracking-wide line-clamp-1">
+            <a href="album-detail.html?artist=hieuthuhai" class="hover:text-[#39C] transition-colors duration-200">
+                HIEUTHUHAI
+            </a>
+        </p>
+    </div>
+
+    <div class="bg-white/5 p-4 rounded-xl text-center hover:bg-white/10 hover:-translate-y-1 transition-all duration-300">
+        <a href="album-detail.html?artist=wren">
+            <img src="images/wren.jpg" alt="Wren Evans" class="w-full h-44 object-cover rounded-lg mb-3" />
+        </a>
+        <p class="text-base md:text-lg font-bold text-gray-100 tracking-wide line-clamp-1">
+            <a href="album-detail.html?artist=wren" class="hover:text-[#39C] transition-colors duration-200">
+                Wren Evans
+            </a>
+        </p>
+    </div>
+
+    <div class="bg-white/5 p-4 rounded-xl text-center hover:bg-white/10 hover:-translate-y-1 transition-all duration-300">
+        <a href="album-detail.html?artist=greyd">
+            <img src="images/greyd.jpg" alt="GREY D" class="w-full h-44 object-cover rounded-lg mb-3" />
+        </a>
+        <p class="text-base md:text-lg font-bold text-gray-100 tracking-wide line-clamp-1">
+            <a href="album-detail.html?artist=greyd" class="hover:text-[#39C] transition-colors duration-200">
+                GREY D
+            </a>
+        </p>
+    </div>
+
+    <div class="bg-white/5 p-4 rounded-xl text-center hover:bg-white/10 hover:-translate-y-1 transition-all duration-300">
+        <a href="album-detail.html?artist=hoangthuylinh">
+            <img src="images/hoangthuylinh.jpg" alt="Hoàng Thùy Linh" class="w-full h-44 object-cover rounded-lg mb-3" />
+        </a>
+        <p class="text-base md:text-lg font-bold text-gray-100 tracking-wide line-clamp-1">
+            <a href="album-detail.html?artist=hoangthuylinh" class="hover:text-[#39C] transition-colors duration-200">
+                Hoàng Thùy Linh
+            </a>
+        </p>
+    </div>
+
+    <div class="bg-white/5 p-4 rounded-xl text-center hover:bg-white/10 hover:-translate-y-1 transition-all duration-300">
+        <a href="album-detail.html?artist=mytam">
+            <img src="images/mytam.jpg" alt="Mỹ Tâm" class="w-full h-44 object-cover rounded-lg mb-3" />
+        </a>
+        <p class="text-base md:text-lg font-bold text-gray-100 tracking-wide line-clamp-1">
+            <a href="album-detail.html?artist=mytam" class="hover:text-[#39C] transition-colors duration-200">
+                Mỹ Tâm
+            </a>
+        </p>
+    </div>
+
+    <div class="bg-white/5 p-4 rounded-xl text-center hover:bg-white/10 hover:-translate-y-1 transition-all duration-300">
+        <a href="album-detail.html?artist=justatee">
+            <img src="images/justatee.jpg" alt="JustaTee" class="w-full h-44 object-cover rounded-lg mb-3" />
+        </a>
+        <p class="text-base md:text-lg font-bold text-gray-100 tracking-wide line-clamp-1">
+            <a href="album-detail.html?artist=justatee" class="hover:text-[#39C] transition-colors duration-200">
+                JustaTee
+            </a>
+        </p>
+    </div>
+
+    <div class="bg-white/5 p-4 rounded-xl text-center hover:bg-white/10 hover:-translate-y-1 transition-all duration-300">
+        <a href="album-detail.html?artist=phuongly">
+            <img src="images/phuongly.jpg" alt="Phương Ly" class="w-full h-44 object-cover rounded-lg mb-3" />
+        </a>
+        <p class="text-base md:text-lg font-bold text-gray-100 tracking-wide line-clamp-1">
+            <a href="album-detail.html?artist=phuongly" class="hover:text-[#39C] transition-colors duration-200">
+                Phương Ly
+            </a>
+        </p>
+    </div>
+
+    <div class="bg-white/5 p-4 rounded-xl text-center hover:bg-white/10 hover:-translate-y-1 transition-all duration-300">
+        <a href="album-detail.html?artist=mono">
+            <img src="images/mono.jpg" alt="MONO" class="w-full h-44 object-cover rounded-lg mb-3" />
+        </a>
+        <p class="text-base md:text-lg font-bold text-gray-100 tracking-wide line-clamp-1">
+            <a href="album-detail.html?artist=mono" class="hover:text-[#39C] transition-colors duration-200">
+                MONO
+            </a>
+        </p>
+    </div>
+
+    <div class="bg-white/5 p-4 rounded-xl text-center hover:bg-white/10 hover:-translate-y-1 transition-all duration-300">
+        <a href="album-detail.html?artist=trucnhan">
+            <img src="images/trucnhan.jpg" alt="Trúc Nhân" class="w-full h-44 object-cover rounded-lg mb-3" />
+        </a>
+        <p class="text-base md:text-lg font-bold text-gray-100 tracking-wide line-clamp-1">
+            <a href="album-detail.html?artist=trucnhan" class="hover:text-[#39C] transition-colors duration-200">
+                Trúc Nhân
+            </a>
+        </p>
+    </div>
+
+    <div class="bg-white/5 p-4 rounded-xl text-center hover:bg-white/10 hover:-translate-y-1 transition-all duration-300">
+        <a href="album-detail.html?artist=haanhtuan">
+            <img src="images/haanhtuan.jpg" alt="Hà Anh Tuấn" class="w-full h-44 object-cover rounded-lg mb-3" />
+        </a>
+        <p class="text-base md:text-lg font-bold text-gray-100 tracking-wide line-clamp-1">
+            <a href="album-detail.html?artist=haanhtuan" class="hover:text-[#39C] transition-colors duration-200">
+                Hà Anh Tuấn
+            </a>
+        </p>
+    </div>
+
+    <div class="bg-white/5 p-4 rounded-xl text-center hover:bg-white/10 hover:-translate-y-1 transition-all duration-300">
+        <a href="album-detail.html?artist=amee">
+            <img src="images/amee.jpg" alt="AMEE" class="w-full h-44 object-cover rounded-lg mb-3" />
+        </a>
+        <p class="text-base md:text-lg font-bold text-gray-100 tracking-wide line-clamp-1">
+            <a href="album-detail.html?artist=amee" class="hover:text-[#39C] transition-colors duration-200">
+                AMEE
+            </a>
+        </p>
+    </div>
+
+    <div class="bg-white/5 p-4 rounded-xl text-center hover:bg-white/10 hover:-translate-y-1 transition-all duration-300">
+        <a href="album-detail.html?artist=bichphuong">
+            <img src="images/bichphuong.jpg" alt="Bích Phương" class="w-full h-44 object-cover rounded-lg mb-3" />
+        </a>
+        <p class="text-base md:text-lg font-bold text-gray-100 tracking-wide line-clamp-1">
+            <a href="album-detail.html?artist=bichphuong" class="hover:text-[#39C] transition-colors duration-200">
+                Bích Phương
+            </a>
+        </p>
+    </div>
+
+    <div class="bg-white/5 p-4 rounded-xl text-center hover:bg-white/10 hover:-translate-y-1 transition-all duration-300">
+        <a href="album-detail.html?artist=soobin">
+            <img src="images/soobin.jpg" alt="Soobin Hoàng Sơn" class="w-full h-44 object-cover rounded-lg mb-3" />
+        </a>
+        <p class="text-base md:text-lg font-bold text-gray-100 tracking-wide line-clamp-1">
+            <a href="album-detail.html?artist=soobin" class="hover:text-[#39C] transition-colors duration-200">
+                Soobin Hoàng Sơn
+            </a>
+        </p>
+    </div>
+
+    <div class="bg-white/5 p-4 rounded-xl text-center hover:bg-white/10 hover:-translate-y-1 transition-all duration-300">
+        <a href="album-detail.html?artist=karik">
+            <img src="images/karik.jpg" alt="Karik" class="w-full h-44 object-cover rounded-lg mb-3" />
+        </a>
+        <p class="text-base md:text-lg font-bold text-gray-100 tracking-wide line-clamp-1">
+            <a href="album-detail.html?artist=karik" class="hover:text-[#39C] transition-colors duration-200">
+                Karik
+            </a>
+        </p>
+    </div>
+
+    <div class="bg-white/5 p-4 rounded-xl text-center hover:bg-white/10 hover:-translate-y-1 transition-all duration-300">
+        <a href="album-detail.html?artist=phanmanhquynh">
+            <img src="images/phanmanhquynh.jpg" alt="Phan Mạnh Quỳnh" class="w-full h-44 object-cover rounded-lg mb-3" />
+        </a>
+        <p class="text-base md:text-lg font-bold text-gray-100 tracking-wide line-clamp-1">
+            <a href="album-detail.html?artist=phanmanhquynh" class="hover:text-[#39C] transition-colors duration-200">
+                Phan Mạnh Quỳnh
+            </a>
+        </p>
+    </div>
+
+</div>
+        </main>
+    </div>
+
+    <footer class="footer-container flex">
+        <h1>MUSIC PLAYER</h1>
+    </footer>
+</body>
+</html>

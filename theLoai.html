@@ -20,33 +20,12 @@
 </head>
 
 <body>
-    <header class="header-container flex">
-        <div class="flex">
-            <h1 class="text-2xl font-bold">Bài Tập Lớn</h1>
-        </div>
-    </header>
+    <!-- Header -->
+    <div id="header-placeholder"></div>
 
     <div class="layout-container flex">
-        <aside class="sidebar-container flex">
-            <nav class="nav-container">
-                <div class="list-container">
-                    <ul>
-                        <section class="nav-section">
-                            <h3>Khám Phá</h3>
-                            <li><a href="#" class="nav-item"><i class="fa-regular fa-house"></i> Trang Chủ</a>
-                            </li>
-                            <li class="nav-item active"><a href="#"><i class="fa-solid fa-record-vinyl"></i></i>Thể Loại</a></li>
-                        </section>
-                        <section class="nav-section">
-                            <h3>Thư Viện</h3>
-                            <li class="nav-item"><a href="#">Playlist</a></li>
-                            <li class="nav-item"><a href="#">Album</a></li>
-                            <li class="nav-item"><a href="#">Yêu Thích</a></li>
-                        </section>
-                    </ul>
-                </div>
-            </nav>
-        </aside>
+        <!-- Sidebar -->
+        <div id="sidebar-placeholder"></div>
 
         <!-- Main Content -->
         <main class="main-container flex-1 p-8 overflow-y-auto">
@@ -102,7 +81,7 @@
                     <i class="fa-solid fa-bolt"></i>
                     <span class="text-sm font-medium">EDM</span>
                 </button>
-                
+
                 <!-- OST -->
                 <button class="btn-the-loai">
                     <i class="fa-solid fa-film"></i>
@@ -121,13 +100,12 @@
             <div id="song-list-container" class="mt-8 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-6">
                 <!-- JavaScript sẽ tự động bơm các thẻ vuông (Card) bài hát vào đây -->
             </div>
-            
+
         </main>
     </div>
 
-    <footer class="footer-container flex">
-        <h1>MUSIC PLAYER</h1>
-    </footer>
+    <!-- Music Player -->
+    <div id="player-placeholder"></div>
 
     <script src="./assets/javascript/main.js"></script>
     <script src="./assets/javascript/theloai.js"></script>
