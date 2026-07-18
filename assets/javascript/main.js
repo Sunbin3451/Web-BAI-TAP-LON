@@ -43,27 +43,8 @@ async function loadComponent(elementId, filePath) {
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-window.onload = function(event) {
-  console.log("Page is fully loaded.");
-};
+document.addEventListener("DOMContentLoaded", () => {
+    loadComponent("sidebar-placeholder", "./components/sidebar.html");
+    loadComponent("header-placeholder", "./components/header.html");
+    loadComponent("player-placeholder", "./components/player.html");
+});
