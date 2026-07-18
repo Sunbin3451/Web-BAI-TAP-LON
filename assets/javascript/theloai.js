@@ -1,19 +1,18 @@
-// Bắt sự kiện khi file HTML đã load xong hoàn toàn
-document.addEventListener('DOMContentLoaded', function() {
-    
+document.addEventListener('DOMContentLoaded', function () {
+
     // 1. Tìm tất cả các nút có class 'btn-the-loai'
     const genreButtons = document.querySelectorAll('.btn-the-loai');
 
     // 2. Lặp qua từng nút để gắn 'tai nghe' chờ sự kiện click
     genreButtons.forEach(button => {
-        button.addEventListener('click', function() {
-            
+        button.addEventListener('click', function () {
+
             // Bước A: Xóa class 'active' khỏi TẤT CẢ các nút
             genreButtons.forEach(btn => btn.classList.remove('active'));
 
             // Bước B: Thêm class 'active' vào chính nút vừa được click
             this.classList.add('active');
-            
+
             // (Tùy chọn) In ra console để kiểm tra xem đã lấy đúng tên thể loại chưa
             // const tenTheLoai = this.querySelector('span').innerText;
             // console.log("Bạn vừa chọn thể loại:", tenTheLoai);
@@ -75,21 +74,21 @@ function renderSongs(theLoaiDuocChon) {
 }
 
 // 3. CẬP NHẬT LẠI SỰ KIỆN CLICK LÚC NÃY
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const genreButtons = document.querySelectorAll('.btn-the-loai');
 
     // Chạy mặc định gọi hàm render cho K-Pop (vì nút K-Pop đang để active từ đầu)
     renderSongs("K-Pop");
 
     genreButtons.forEach(button => {
-        button.addEventListener('click', function() {
+        button.addEventListener('click', function () {
             // Xử lý đổi màu nút như cũ
             genreButtons.forEach(btn => btn.classList.remove('active'));
             this.classList.add('active');
-            
+
             // Lấy tên thể loại từ thẻ <span> bên trong nút vừa click
             const tenTheLoai = this.querySelector('span').innerText;
-            
+
             // Gọi hàm vẽ lại danh sách bài hát theo thể loại đó
             renderSongs(tenTheLoai);
         });
