@@ -1,4 +1,3 @@
-
 // Danh sách bài hát 
 const songDatabase = [
     { title: "Exit Sign", artist: "HIEUTHUHAI, marzuz", duration: "3:21" },
@@ -84,3 +83,11 @@ searchResults.addEventListener('click', (e) => {
     addedSongs.has(title) ? addedSongs.delete(title) : addedSongs.add(title);
     renderResults(searchInput.value);
 });
+
+window.addEventListener('load', (renderResults) => {
+    console.log('The entire page and all resources are fully loaded.');
+});
+
+window.onload = function() {
+    console.log('The entire page and all resources are fully loaded.');
+};

@@ -26,10 +26,10 @@ async function loadComponent(elementId, filePath) {
     try {
         const response = await fetch(filePath);
         if (!response.ok) throw new Error(`Không thể tải ${filePath}`);
-        
+
         const htmlContent = await response.text();
         const placeholder = document.getElementById(elementId);
-        
+
         if (placeholder) {
             placeholder.outerHTML = htmlContent;
         }
