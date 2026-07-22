@@ -1,9 +1,3 @@
-// Hàm tải thành phần
-document.addEventListener("DOMContentLoaded", () => {
-    loadComponent("sidebar-placeholder", "./components/sidebar.html");
-    loadComponent("header-placeholder", "./components/header.html");
-    loadComponent("player-placeholder", "./components/player.html");
-});
 
 // Hàm set class active cho sidebar
 function setActiveMenu() {
