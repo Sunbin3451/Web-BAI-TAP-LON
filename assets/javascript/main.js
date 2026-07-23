@@ -1,4 +1,3 @@
-
 // Hàm set class active cho sidebar
 function setActiveMenu() {
     let currentPage = window.location.pathname.split('/').pop();
@@ -41,4 +40,26 @@ document.addEventListener("DOMContentLoaded", () => {
     loadComponent("sidebar-placeholder", "./components/sidebar.html");
     loadComponent("header-placeholder", "./components/header.html");
     loadComponent("player-placeholder", "./components/player.html");
+});
+
+// Hàm lấy api data
+import { getMusicByQuery, getHomeDashboard } from './api.js';
+import { renderSongGrid } from './data-render.js';
+
+document.addEventListener('DOMContentLoaded', async () => {
+
+    const kpopTracks = await getMusicByQuery('K-Pop');
+    renderSongGrid(kpopTracks, 'song-grid-container');
+
+    const buttons = document.querySelectorAll('.genre-filters button');
+    buttons.forEach(button => {
+        button.addEventListener('click', async (e) => {
+            buttons.forEach(b => b.classList.remove('active'));
+            e.target.classList.add('active');
+
+            const genre = e.target.textContent.trim();
+            const genreTracks = await getMusicByQuery(genre);
+            renderSongGrid(genreTracks, 'song-grid-container');
+        });
+    });
 });
