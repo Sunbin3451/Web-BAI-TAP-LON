@@ -35,7 +35,7 @@ body {
     overflow: hidden;
 }
 
-/* HEADER STYLES */
+/* =============== HEADER STYLES =============== */
 .header-container {
     background-color: var(--bg-transparent);
     padding: 1rem;
@@ -130,7 +130,7 @@ body {
     border: 2px solid var(--bg-transparent);
 }
 
-/* SIDEBAR STYLES */
+/* =============== SIDEBAR STYLES =============== */
 .sidebar-container {
     background-color: var(--bg-aside);
     padding: 1rem;
@@ -213,7 +213,7 @@ body {
     padding-bottom: 80px;
 }
 
-/* PLAYER STYLE */
+/* =============== PLAYER STYLE =============== */
 .footer-container {
     background-color: var(--bg-transparent);
     padding: 1rem;
