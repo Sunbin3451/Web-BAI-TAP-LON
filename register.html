@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng Ký - Bài Tập Lớn</title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+        .register__bg {
+            background: #000000;
+        }
+        .register__glow-circle {
+            display: none;
+        }
+        .register__title-glow {
+            color: #ffffff;
+            text-shadow: 0 0 8px rgba(168, 85, 247, 0.9),
+                         0 0 20px rgba(168, 85, 247, 0.6),
+                         0 0 35px rgba(168, 85, 247, 0.4);
+        }
+        .register__input:focus {
+            outline: none;
+            border-color: #d946ef;
+            box-shadow: 0 0 0 3px rgba(217, 70, 239, 0.2);
+        }
+        .register__submit-btn {
+            background: linear-gradient(90deg, #a855f7, #ec4899);
+        }
+        .register__submit-btn:hover {
+            opacity: 0.9;
+        }
+        .register__wave {
+            display: flex;
+            align-items: flex-end;
+            gap: 3px;
+            height: 40px;
+        }
+        .register__wave span {
+            width: 3px;
+            background: linear-gradient(180deg, #a855f7, #ec4899);
+            border-radius: 2px;
+            animation: waveMove 1.2s ease-in-out infinite;
+        }
+        @keyframes waveMove {
+            0%, 100% { height: 20%; }
+            50% { height: 100%; }
+        }
+    </style>
+</head>
+
+<body class="register__bg min-h-screen flex items-center justify-center relative overflow-hidden p-4">
+
+    <div class="register__glow-circle w-72 h-72 bg-purple-500 -top-10 -left-10"></div>
+    <div class="register__glow-circle w-72 h-72 bg-pink-500 -bottom-10 -right-10"></div>
+
+    <div class="register__card relative z-10 w-full max-w-sm bg-neutral-900/70 backdrop-blur-xl border border-white/10 rounded-3xl p-8 shadow-2xl">
+
+        <div class="register__header flex items-center justify-center gap-2 mb-8">
+            <i class="fa-solid fa-music register__title-glow text-xl"></i>
+            <h1 class="register__title-glow text-xl font-extrabold tracking-wide">ĐĂNG KÝ</h1>
+        </div>
+
+        <form id="registerForm" class="register__form flex flex-col gap-4">
+
+            <div class="register__field relative">
+                <input type="text" id="regUsername" required
+                    class="register__input w-full bg-white/5 border border-white/10 rounded-full px-5 py-3 text-sm text-white placeholder-neutral-400 transition"
+                    placeholder="Tên đăng nhập (Username)">
+                <i id="regUsernameCheck" class="fa-solid fa-circle-check absolute right-4 top-1/2 -translate-y-1/2 text-neutral-600 text-sm"></i>
+            </div>
+
+            <div class="register__field relative">
+                <input type="email" id="regEmail" required
+                    class="register__input w-full bg-white/5 border border-white/10 rounded-full px-5 py-3 text-sm text-white placeholder-neutral-400 transition"
+                    placeholder="Email cá nhân">
+                <i id="regEmailCheck" class="fa-solid fa-circle-check absolute right-4 top-1/2 -translate-y-1/2 text-neutral-600 text-sm"></i>
+            </div>
+
+            <div class="register__field relative">
+                <input type="password" id="regPassword" required minlength="6"
+                    class="register__input w-full bg-white/5 border border-white/10 rounded-full px-5 py-3 text-sm text-white placeholder-neutral-400 transition"
+                    placeholder="Thiết lập mật khẩu">
+                <i id="regPasswordCheck" class="fa-solid fa-circle-check absolute right-4 top-1/2 -translate-y-1/2 text-neutral-600 text-sm"></i>
+            </div>
+
+            <div class="register__field relative">
+                <input type="password" id="regConfirmPassword" required minlength="6"
+                    class="register__input w-full bg-white/5 border border-white/10 rounded-full px-5 py-3 text-sm text-white placeholder-neutral-400 transition"
+                    placeholder="Nhập lại mật khẩu">
+                <i id="regConfirmCheck" class="fa-solid fa-circle-check absolute right-4 top-1/2 -translate-y-1/2 text-neutral-600 text-sm"></i>
+            </div>
+
+            <p id="registerError" class="register__error text-red-400 text-xs text-center hidden"></p>
+
+            <button type="submit"
+                class="register__submit-btn w-full text-white font-bold rounded-full py-3 mt-2 text-sm tracking-wide transition">
+                Đăng Ký
+            </button>
+
+            <p class="text-center text-xs text-neutral-400 mt-1">
+                Chấp nhận các
+                <a href="#" class="text-pink-400 hover:underline">điều khoản</a>
+            </p>
+        </form>
+    </div>
+
+    <div class="register__wave absolute bottom-6 left-1/2 -translate-x-1/2">
+        <span style="animation-delay: 0s"></span>
+        <span style="animation-delay: 0.1s"></span>
+        <span style="animation-delay: 0.2s"></span>
+        <span style="animation-delay: 0.3s"></span>
+        <span style="animation-delay: 0.4s"></span>
+        <span style="animation-delay: 0.5s"></span>
+        <span style="animation-delay: 0.6s"></span>
+        <span style="animation-delay: 0.7s"></span>
+    </div>
+
+    <script>
+        const form = document.getElementById('registerForm');
+        const errorEl = document.getElementById('registerError');
+
+        const fields = {
+            username: { input: document.getElementById('regUsername'), check: document.getElementById('regUsernameCheck') },
+            email: { input: document.getElementById('regEmail'), check: document.getElementById('regEmailCheck') },
+            password: { input: document.getElementById('regPassword'), check: document.getElementById('regPasswordCheck') },
+            confirm: { input: document.getElementById('regConfirmPassword'), check: document.getElementById('regConfirmCheck') },
+        };
+
+        Object.values(fields).forEach(({ input, check }) => {
+            input.addEventListener('input', () => {
+                const valid = input.checkValidity() && input.value.trim() !== '';
+                check.classList.toggle('text-green-400', valid);
+                check.classList.toggle('text-neutral-600', !valid);
+            });
+        });
+
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            errorEl.classList.add('hidden');
+
+            const username = fields.username.input.value.trim();
+            const email = fields.email.input.value.trim();
+            const password = fields.password.input.value;
+            const confirmPassword = fields.confirm.input.value;
+
+            if (!username || !email || !password || !confirmPassword) {
+                showError('Vui lòng điền đầy đủ tất cả các trường.');
+                return;
+            }
+
+            if (password.length < 6) {
+                showError('Mật khẩu phải có ít nhất 6 ký tự.');
+                return;
+            }
+
+            if (password !== confirmPassword) {
+                showError('Mật khẩu xác nhận không khớp.');
+                return;
+            }
+
+
+            // Demo: lưu trạng thái đăng nhập vào localStorage để header nhận biết
+            localStorage.setItem('currentUser', JSON.stringify({ username, email }));
+
+            alert(`Đăng ký thành công! Chào mừng ${username}.`);
+            window.location.href = 'index.html'; // chuyển về trang chủ sau khi đăng ký
+        });
+
+        function showError(message) {
+            errorEl.textContent = message;
+            errorEl.classList.remove('hidden');
+        }
+    </script>
+</body>
+
+</html>
