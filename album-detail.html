@@ -8,16 +8,18 @@
     <title>Bài Tập Lớn - Chi Tiết Album Nghệ Sĩ</title>
     <link rel="stylesheet" href="./assets/css/layout.css">
     <link rel="stylesheet" href="./assets/css/album.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+        integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body class="text-white antialiased selection:bg-[#1ed760] selection:text-black">
+<body >
    <div id="header-container"></div>
     <div class="layout-container flex">
         <div id="sidebar-placeholder"></div>
            <!-- Main Content -->
-<main class="main-container flex flex-col w-full p-6 pb-36 overflow-y-auto">
+<main class="main-container ">
 
             <div class="mb-4">
                 <a href="album.html"
@@ -26,10 +28,10 @@
                 </a>
             </div>
 
-            <div class="flex flex-col sm:flex-row gap-6 items-center sm:items-end mb-8 bg-white/5 p-6 rounded-2xl">
+            <div class="album-detail-header">
                 <img id="album-cover" src="" alt="Cover" class="w-40 h-40 object-cover rounded-xl shadow-lg" />
                 <div class="flex-1 text-center sm:text-left">
-                    <span class="text-xs font-bold uppercase tracking-widest text-[#39C]">ALBUM NGHỆ SĨ</span>
+                    <span class="album-label">ALBUM NGHỆ SĨ</span>
                     <h2 id="album-title" class="text-3xl font-extrabold mt-1 mb-2">Đang tải...</h2>
                     <p class="text-sm text-gray-300">
                         Thể loại:
@@ -130,13 +132,7 @@
                 <div class="flex flex-col sm:flex-row items-center sm:items-end gap-6 md:gap-8 z-10">
                     
                 
-                    <div class="relative shrink-0 group">
-
-                             crossorigin="anonymous"
-                             onerror="handleCoverError(this);"
-                             class="w-44 h-44 sm:w-52 sm:h-52 md:w-60 md:h-60 object-cover rounded-md shadow-[0_20px_50px_rgba(0,0,0,0.6)] border border-white/10 transition-transform duration-300 group-hover:scale-[1.02]" />
-                    </div>
-
+                   
                     <!--thông tin album -->
                     <div class="flex flex-col items-center sm:items-start text-center sm:text-left flex-1 min-w-0">
                         <span class="text-xs md:text-sm font-extrabold uppercase tracking-wider text-white/90 mb-1">ALBUM NGHỆ SĨ</span>
@@ -165,8 +161,9 @@
             <div class="px-6 md:px-10 py-5 bg-gradient-to-b from-black/40 to-[#121214] flex items-center justify-between border-b border-white/5">
                 <div class="flex items-center gap-5 md:gap-7">
                     <!-- nút phát tất cả -->
-                    <button id="main-play-btn" onclick="togglePlayAll()" class="w-14 h-14 rounded-full bg-[#1ed760] text-black flex items-center justify-center text-xl font-bold shadow-xl hover:scale-105 active:scale-95 transition-all duration-200 hover:bg-[#1fdf64]">
-                        <i id="main-play-icon" class="fa-solid fa-play ml-1"></i>
+                    <button id="main-play-btn"
+                    class="w-14 h-14 rounded-full bg-[#1ed760] text-black flex items-center justify-center text-xl">
+                    <i id="main-play-icon" class="fa-solid fa-play ml-1"></i>
                     </button>
 
                     <button class="text-gray-400 hover:text-white text-xl transition-colors" title="Trộn bài">
@@ -210,70 +207,164 @@
     </div>
 
     <!--thanh player -->
-    <footer class="footer-container fixed bottom-0 left-0 right-0 h-22 bg-[#18181c] border-t border-white/10 flex items-center justify-between px-6 z-50 py-3">
-        <!-- Now Playing Meta -->
-        <div class="flex items-center gap-3.5 w-1/4 min-w-[200px]">
-            <div class="w-12 h-12 rounded bg-white/10 overflow-hidden relative shrink-0">
-                <img id="player-track-img" src="" alt="Track Art" 
-                     onerror="this.onerror=null; this.src='https://placehold.co/100x100/1e1e24/1ed760?text=Music';"
-                     class="w-full h-full object-cover hidden" />
-                <div id="player-track-icon" class="w-full h-full flex items-center justify-center text-[#1ed760]">
-                    <i class="fa-solid fa-music"></i>
-                </div>
-            </div>
-            <div class="min-w-0">
-                <p id="now-playing-title" class="text-sm font-bold text-white truncate">Chọn bài hát để phát</p>
-                <p id="now-playing-artist" class="text-xs text-gray-400 truncate"></p>
+    <footer class="fixed bottom-0 left-0 right-0 h-20 bg-[#121212] border-t border-[#282828] px-4 flex items-center justify-between text-white z-50">
+
+    <div class="flex items-center gap-3 w-1/4 min-w-[180px]">
+
+        <div class="w-14 h-14 bg-[#282828] rounded flex items-center justify-center text-gray-400 shrink-0 overflow-hidden">
+            <img
+                id="player-track-img"
+                src=""
+                alt="Track Art"
+                class="w-full h-full object-cover hidden"
+            >
+            <div
+                id="player-track-icon"
+                class="w-full h-full flex items-center justify-center"
+            >
+                <i class="fa-solid fa-music text-xl"></i>
             </div>
         </div>
+        <div class="flex flex-col overflow-hidden">
+            <span
+                id="now-playing-title"
+                class="text-sm font-medium text-white truncate"
+            >
+                Chưa phát bài nào
+            </span>
+            <span
+                id="now-playing-artist"
+                class="text-xs text-gray-400 truncate"
+            >
+                —
+            </span>
+        </div>
+    </div>
+    <!-- NÚT PHÁT / TIẾN / LÙI -->
+    <div class="flex flex-col items-center justify-center w-2/5 max-w-[722px] gap-1.5">
+        <!-- Playback Controls -->
+        <div class="flex items-center gap-5 text-gray-400">
+            <!-- Trộn -->
+            <button
+                id="shuffle-btn"
+                class="hover:text-white transition text-sm"
+                title="Trộn bài"
+            >
+                <i class="fa-solid fa-shuffle"></i>
+            </button>
+            <!-- phát trước -->
+            <button
+                id="prev-btn"
+                class="hover:text-white transition text-base"
+                title="Bài trước"
+            >
+                <i class="fa-solid fa-backward-step"></i>
+            </button>
 
-        <!--các chức năng trộn bài,phát lại,chơi tiếp bài mới,quay lại bài trước -->
-        <div class="flex flex-col items-center justify-center flex-1 max-w-xl px-4">
-            <div class="flex items-center gap-5 text-gray-300 mb-1.5">
-                <button   onclick="shuffleSongs()" class="hover:text-white transition-colors text-sm" title="Trộn bài"><i class="fa-solid fa-shuffle"></i></button>
-                <button onclick="playPrevSong()" class="hover:text-white transition-colors"><i class="fa-solid fa-backward-step text-base"></i></button>
-                <button id="player-play-btn" onclick="togglePlayPause()" class="w-9 h-9 rounded-full bg-white text-black flex items-center justify-center font-bold hover:scale-105 transition-transform">
-                    <i id="player-play-icon" class="fa-solid fa-play ml-0.5 text-sm"></i>
-                </button>
-                <button onclick="playNextSong()" class="hover:text-white transition-colors"><i class="fa-solid fa-forward-step text-base"></i></button>
-                <button onclick="toggleRepeat()"
-class="hover:text-white transition-colors text-sm"
-title="Lặp lại">
-    <i id="repeat-icon" class="fa-solid fa-repeat"></i>
-</button>
+            <!-- Play / Pause -->
+            <button
+                id="player-play-btn"
+                class="w-8 h-8 rounded-full bg-white text-black flex items-center justify-center hover:scale-105 transition"
+                title="Phát / Tạm dừng"
+            >
+                <i
+                    id="player-play-icon"
+                    class="fa-solid fa-play text-xs ml-0.5"
+                ></i>
+            </button>
+            <!-- Phát tiếp -->
+            <button
+                id="next-btn"
+                class="hover:text-white transition text-base"
+                title="Bài tiếp theo"
+            >
+                <i class="fa-solid fa-forward-step"></i>
+            </button>
+
+            <!-- lặp lại -->
+            <button
+                id="repeat-btn"
+                class="hover:text-white transition text-sm"
+                title="Lặp lại"
+            >
+                <i
+                    id="repeat-icon"
+                    class="fa-solid fa-repeat"
+                ></i>
+            </button>
+
+        </div>
+        <!-- timer(tạm thời chưa chạy do cho gắn audio)-->
+        <div class="w-full flex items-center gap-2 text-xs text-gray-400">
+
+            <span
+                id="current-time"
+                class="w-8 text-right"
+            >
+                0:00
+            </span>
+
+            <div
+                id="progress-bar"
+                class="flex-1 h-1 bg-gray-600 rounded-full cursor-pointer relative group"
+            >
+                <div
+                    id="progress-fill"
+                    class="h-full bg-white group-hover:bg-green-500 rounded-full w-0 transition-all"
+                ></div>
             </div>
-            <div class="w-full flex items-center gap-2.5 text-xs text-gray-400 font-medium">
-                <span id="time-current">0:00</span>
-                <div class="flex-1 h-1 bg-white/20 rounded-full overflow-hidden cursor-pointer relative group" onclick="seekAudio(event)">
-                    <div id="progress-bar" class="h-full bg-white group-hover:bg-[#1ed760] transition-all w-0"></div>
-                </div>
-                <span id="time-duration">0:00</span>
-            </div>
+
+            <span
+                id="duration"
+                class="w-8"
+            >
+                0:00
+            </span>
+
         </div>
 
-        <!--điều chỉnh âm lượng-->
-        <div class="hidden sm:flex items-center justify-end gap-3 w-1/4 text-gray-400 text-sm">
+    </div>
+    <!-- thanh âm lượng -->
+    <div class="flex items-center justify-end gap-3 w-1/4 min-w-[180px] text-gray-400">
+
+        <button
+            id="playlist-btn"
+            class="hover:text-white transition text-sm"
+            title="Danh sách phát"
+        >
+            <i class="fa-solid fa-list-ul"></i>
+        </button>
+
+        <button
+            id="volume-btn"
+            class="hover:text-white transition text-sm"
+            title="Âm lượng"
+        >
             <i
                 id="volume-icon"
-                onclick="toggleMute()"
-                class="fa-solid fa-volume-high hover:text-white cursor-pointer">
-            </i>
-            <input
-                id="volume-slider"
-                type="range"
-                min="0"
-                max="100"
-                value="80"
-                oninput="changeVolume(this.value)"
-                class="w-24 accent-[#ffffff]">
+                class="fa-solid fa-volume-high"
+            ></i>
+        </button>
+
+        <div
+            id="volume-bar"
+            class="w-24 h-1 bg-gray-600 rounded-full cursor-pointer relative group"
+        >
+            <div
+                id="volume-fill"
+                class="h-full bg-white group-hover:bg-green-500 rounded-full w-2/3 transition-all"
+            ></div>
         </div>
-    </footer>
+
+    </div>
+
+</footer>
       <script src="./assets/javascript/main.js"></script>
       <script src="./assets/javascript/album.js"></script>
       <script src="./assets/javascript/album-detail.js"></script>
       <script src="./assets/javascript/header.js"></script>
       <script src="assets/javascript/dataFetch.js"></script>    
-      <script src="assets/javascript/header.js"></script>
+      
     
     
 </body>

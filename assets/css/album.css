@@ -135,3 +135,25 @@ button:hover{
     opacity:1;
     transform:translateY(0);
 }
+.album-detail-header {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    align-items: center;
+    margin-bottom: 2rem;
+    background-color: var(--bg-surface);
+    padding: 1.5rem;
+    border-radius: 1rem;
+    border: 1px solid var(--border-color);
+}
+
+@media (min-width: 640px) {
+    .album-detail-header {
+        flex-direction: row;
+        align-items: flex-end;
+    }
+}
+.album-meta {
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+}

@@ -389,6 +389,14 @@ const urlParams = new URLSearchParams(window.location.search);
         document.getElementById('album-year').innerText = currentArtist.year;
         document.getElementById('album-song-count').innerText = `${currentArtist.songs.length} bài hát`;
 
+        document.addEventListener("DOMContentLoaded", () => {
+    document.getElementById("shuffle-btn")?.addEventListener("click", shuffleSongs);
+    document.getElementById("prev-btn")?.addEventListener("click", playPrevSong);
+    document.getElementById("player-play-btn")?.addEventListener("click", togglePlayPause);
+    document.getElementById("next-btn")?.addEventListener("click", playNextSong);
+    document.getElementById("repeat-btn")?.addEventListener("click", toggleRepeat);
+});
+
         // Xử lý ảnh lỗi dự phòng
         function handleCoverError(img) {
             img.onerror = null;
@@ -617,3 +625,4 @@ function toggleMute(){
             const s = Math.floor(sec % 60);
             return `${m}:${s < 10 ? '0' : ''}${s}`;
         }
+        
