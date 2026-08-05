@@ -12,12 +12,13 @@
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body class="text-white antialiased selection:bg-[#1ed760] selection:text-black">
-    <div id="header-container"></div>
+<body>
+    <div id="header-placeholder"></div>
+
     <div class="layout-container flex">
         <div id="sidebar-placeholder"></div>
-        <!-- Main Content -->
-        <main class="main-container flex flex-col w-full p-6 pb-36 overflow-y-auto">
+
+        <main class="main-container flex flex-col w-full p-6 overflow-y-auto text-white">
 
             <div class="mb-4">
                 <a href="album.html"
@@ -38,10 +39,9 @@
                         <span id="artist-header-name" class="text-[#39C] font-semibold"></span>
                     </p>
 
-                    <button onclick="togglePlayAll()"
+                    <button
                         class="mt-4 bg-[#39C] text-black px-6 py-2 rounded-full font-bold text-sm hover:scale-105 transition-transform flex items-center gap-2 mx-auto sm:mx-0">
-                        <i id="play-all-icon" class="fa-solid fa-play"></i>
-                        <span id="play-all-text">PHÁT TẤT CẢ</span>
+                        <i class="fa-solid fa-play"></i> PHÁT TẤT CẢ
                     </button>
                 </div>
             </div>
@@ -63,236 +63,394 @@
     </div>
 
     <div id="player-placeholder"></div>
-    <div
-        class="px-6 md:px-10 py-5 bg-gradient-to-b from-black/40 to-[#121214] flex items-center justify-between border-b border-white/5">
-        <div class="flex items-center gap-5 md:gap-7">
-            <!-- Header Navigation Bar -->
-            <header
-                class="header-container flex items-center justify-between px-6 py-4 border-b border-white/5 bg-[#121214]/80 backdrop-blur-md sticky top-0 z-50">
-                <div class="flex items-center gap-3">
-                    <a href="album.html"
-                        class="w-8 h-8 rounded-full bg-black/40 hover:bg-black/70 flex items-center justify-center text-gray-300 hover:text-white transition-all">
-                        <i class="fa-solid fa-chevron-left text-sm"></i>
-                    </a>
-                    <h1 class="text-xl font-bold tracking-tight">Bài Tập Lớn</h1>
-                </div>
-                <div class="flex items-center gap-3">
 
-                </div>
-            </header>
+    <script src="./assets/javascript/main.js"></script>
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const artistKey = urlParams.get('artist') || 'sontung';
 
-            <div class="layout-container flex min-h-[calc(100vh-140px)]">
-                <!-- Sidebar Navigation -->
-                <aside class="sidebar-container hidden md:flex flex-col w-64 bg-black/40 p-4 border-r border-white/5">
-                    <nav class="nav-container w-full">
-                        <div class="list-container">
-                            <ul class="space-y-6">
-                                <section class="nav-section">
-                                    <h3 class="tracking-wider uppercase text-[11px] text-gray-400 font-bold mb-3 px-3">
-                                        Khám Phá</h3>
-                                    <li>
-                                        <a href="index.html"
-                                            class="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-400 hover:text-white hover:bg-white/5 font-semibold text-sm transition-all">
-                                            <i class="fa-solid fa-house"></i> Trang Chủ
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="album.html"
-                                            class="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-400 hover:text-white hover:bg-white/5 font-semibold text-sm transition-all">
-                                            <i class="fa-solid fa-border-all"></i> Thể Loại
-                                        </a>
-                                    </li>
-                                </section>
+        const database = {
+            sontung: {
+                name: "Sơn Tùng M-TP",
+                album: "Chúng Ta Của Tương Lai",
+                year: "2024",
+                genre: "V-Pop",
+                cover: "images/sontung/cover-sontung.jpg",
+                songs: [
+                    { title: "Đừng Làm Trái Tim Anh Đau", img: "images/sontung/song1.jpg" },
+                    { title: "Chúng Ta Của Tương Lai", img: "images/sontung/song2.jpg" },
+                    { title: "Muộn Rồi Mà Sao Còn", img: "images/sontung/song3.jpg" },
+                    { title: "Có Chắc Yêu Là Đây", img: "images/sontung/song4.jpg" },
+                    { title: "Hãy Trao Cho Anh", img: "images/sontung/song5.jpg" },
+                    { title: "Chạy Ngay Đi", img: "images/sontung/song6.jpg" },
+                    { title: "Lạc Trôi", img: "images/sontung/song7.jpg" },
+                    { title: "Nơi Này Có Anh", img: "images/sontung/song8.jpg" },
+                ]
+            },
+            denvau: {
+                name: "Đen Vâu",
+                album: "Mang Tiền Về Cho Mẹ",
+                year: "2022",
+                genre: "V-Pop",
+                cover: "images/denvau/cover-denvau.jpg",
+                songs: [
+                    { title: "Mang Tiền Về Cho Mẹ", img: "images/denvau/song1.jpg" },
+                    { title: "Nấu Ăn Cho Em", img: "images/denvau/song2.jpg" },
+                    { title: "Đi Về Nhà", img: "images/denvau/song3.jpg" },
+                    { title: "Lối Nhỏ", img: "images/denvau/song4.jpg" },
+                    { title: "Hai Triệu Năm", img: "images/denvau/song5.jpg" },
+                    { title: "Bài Này Chill Phết", img: "images/denvau/song6.jpg" },
+                    { title: "Trốn Tìm", img: "images/denvau/song7.jpg" },
+                    { title: "Anh Đếch Cần Gì Nhiều Ngoài Em", img: "images/denvau/song8.jpg" },
+                ]
+            },
+            mck: {
+                name: "RPT MCK",
+                album: "99%",
+                year: "2023",
+                genre: "Rap",
+                cover: "images/mck/cover-mck.jpg",
+                songs: [
+                    { title: "Chìm Sâu", img: "images/mck/song1.jpg" },
+                    { title: "Tại Vì Sao", img: "images/mck/song2.jpg" },
+                    { title: "Va Vào Giai Điệu Này", img: "images/mck/song3.jpg" },
+                    { title: "Anh Đã Ổn Hơn", img: "images/mck/song4.jpg" },
+                    { title: "Thôi Em Đừng Đi", img: "images/mck/song5.jpg" },
+                    { title: "Giàu Vì Bạn Sang Vì Vợ", img: "images/mck/song6.jpg" },
+                    { title: "Chỉ Một Đêm Nữa Thôi", img: "images/mck/song7.jpg" },
+                    { title: "Cuốn Cho Anh Một Điếu Nữa Đi", img: "images/mck/song8.jpg" },
+                ]
+            },
+            tlinh: {
+                name: "tlinh",
+                album: "Ái",
+                year: "2023",
+                genre: "V-Pop",
+                cover: "images/tlinh/cover-tlinh.jpg",
+                songs: [
+                    { title: "Nếu Lúc Đó", img: "images/tlinh/song1.jpg" },
+                    { title: "Ghệ Iu Dấu Của Em Ơi", img: "images/tlinh/song2.jpg" },
+                    { title: "Em Là Châu Báu", img: "images/tlinh/song3.jpg" },
+                    { title: "Gái Độc Thân", img: "images/tlinh/song4.jpg" },
+                    { title: "Không Cần Phải Nói Nhiều", img: "images/tlinh/song5.jpg" },
+                    { title: "Thích Quá Rùi Nà", img: "images/tlinh/song6.jpg" },
+                    { title: "Ái", img: "images/tlinh/song7.jpg" },
+                    { title: "Người Điên", img: "images/tlinh/song8.jpg" },
+                ]
+            },
+            vu: {
+                name: "Vũ.",
+                album: "Một Vạn Năm",
+                year: "2023",
+                genre: "V-Pop",
+                cover: "images/vu/cover-vu.jpg",
+                songs: [
+                    { title: "Bước Qua Mùa Cô Đơn", img: "images/vu/song1.jpg" },
+                    { title: "Lạ Lùng", img: "images/vu/song2.jpg" },
+                    { title: "Đông Kiếm Em", img: "images/vu/song3.jpg" },
+                    { title: "Mùa Mưa Ngâu Nằm Cạnh", img: "images/vu/song4.jpg" },
+                    { title: "Những Lời Hứa Bỏ Quên", img: "images/vu/song5.jpg" },
+                    { title: "Chậm Lại", img: "images/vu/song6.jpg" },
+                    { title: "Anh Nhớ Ra", img: "images/vu/song7.jpg" },
+                    { title: "Một Vạn Năm", img: "images/vu/song8.jpg" },
+                ]
+            },
+            hieuthuhai: {
+                name: "HIEUTHUHAI",
+                album: "Ai Cũng Phải Bắt Đầu Từ Đâu Đó",
+                year: "2023",
+                genre: "V-Pop",
+                cover: "images/hieuthuhai/cover-hieuthuhai.jpg",
+                songs: [
+                    { title: "Không Thể Say", img: "images/hieuthuhai/song1.jpg" },
+                    { title: "Exit Sign", img: "images/hieuthuhai/song2.jpg" },
+                    { title: "Ngủ Một Mình", img: "images/hieuthuhai/song3.jpg" },
+                    { title: "Hẹn Gặp Em Dưới Ánh Trăng", img: "images/hieuthuhai/song4.jpg" },
+                    { title: "Vệ Tinh", img: "images/hieuthuhai/song5.jpg" },
+                    { title: "Trình", img: "images/hieuthuhai/song6.jpg" },
+                    { title: "Love Sand", img: "images/hieuthuhai/song7.jpg" },
+                    { title: "Ai Cũng Phải Bắt Đầu Từ Đâu Đó", img: "images/hieuthuhai/song8.jpg" },
+                ]
+            },
 
-                                <section class="nav-section">
-                                    <h3 class="tracking-wider uppercase text-[11px] text-gray-400 font-bold mb-3 px-3">
-                                        Thư Viện</h3>
-                                    <li>
-                                        <a href="album.html"
-                                            class="flex items-center gap-3 px-3 py-2 rounded-lg text-white bg-white/10 font-bold text-sm transition-all">
-                                            <i class="fa-solid fa-compact-disc text-[#1ed760]"></i> Album Nghệ Sĩ
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#"
-                                            class="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-400 hover:text-white hover:bg-white/5 font-semibold text-sm transition-all">
-                                            <i class="fa-regular fa-heart"></i> Bài Hát Yêu Thích
-                                        </a>
-                                    </li>
-                                </section>
-                            </ul>
-                        </div>
-                    </nav>
-                </aside>
+            mytam: {
+                name: "Mỹ Tâm",
+                album: "Tâm 9",
+                year: "2017",
+                genre: "V-Pop",
+                cover: "images/mytam/cover-mytam.jpg",
+                songs: [
+                    { title: "Đúng Cũng Thành Sai", img: "images/mytam/song1.jpg" },
+                    { title: "Người Hãy Quên Em Đi", img: "images/mytam/song2.jpg" },
+                    { title: "Đừng Hỏi Em", img: "images/mytam/song3.jpg" },
+                    { title: "Nếu Anh Đi", img: "images/mytam/song4.jpg" },
+                    { title: "Họa Mi Tóc Nâu", img: "images/mytam/song5.jpg" },
+                    { title: "Ước Gì", img: "images/mytam/song6.jpg" },
+                    { title: "Nhé Anh", img: "images/mytam/song7.jpg" },
+                    { title: "Chuyện Như Chưa Bắt Đầu", img: "images/mytam/song8.jpg" },
+                ]
+            },
+            bts: {
+                name: "BTS",
+                album: "Proof",
+                year: "2022",
+                genre: "K-Pop",
+                cover: "images/bts/cover-bts.jpg",
+                songs: [
+                    { title: "Dynamite", img: "images/bts/song1.jpg" },
+                    { title: "Butter", img: "images/bts/song2.jpg" },
+                    { title: "Permission To Dance", img: "images/bts/song3.jpg" },
+                    { title: "Fake Love", img: "images/bts/song4.jpg" },
+                    { title: "Boy With Luv", img: "images/bts/song5.jpg" },
+                    { title: "DNA", img: "images/bts/song6.jpg" },
+                    { title: "Spring Day", img: "images/bts/song7.jpg" },
+                    { title: "Life Goes On", img: "images/bts/song8.jpg" },
+                ]
+            },
+            blackpink: {
+                name: "BLACKPINK",
+                album: "BORN PINK",
+                year: "2022",
+                genre: "K-Pop",
+                cover: "images/blackpink/cover-blackpink.jpg",
+                songs: [
+                    { title: "Pink Venom", img: "images/blackpink/song1.jpg" },
+                    { title: "Shut Down", img: "images/blackpink/song2.jpg" },
+                    { title: "How You Like That", img: "images/blackpink/song3.jpg" },
+                    { title: "DDU-DU DDU-DU", img: "images/blackpink/song4.jpg" },
+                    { title: "Kill This Love", img: "images/blackpink/song5.jpg" },
+                    { title: "Playing With Fire", img: "images/blackpink/song6.jpg" },
+                    { title: "Lovesick Girls", img: "images/blackpink/song7.jpg" },
+                    { title: "As If It's Your Last", img: "images/blackpink/song8.jpg" },
+                ]
+            },
+            newjeans: {
+                name: "NewJeans",
+                album: "Get Up",
+                year: "2023",
+                genre: "K-Pop",
+                cover: "images/newjeans/cover-newjeans.jpg",
+                songs: [
+                    { title: "Super Shy", img: "images/newjeans/song1.jpg" },
+                    { title: "ETA", img: "images/newjeans/song2.jpg" },
+                    { title: "OMG", img: "images/newjeans/song3.jpg" },
+                    { title: "Ditto", img: "images/newjeans/song4.jpg" },
+                    { title: "Attention", img: "images/newjeans/song5.jpg" },
+                    { title: "Hype Boy", img: "images/newjeans/song6.jpg" },
+                    { title: "Cookie", img: "images/newjeans/song7.jpg" },
+                    { title: "Cool With You", img: "images/newjeans/song8.jpg" },
+                ]
+            },
+            taylorswift: {
+                name: "Taylor Swift",
+                album: "The Tortured Poets Department",
+                year: "2024",
+                genre: "US/UK",
+                cover: "images/taylor/cover-taylor.jpg",
+                songs: [
+                    { title: "Fortnight", img: "images/taylor/song1.jpg" },
+                    { title: "Cruel Summer", img: "images/taylor/song2.jpg" },
+                    { title: "Anti-Hero", img: "images/taylor/song3.jpg" },
+                    { title: "Blank Space", img: "images/taylor/song4.jpg" },
+                    { title: "Style", img: "images/taylor/song5.jpg" },
+                    { title: "Lover", img: "images/taylor/song6.jpg" },
+                    { title: "cardigan", img: "images/taylor/song7.jpg" },
+                ]
+            },
+            brunomars: {
+                name: "Bruno Mars",
+                album: "24K Magic",
+                year: "2016",
+                genre: "US/UK",
+                cover: "images/bruno/cover-bruno.jpg",
+                songs: [
+                    { title: "24K Magic", img: "images/bruno/song1.jpg" },
+                    { title: "That's What I Like", img: "images/bruno/song2.jpg" },
+                    { title: "Versace On The Floor", img: "images/bruno/song3.jpg" },
+                    { title: "Locked Out Of Heaven", img: "images/bruno/song4.jpg" },
+                    { title: "Just The Way You Are", img: "images/bruno/song5.jpg" },
+                    { title: "Grenade", img: "images/bruno/song6.jpg" },
+                    { title: "Treasure", img: "images/bruno/song7.jpg" },
+                    { title: "Talking To The Moon", img: "images/bruno/song8.jpg" },
+                ]
+            },
+            theweeknd: {
+                name: "The Weeknd",
+                album: "After Hours",
+                year: "2020",
+                genre: "US/UK",
+                cover: "images/weeknd/cover-weeknd.jpg",
+                songs: [
+                    { title: "Blinding Lights", img: "images/weeknd/song1.jpg" },
+                    { title: "Save Your Tears", img: "images/weeknd/song2.jpg" },
+                    { title: "Starboy", img: "images/weeknd/song3.jpg" },
+                    { title: "The Hills", img: "images/weeknd/song4.jpg" },
+                    { title: "Can't Feel My Face", img: "images/weeknd/song5.jpg" },
+                    { title: "Die For You", img: "images/weeknd/song6.jpg" },
+                    { title: "Earned It", img: "images/weeknd/song7.jpg" },
+                    { title: "After Hours", img: "images/weeknd/song8.jpg" },
+                ]
+            },
+            karik: {
+                name: "Karik",
+                album: "Đánh Mất",
+                year: "2023",
+                genre: "Rap",
+                cover: "images/karik/cover-karik.jpg",
+                songs: [
+                    { title: "Bạn Đời", img: "images/karik/song1.jpg" },
+                    { title: "Đánh Mất", img: "images/karik/song2.jpg" },
+                    { title: "Thương", img: "images/karik/song3.jpg" },
+                    { title: "Có Chơi Có Chịu", img: "images/karik/song4.jpg" },
+                    { title: "Anh Không Đòi Quà", img: "images/karik/song5.jpg" },
+                    { title: "Quan Trọng Là Thần Thái", img: "images/karik/song6.jpg" },
+                    { title: "Người Lạ Ơi", img: "images/karik/song7.jpg" },
+                    { title: "Anh Là Sinh Viên", img: "images/karik/song8.jpg" },
+                ]
+            },
+            erik: {
+                name: "Erik",
+                album: "Best Of Erik",
+                year: "2024",
+                genre: "Nhạc trẻ",
+                cover: "images/erik/cover-erik.jpg",
+                songs: [
+                    { title: "Váy Cưới", img: "images/erik/song1.jpg" },
+                    { title: "Sau Tất Cả", img: "images/erik/song2.jpg" },
+                    { title: "Em Không Sai Chúng Ta Sai", img: "images/erik/song3.jpg" },
+                    { title: "Chạm Đáy Nỗi Đau", img: "images/erik/song4.jpg" },
+                    { title: "Yêu Và Yêu", img: "images/erik/song5.jpg" },
+                    { title: "Dù Cho Tận Thế", img: "images/erik/song6.jpg" },
+                    { title: "Ghen", img: "images/erik/song7.jpg" },
+                    { title: "Mùa Đông", img: "images/erik/song8.jpg" },
+                ]
+            },
+            amee: {
+                name: "AMEE",
+                album: "dreAMEE",
+                year: "2020",
+                genre: "Nhạc trẻ",
+                cover: "images/amee/cover-amee.jpg",
+                songs: [
+                    { title: "Anh Nhà Ở Đâu Thế", img: "images/amee/song1.jpg" },
+                    { title: "Đen Đá Không Đường", img: "images/amee/song2.jpg" },
+                    { title: "Yêu Thì Yêu Không Yêu Thì Yêu", img: "images/amee/song3.jpg" },
+                    { title: "Ex's Hate Me", img: "images/amee/song4.jpg" },
+                    { title: "Mama Boy", img: "images/amee/song5.jpg" },
+                    { title: "Sao Anh Chưa Về Nhà", img: "images/amee/song6.jpg" },
+                    { title: "Trời Giấu Trời Mang Đi", img: "images/amee/song7.jpg" },
+                    { title: "Shay Nắnggg", img: "images/amee/song8.jpg" },
+                ]
+            },
+            haanhtuan: {
+                name: "Hà Anh Tuấn",
+                album: "Cuối Ngày Người Đàn Ông Một Mình",
+                year: "2022",
+                genre: "Ballad",
+                cover: "images/haanhtuan/cover-haanhtuan.jpg",
+                songs: [
+                    { title: "Tháng Tư Là Lời Nói Dối Của Em", img: "images/haanhtuan/song1.jpg" },
+                    { title: "Xuân Thì", img: "images/haanhtuan/song2.jpg" },
+                    { title: "Người Con Gái Ta Thương", img: "images/haanhtuan/song3.jpg" },
+                    { title: "Chuyện Của Mùa Đông", img: "images/haanhtuan/song4.jpg" },
+                    { title: "Truyện Ngắn", img: "images/haanhtuan/song5.jpg" },
+                    { title: "Nhà Tôi Có Treo Một Lá Cờ", img: "images/haanhtuan/song6.jpg" },
+                    { title: "Chiếc Lá Mùa Đông", img: "images/haanhtuan/song7.jpg" },
+                    { title: "Những Vết Thương Lành", img: "images/haanhtuan/song8.jpg" },
+                ]
+            },
+            alanwalker: {
+                name: "Alan Walker",
+                album: "World Of Walker",
+                year: "2021",
+                genre: "EDM",
+                cover: "images/alanwalker/cover-alanwalker.jpg",
+                songs: [
+                    { title: "Faded", img: "images/alanwalker/song1.jpg" },
+                    { title: "Alone", img: "images/alanwalker/song2.jpg" },
+                    { title: "Darkside", img: "images/alanwalker/song3.jpg" },
+                    { title: "On My Way", img: "images/alanwalker/song4.jpg" },
+                    { title: "Sing Me To Sleep", img: "images/alanwalker/song5.jpg" },
+                    { title: "The Spectre", img: "images/alanwalker/song6.jpg" },
+                    { title: "Lily", img: "images/alanwalker/song7.jpg" },
+                    { title: "Tired", img: "images/alanwalker/song8.jpg" },
+                ]
+            },
+            ngot: {
+                name: "Ngọt",
+                album: "LẦN CUỐI",
+                year: "2019",
+                genre: "Indie",
+                cover: "images/ngot/cover-ngot.jpg",
+                songs: [
+                    { title: "Cho Tôi Đi Theo", img: "images/ngot/song1.jpg" },
+                    { title: "Lần Cuối", img: "images/ngot/song2.jpg" },
+                    { title: "Em Dạo Này", img: "images/ngot/song3.jpg" },
+                    { title: "Bartender", img: "images/ngot/song4.jpg" },
+                    { title: "Đá Tan", img: "images/ngot/song5.jpg" },
+                    { title: "Cho Tôi Lang Thang", img: "images/ngot/song6.jpg" },
+                    { title: "Để Quên", img: "images/ngot/song7.jpg" },
+                    { title: "Đốt", img: "images/ngot/song8.jpg" },
+                ]
+            },
+            chillies: {
+                name: "Chillies",
+                album: "Trên Những Đám Mây",
+                year: "2021",
+                genre: "Indie",
+                cover: "images/chillies/cover-chillies.jpg",
+                songs: [
+                    { title: "Mascara", img: "images/chillies/song1.jpg" },
+                    { title: "Vùng Ký Ức", img: "images/chillies/song2.jpg" },
+                    { title: "Nếu Ngày Mai Không Đến", img: "images/chillies/song3.jpg" },
+                    { title: "Cứ Chill Thôi", img: "images/chillies/song4.jpg" },
+                    { title: "Đại Lộ Mặt Trời", img: "images/chillies/song5.jpg" },
+                    { title: "Em Đừng Khóc", img: "images/chillies/song6.jpg" },
+                    { title: "Trên Những Đám Mây", img: "images/chillies/song7.jpg" },
+                    { title: "Giấc Mơ Khác", img: "images/chillies/song8.jpg" },
 
-                <div id="album-hero-banner"
-                    class="w-full pt-8 pb-8 px-6 md:px-10 flex flex-col justify-end min-h-[280px] md:min-h-[340px] relative">
+                ]
+            },
+        };
+        // Lấy dữ liệu nghệ sĩ được chọn
+        const currentArtist = database[artistKey] || database['sontung'];
 
-                    <!-- back -->
-                    <div class="mb-4">
-                        <a href="album.html"
-                            class="inline-flex items-center gap-2 text-xs md:text-sm font-bold text-white/80 hover:text-white bg-black/20 hover:bg-black/40 backdrop-blur-md px-3.5 py-1.5 rounded-full transition-all">
-                            <i class="fa-solid fa-arrow-left"></i> Quay lại danh sách Album
-                        </a>
-                    </div>
+        // Đổ dữ liệu lên giao diện chính
+        document.getElementById('album-cover').src = currentArtist.cover;
+        document.getElementById('album-title').innerText = currentArtist.album;
+        document.getElementById('artist-header-name').innerText = currentArtist.name;
+        document.getElementById('album-genre').innerText = currentArtist.genre;
 
+        // Render danh sách 15 bài hát thật
+        const songListBody = document.getElementById('song-list');
+        let finalHtml = '';
+        currentArtist.songs.forEach((song, index) => {
+            const randomThumb = song.img;
+            const randomViews = (Math.floor(Math.random() * 8000) + 500).toFixed(1) + "K";
+            const randomMin = Math.floor(Math.random() * 2) + 3;
+            const randomSec = String(Math.floor(Math.random() * 50) + 10).padStart(2, '0');
 
-                    <div class="flex flex-col sm:flex-row items-center sm:items-end gap-6 md:gap-8 z-10">
-
-
-                        <div class="relative shrink-0 group">
-
-                            crossorigin="anonymous"
-                            onerror="handleCoverError(this);"
-                            class="w-44 h-44 sm:w-52 sm:h-52 md:w-60 md:h-60 object-cover rounded-md
-                            shadow-[0_20px_50px_rgba(0,0,0,0.6)] border border-white/10 transition-transform
-                            duration-300 group-hover:scale-[1.02]" />
-                        </div>
-
-                        <!--thông tin album -->
-                        <div class="flex flex-col items-center sm:items-start text-center sm:text-left flex-1 min-w-0">
-                            <span
-                                class="text-xs md:text-sm font-extrabold uppercase tracking-wider text-white/90 mb-1">ALBUM
-                                NGHỆ SĨ</span>
-
-
-
-                            <div
-                                class="flex flex-wrap items-center justify-center sm:justify-start gap-2 text-xs md:text-sm font-semibold text-white/90 mt-3">
-                                <div class="flex items-center gap-2">
-                                    <img id="artist-avatar" src="" alt="Artist"
-                                        class="w-6 h-6 rounded-full object-cover border border-white/20 shadow-sm" />
-
-                                </div>
-                                <span class="text-white/60">•</span>
-                                <span id="album-year" class="font-medium">2024</span>
-                                <span class="text-white/60">•</span>
-                                <span id="album-song-count" class="font-medium">0 bài hát</span>
-                                <span class="text-white/60">•</span>
-                                <span id="album-genre"
-                                    class="bg-black/30 px-2.5 py-0.5 rounded-full text-xs font-bold text-white/80 border border-white/10">V-Pop</span>
+            finalHtml += `
+                <tr class="hover:bg-white/5 transition-colors group">
+                    <td class="py-4 pl-4 text-center text-gray-500 group-hover:text-[#39C]">${index + 1}</td>
+                    <td class="py-2 pl-4 font-medium flex items-center gap-3">
+                        <div class="relative w-10 h-10 shrink-0">
+                            <img src="${randomThumb}" class="w-full h-full object-cover rounded-md" />
+                            <div class="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity rounded-md">
+                                <i class="fa-solid fa-play text-xs text-[#39C]"></i>
                             </div>
                         </div>
-                    </div>
-                </div>
-
-                <!-- player -->
-                <div
-                    class="px-6 md:px-10 py-5 bg-gradient-to-b from-black/40 to-[#121214] flex items-center justify-between border-b border-white/5">
-                    <div class="flex items-center gap-5 md:gap-7">
-                        <!-- nút phát tất cả -->
-                        <button id="main-play-btn" onclick="togglePlayAll()"
-                            class="w-14 h-14 rounded-full bg-[#1ed760] text-black flex items-center justify-center text-xl font-bold shadow-xl hover:scale-105 active:scale-95 transition-all duration-200 hover:bg-[#1fdf64]">
-                            <i id="main-play-icon" class="fa-solid fa-play ml-1"></i>
-                        </button>
-
-                        <button class="text-gray-400 hover:text-white text-xl transition-colors" title="Trộn bài">
-                            <i class="fa-solid fa-shuffle"></i>
-                        </button>
-
-                        <button class="text-gray-400 hover:text-white text-xl transition-colors"
-                            title="Lưu vào thư viện">
-                            <i class="fa-regular fa-circle-plus"></i>
-                        </button>
-
-                        <button class="text-gray-400 hover:text-white text-xl transition-colors" title="Tải xuống">
-                            <i class="fa-regular fa-circle-down"></i>
-                        </button>
-
-                        <button class="text-gray-400 hover:text-white text-xl transition-colors" title="Tùy chọn khác">
-                            <i class="fa-solid fa-ellipsis"></i>
-                        </button>
-                    </div>
-
-                    <div
-                        class="flex items-center gap-2 text-gray-400 hover:text-white text-xs md:text-sm font-semibold cursor-pointer">
-                        <span>Danh sách</span>
-                        <i class="fa-solid fa-list-ul"></i>
-                    </div>
-                </div>
-
-                <!-- danh sách bảng bài hát -->
-                <div class="px-6 md:px-10 py-4 overflow-x-auto">
-                    <table class="w-full text-left border-collapse">
-                        <thead>
-                            <tr
-                                class="border-b border-white/10 text-gray-400 text-xs uppercase tracking-widest font-bold">
-                                <th class="pb-3 pl-4 w-12 text-center">#</th>
-                                <th class="pb-3 pl-4">Tiêu đề bài hát</th>
-                                <th class="pb-3 pr-4 text-right w-24"><i class="fa-regular fa-clock text-sm"></i></th>
-                            </tr>
-                        </thead>
-                        <tbody id="song-list" class="text-sm divide-y divide-gray-900/50"></tbody>
-                    </table>
-                </div>
-
-                </main>
-            </div>
-
-            <!--thanh player -->
-            <footer
-                class="footer-container fixed bottom-0 left-0 right-0 h-22 bg-[#18181c] border-t border-white/10 flex items-center justify-between px-6 z-50 py-3">
-                <!-- Now Playing Meta -->
-                <div class="flex items-center gap-3.5 w-1/4 min-w-[200px]">
-                    <div class="w-12 h-12 rounded bg-white/10 overflow-hidden relative shrink-0">
-                        <img id="player-track-img" src="" alt="Track Art"
-                            onerror="this.onerror=null; this.src='https://placehold.co/100x100/1e1e24/1ed760?text=Music';"
-                            class="w-full h-full object-cover hidden" />
-                        <div id="player-track-icon"
-                            class="w-full h-full flex items-center justify-center text-[#1ed760]">
-                            <i class="fa-solid fa-music"></i>
+                        <div>
+                            <p class="text-gray-200 group-hover:text-[#39C]">${song.title}</p>
+                            <p class="text-xs text-gray-500">${currentArtist.name}</p>
                         </div>
-                    </div>
-                    <div class="min-w-0">
-                        <p id="now-playing-title" class="text-sm font-bold text-white truncate">Chọn bài hát để phát</p>
-                        <p id="now-playing-artist" class="text-xs text-gray-400 truncate"></p>
-                    </div>
-                </div>
-
-                <!--các chức năng trộn bài,phát lại,chơi tiếp bài mới,quay lại bài trước -->
-                <div class="flex flex-col items-center justify-center flex-1 max-w-xl px-4">
-                    <div class="flex items-center gap-5 text-gray-300 mb-1.5">
-                        <button onclick="shuffleSongs()" class="hover:text-white transition-colors text-sm"
-                            title="Trộn bài"><i class="fa-solid fa-shuffle"></i></button>
-                        <button onclick="playPrevSong()" class="hover:text-white transition-colors"><i
-                                class="fa-solid fa-backward-step text-base"></i></button>
-                        <button id="player-play-btn" onclick="togglePlayPause()"
-                            class="w-9 h-9 rounded-full bg-white text-black flex items-center justify-center font-bold hover:scale-105 transition-transform">
-                            <i id="player-play-icon" class="fa-solid fa-play ml-0.5 text-sm"></i>
-                        </button>
-                        <button onclick="playNextSong()" class="hover:text-white transition-colors"><i
-                                class="fa-solid fa-forward-step text-base"></i></button>
-                        <button onclick="toggleRepeat()" class="hover:text-white transition-colors text-sm"
-                            title="Lặp lại">
-                            <i id="repeat-icon" class="fa-solid fa-repeat"></i>
-                        </button>
-                    </div>
-                    <div class="w-full flex items-center gap-2.5 text-xs text-gray-400 font-medium">
-                        <span id="time-current">0:00</span>
-                        <div class="flex-1 h-1 bg-white/20 rounded-full overflow-hidden cursor-pointer relative group"
-                            onclick="seekAudio(event)">
-                            <div id="progress-bar" class="h-full bg-white group-hover:bg-[#1ed760] transition-all w-0">
-                            </div>
-                        </div>
-                        <span id="time-duration">0:00</span>
-                    </div>
-                </div>
-
-                <!--điều chỉnh âm lượng-->
-                <div class="hidden sm:flex items-center justify-end gap-3 w-1/4 text-gray-400 text-sm">
-                    <i id="volume-icon" onclick="toggleMute()"
-                        class="fa-solid fa-volume-high hover:text-white cursor-pointer">
-                    </i>
-                    <input id="volume-slider" type="range" min="0" max="100" value="80"
-                        oninput="changeVolume(this.value)" class="w-24 accent-[#ffffff]">
-                </div>
-            </footer>
-
-            <script src="./assets/javascript/main.js"></script>
-            <script src="./assets/javascript/album.js"></script>
-            <script src="./assets/javascript/album-detail.js"></script>
-            <script src="./assets/javascript/header.js"></script>
-            <script src="assets/javascript/header.js"></script>
+                    </td>
+                    <td class="py-4 pr-4 text-right text-gray-400">${randomMin}:${randomSec}</td>
+                </tr>
+            `;
+        });
+        songListBody.innerHTML = finalHtml;
+    </script>
 </body>
 
 </html>

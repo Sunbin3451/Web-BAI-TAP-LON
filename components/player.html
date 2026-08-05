@@ -1,47 +1,45 @@
-<footer class="fixed bottom-0 left-0 right-0 h-20 bg-[#121212] border-t border-[#282828] px-4 flex items-center justify-between text-white z-50">
-    <!-- chi tiết bài hát -->
-    <div class="flex items-center gap-3 w-1/4 min-w-[180px]">
-        <div class="w-14 h-14 bg-[#282828] rounded flex items-center justify-center text-gray-400 shrink-0">
-            <i class="fa-solid fa-music text-xl"></i>
+<footer class="footer-container flex">
+    <div class="player-left">
+        <div class="album-art-placeholder">
+            <i class="fa-solid fa-music"></i>
         </div>
-        <div class="flex flex-col overflow-hidden">
-            <span class="text-sm font-medium text-white truncate">Chưa phát bài nào</span>
-            <span class="text-xs text-gray-400 truncate">—</span>
+        <div class="song-info">
+            <span class="song-title">Chưa phát bài nào</span>
+            <span class="song-subtitle">—</span>
         </div>
     </div>
 
-    <!-- nút phát lại và tiến/lùi-->
-    <div class="flex flex-col items-center justify-center w-2/5 max-w-[722px] gap-1.5">
-        <!-- Playback Controls -->
-        <div class="flex items-center gap-5 text-gray-400">
-            <button class="hover:text-white transition text-sm"><i class="fa-solid fa-shuffle"></i></button>
-            <button class="hover:text-white transition text-base"><i class="fa-solid fa-backward-step"></i></button>
+    <!-- Center: Playback Controls & Progress -->
+    <div class="player-center">
+        <div class="playback-controls">
+            <button class="control-btn"><i class="fa-solid fa-shuffle"></i></button>
+            <button class="control-btn step-btn"><i class="fa-solid fa-backward-step"></i></button>
 
-            <button class="w-8 h-8 rounded-full bg-white text-black flex items-center justify-center hover:scale-105 transition">
-                <i class="fa-solid fa-play text-xs ml-0.5"></i>
+            <button class="play-btn">
+                <i class="fa-solid fa-play"></i>
             </button>
 
-            <button class="hover:text-white transition text-base"><i class="fa-solid fa-forward-step"></i></button>
-            <button class="hover:text-white transition text-sm"><i class="fa-solid fa-repeat"></i></button>
+            <button class="control-btn step-btn"><i class="fa-solid fa-forward-step"></i></button>
+            <button class="control-btn"><i class="fa-solid fa-repeat"></i></button>
         </div>
 
-        <!-- thanh thời gian -->
-        <div class="w-full flex items-center gap-2 text-xs text-gray-400">
-            <span>0:00</span>
-            <div class="flex-1 h-1 bg-gray-600 rounded-full cursor-pointer relative group">
-                <div class="h-full bg-white group-hover:bg-green-500 rounded-full w-0 transition-all"></div>
+        <div class="progress-container">
+            <span class="time-text text-right">0:00</span>
+            <div class="progress-bar">
+                <div class="progress-fill"></div>
             </div>
-            <span>0:00</span>
+            <span class="time-text text-left">0:00</span>
         </div>
     </div>
 
-    <!-- âm lượng -->
-    <div class="flex items-center justify-end gap-3 w-1/4 min-w-[180px] text-gray-400">
-        <button class="hover:text-white transition text-sm"><i class="fa-solid fa-list-ul"></i></button>
-        <button class="hover:text-white transition text-sm"><i class="fa-solid fa-volume-high"></i></button>
+    <!-- Right: Extra Controls & Volume -->
+    <div class="player-right">
+        <button class="control-btn"><i class="fa-solid fa-list-ul"></i></button>
+        <button class="control-btn"><i class="fa-solid fa-volume-high"></i></button>
 
-        <div class="w-24 h-1 bg-gray-600 rounded-full cursor-pointer relative group">
-            <div class="h-full bg-white group-hover:bg-green-500 rounded-full w-2/3 transition-all"></div>
+        <div class="volume-bar">
+            <div class="volume-fill"></div>
         </div>
+    </div>
     </div>
 </footer>
