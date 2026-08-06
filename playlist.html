@@ -27,21 +27,21 @@
 <div class="layout-container flex">
     <div id="sidebar-placeholder"></div>
 
-    <main class="main-container flex text-white p-6">
+    <main class="main-container flex text-white p-6 pt-8">
         <div id="playlist-view" class="playlist__container-wrap w-full">
-            <div class="playlist__hero flex items-end gap-6 mb-6">
-                <div id="playlistCover" class="playlist__cover w-48 h-48 bg-neutral-800 flex items-center justify-center rounded shadow-lg">
-                    <i class="fa-solid fa-music text-5xl text-neutral-400"></i>
+                    <div class="flex items-end gap-6 mb-6 mt-4">
+                    <div id="playlistCover" class="w-32 h-32 bg-neutral-800 flex items-center justify-center rounded shadow-lg overflow-hidden flex-shrink-0">
+                        <i class="fa-solid fa-music text-3xl text-neutral-400"></i>
+                    </div>
+                    <div>
+                        <p class="text-sm font-semibold">Danh sách phát công khai</p>
+                        <h1 class="playlist__title-glow text-4xl font-extrabold my-2">Danh Sách Phát</h1>
+                        <p class="text-sm text-neutral-300 mt-2 flex items-center gap-1">
+                            <span id="playlistCount"></span>
+                            <span id="playlistTotalDuration"></span>
+                        </p>
+                    </div>
                 </div>
-                <div>
-                    <p class="text-sm font-semibold">Danh sách phát công khai</p>
-                    <h1 class="playlist__title text-6xl font-extrabold my-2">Danh Sách Phát</h1>
-                    <p class="playlist__meta text-sm text-neutral-300 mt-2 flex items-center gap-1">
-                        <span id="playlistCount"></span>
-                        <span id="playlistTotalDuration"></span>
-                    </p>
-                </div>
-            </div>
 
             <div class="playlist__controls flex items-center justify-between border-b border-neutral-700 pb-4 mb-6">
                 <div class="flex items-center gap-4 text-neutral-300">

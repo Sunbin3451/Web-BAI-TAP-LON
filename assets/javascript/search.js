@@ -10,30 +10,30 @@ function normalize(str) {
 // ====== Playlist dùng chung, lưu qua localStorage ======
 function getPlaylist() {
     try {
-        return JSON.parse(localStorage.getItem('myPlaylist')) || [];
+        return JSON.parse(localStorage.getItem(getPlaylistKey())) || [];
     } catch {
         return [];
     }
 }
 
 function savePlaylist(list) {
-    localStorage.setItem('myPlaylist', JSON.stringify(list));
+    localStorage.setItem(getPlaylistKey(), JSON.stringify(list));
 }
 
 function addToPlaylist(song) {
     const list = getPlaylist();
-    if (!list.some(s => s.title === song.title)) {
+    if (!list.some(s => s.id === song.id)) {
         list.push({ ...song, dateAdded: new Date().toLocaleDateString('vi-VN') });
         savePlaylist(list);
     }
 }
 
-function removeFromPlaylist(title) {
-    savePlaylist(getPlaylist().filter(s => s.title !== title));
+function removeFromPlaylist(id) {
+    savePlaylist(getPlaylist().filter(s => s.id !== id));
 }
 
-function isInPlaylist(title) {
-    return getPlaylist().some(s => s.title === title);
+function isInPlaylist(id) {
+    return getPlaylist().some(s => s.id === id);
 }
 
 // ====== Gọi API tìm kiếm bài hát ======
@@ -46,10 +46,10 @@ function formatDuration(totalSeconds) {
 
 async function searchSongs(query) {
     const data = await getMusicByQuery(query);
-
     if (!data || !Array.isArray(data)) return [];
 
     return data.map(track => ({
+        id: track.id,
         title: track.title,
         artist: track.artist,
         album: track.album,
@@ -73,9 +73,9 @@ function renderResultRow(s) {
             </div>
             <p class="playlist__result-album text-sm text-neutral-400 truncate hidden sm:block">${s.album}</p>
             <button
-                class="playlist__result-add-btn search-add-btn ${isInPlaylist(s.title) ? "added" : ""} w-7 h-7 rounded-full border border-neutral-400 text-white flex items-center justify-center flex-shrink-0"
-                data-title="${s.title}" data-artist="${s.artist}" data-album="${s.album}" data-duration="${s.duration}">
-                <i class="fa-solid ${isInPlaylist(s.title) ? "fa-check" : "fa-plus"} text-xs"></i>
+                class="playlist__result-add-btn search-add-btn ${isInPlaylist(s.id) ? "added" : ""} w-7 h-7 rounded-full border border-neutral-400 text-white flex items-center justify-center flex-shrink-0"
+                data-id="${s.id}" data-title="${s.title}" data-artist="${s.artist}" data-album="${s.album}" data-duration="${s.duration}" data-thumbnail="${s.thumbnail || ''}">
+                <i class="fa-solid ${isInPlaylist(s.id) ? "fa-check" : "fa-plus"} text-xs"></i>
             </button>
         </div>
     `;
@@ -115,16 +115,24 @@ searchResults.addEventListener('click', (e) => {
     const btn = e.target.closest('.playlist__result-add-btn');
     if (!btn) return;
 
-    const title = btn.dataset.title;
+    if (!isLoggedIn()) {
+        alert('Bạn cần đăng nhập để thêm bài hát vào danh sách phát.');
+        window.location.href = 'login.html';
+        return;
+    }
 
-    if (isInPlaylist(title)) {
-        removeFromPlaylist(title);
+    const id = btn.dataset.id;
+
+    if (isInPlaylist(id)) {
+        removeFromPlaylist(id);
     } else {
         addToPlaylist({
+            id: btn.dataset.id,
             title: btn.dataset.title,
             artist: btn.dataset.artist,
             album: btn.dataset.album,
-            duration: btn.dataset.duration
+            duration: btn.dataset.duration,
+            thumbnail: btn.dataset.thumbnail
         });
     }
 
@@ -138,9 +146,19 @@ function renderPlaylist() {
     const trackList = document.getElementById('playlistTrackList');
     const countEl = document.getElementById('playlistCount');
     const durationEl = document.getElementById('playlistTotalDuration');
+    const coverEl = document.getElementById('playlistCover');
     if (!fullView || !trackList) return;
 
     const playlistSongs = getPlaylist();
+
+    // Cập nhật ảnh bìa bằng ảnh của bài hát ĐẦU TIÊN được thêm vào playlist
+    if (coverEl) {
+        if (playlistSongs.length > 0 && playlistSongs[0].thumbnail) {
+            coverEl.innerHTML = `<img src="${playlistSongs[0].thumbnail}" class="w-full h-full object-cover rounded" alt="${playlistSongs[0].title}">`;
+        } else {
+            coverEl.innerHTML = `<i class="fa-solid fa-music text-5xl text-neutral-400"></i>`;
+        }
+    }
 
     if (playlistSongs.length === 0) {
         fullView.classList.add('hidden');
@@ -176,20 +194,53 @@ function renderPlaylist() {
             <td class="py-3 text-neutral-400 text-sm hidden lg:table-cell">${s.album || ''}</td>
             <td class="py-3 text-neutral-400 text-sm hidden lg:table-cell">${s.dateAdded || ''}</td>
             <td class="py-3 pr-4 text-right text-neutral-400 text-sm">
-                <button class="playlist__remove-btn remove-track-btn opacity-0 group-hover:opacity-100 mr-2 hover:text-white" data-title="${s.title}">
-                    <i class="fa-solid fa-xmark"></i>
-                </button>${s.duration || ''}
+                <button class="playlist__remove-btn remove-track-btn opacity-0 group-hover:opacity-100 mr-2 hover:text-white" data-id="${s.id}">
+                        <i class="fa-solid fa-xmark"></i>
+</button>${s.duration || ''}
             </td>
         </tr>
     `).join('');
 
     fullView.classList.remove('hidden');
 }
+// Tự động dọn các bài hát cũ bị thiếu "id" (thêm từ trước khi có hệ thống id)
+(function migrateOldPlaylistData() {
+    try {
+        const list = JSON.parse(localStorage.getItem('myPlaylist')) || [];
+        const cleaned = list.filter(s => s.id); // chỉ giữ lại bài có id hợp lệ
+        if (cleaned.length !== list.length) {
+            localStorage.setItem('myPlaylist', JSON.stringify(cleaned));
+        }
+    } catch {
+        localStorage.removeItem('myPlaylist');
+    }
+})();
+function getCurrentUsername() {
+    try {
+        const user = JSON.parse(localStorage.getItem('currentUser'));
+        return user && user.username ? user.username : 'guest';
+    } catch {
+        return 'guest';
+    }
+}
+
+function isLoggedIn() {
+    try {
+        const user = JSON.parse(localStorage.getItem('currentUser'));
+        return !!(user && user.username);
+    } catch {
+        return false;
+    }
+}
+
+function getPlaylistKey() {
+    return `myPlaylist_${getCurrentUsername()}`;
+}
 
 document.getElementById('playlistTrackList')?.addEventListener('click', (e) => {
     const btn = e.target.closest('.playlist__remove-btn');
     if (!btn) return;
-    removeFromPlaylist(btn.getAttribute('data-title'));
+    removeFromPlaylist(btn.getAttribute('data-id'));
     renderPlaylist();
     renderResults(searchInput.value);
 });
