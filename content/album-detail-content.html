@@ -1,0 +1,38 @@
+<div class="mb-4">
+    <a href="album.html" class="text-gray-400 hover:text-[#39C] transition-colors flex items-center gap-2 text-sm">
+        <i class="fa-solid fa-arrow-left"></i> Quay lại danh sách Album
+    </a>
+</div>
+
+<div class="flex flex-col sm:flex-row gap-6 items-center sm:items-end mb-8 bg-white/5 p-6 rounded-2xl">
+    <img id="album-cover" src="" alt="Cover" class="w-40 h-40 object-cover rounded-xl shadow-lg" />
+    <div class="flex-1 text-center sm:text-left">
+        <span class="text-xs font-bold uppercase tracking-widest text-[#39C]">ALBUM NGHỆ SĨ</span>
+        <h2 id="album-title" class="text-3xl font-extrabold mt-1 mb-2">Đang tải...</h2>
+        <p class="text-sm text-gray-300">
+            Thể loại:
+            <span id="album-genre" class="text-white font-semibold"></span>
+            • Nghệ sĩ:
+            <span id="artist-header-name" class="text-[#39C] font-semibold"></span>
+        </p>
+
+        <button
+            class="mt-4 bg-[#39C] text-black px-6 py-2 rounded-full font-bold text-sm hover:scale-105 transition-transform flex items-center gap-2 mx-auto sm:mx-0">
+            <i class="fa-solid fa-play"></i> PHÁT TẤT CẢ
+        </button>
+    </div>
+</div>
+
+<div class="overflow-x-auto">
+    <table class="w-full text-left border-collapse">
+        <thead>
+            <tr class="border-b border-gray-800 text-gray-400 text-xs uppercase tracking-wider">
+                <th class="py-3 pl-4 w-12 text-center">#</th>
+                <th class="py-3 pl-4">Bài hát</th>
+
+                <th class="py-3 pr-4 text-right w-20"><i class="fa-regular fa-clock"></i></th>
+            </tr>
+        </thead>
+        <tbody id="song-list" class="text-sm divide-y divide-gray-900/50"></tbody>
+    </table>
+</div>

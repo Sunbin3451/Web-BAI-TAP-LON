@@ -64,8 +64,8 @@ function renderResultRow(s) {
         <div class="playlist__result-row grid grid-cols-[auto_1fr_1fr_auto] items-center gap-4 px-2 py-2 rounded cursor-pointer">
             <div class="playlist__result-thumb w-10 h-10 bg-neutral-700 rounded flex items-center justify-center flex-shrink-0 overflow-hidden">
                 ${s.thumbnail
-                    ? `<img src="${s.thumbnail}" class="w-full h-full object-cover" alt="${s.title}">`
-                    : `<i class="fa-solid fa-music text-neutral-400 text-sm"></i>`}
+            ? `<img src="${s.thumbnail}" class="w-full h-full object-cover" alt="${s.title}">`
+            : `<i class="fa-solid fa-music text-neutral-400 text-sm"></i>`}
             </div>
             <div class="playlist__result-info min-w-0">
                 <p class="playlist__result-title text-sm text-white truncate">${s.title}</p>
@@ -166,8 +166,8 @@ function renderPlaylist() {
                 <div class="flex items-center gap-3 min-w-0">
                     <div class="w-10 h-10 bg-neutral-700 rounded flex items-center justify-center flex-shrink-0 overflow-hidden">
                         ${s.thumbnail
-                            ? `<img src="${s.thumbnail}" class="w-full h-full object-cover" alt="${s.title}">`
-                            : `<i class="fa-solid fa-music text-neutral-400 text-sm"></i>`}
+            ? `<img src="${s.thumbnail}" class="w-full h-full object-cover" alt="${s.title}">`
+            : `<i class="fa-solid fa-music text-neutral-400 text-sm"></i>`}
                     </div>
                     <p class="text-sm text-white truncate">${s.title}</p>
                 </div>

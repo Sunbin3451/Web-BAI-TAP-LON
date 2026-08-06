@@ -185,6 +185,11 @@ body {
     padding-bottom: 80px;
 }
 
+#sidebar-placeholder {
+  width: 240px;
+  min-height: 100vh;
+}
+
 /* =============== PLAYER STYLE =============== */
 .footer-container {
     background-color: var(--bg-transparent);
@@ -362,4 +367,8 @@ body {
     justify-content: flex-end;
     gap: 1rem;
     width: 33.33%;
+}
+
+#player-placeholder {
+  height: 90px;
 }
