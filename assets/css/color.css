@@ -1,0 +1,22 @@
+:root {
+    /* BACKGROUND COLORS */
+    --bg-base: #0a0a0c;
+    --bg-surface: #101018;
+    --bg-surface-hover: #1f1f25;
+    --bg-aside: #111118;
+    --bg-main: #100f14d7;
+    --bg-transparent: rgba(10, 10, 10, 0.9);
+
+    /* ACCENT COLORS */
+    --accent-primary: #a39aff;
+    --accent-solid: #584cff;
+    --accent-hover: #584cff;
+    --accent-glow: rgba(88, 76, 255, 0.25);
+
+    /* TEXT COLORS  */
+    --text-primary: #f3f4f6;
+    --text-secondary: #9ca3af;
+
+    /* BORDERS COLORS */
+    --border-color: #27272a;
+}

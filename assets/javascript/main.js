@@ -1,4 +1,3 @@
-
 // Hàm set class active cho sidebar
 function setActiveMenu() {
     let currentPage = window.location.pathname.split('/').pop();
@@ -16,6 +15,7 @@ function setActiveMenu() {
         }
     });
 }
+
 async function loadComponent(elementId, filePath) {
     try {
         const response = await fetch(filePath);
