@@ -10,12 +10,18 @@
 
     <title>Bài Tập Lớn</title>
 
+    <!-- ============ Nhúng file css ============ -->
     <link rel="stylesheet" href="./assets/css/color.css">
     <link rel="stylesheet" href="./assets/css/layout.css">
+    <link rel="stylesheet" href="./assets/css/theloai.css">
+    <link rel="stylesheet" href="./assets/css/search.css">
+
+    <!-- ============ Các thư viện ============ -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
         integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script src="https://cdn.tailwindcss.com"></script>
+
 </head>
 
 <body>
@@ -27,15 +33,18 @@
         <div id="sidebar-placeholder"></div>
 
         <!-- Main Content -->
-        <main class="main-container flex">
-            <h2>Danh Sách Bài Hát</h2>
+        <main id="app-content" class="main-container flex">
+
         </main>
     </div>
 
     <!-- Music Player -->
     <div id="player-placeholder"></div>
 
+    <!-- ============ Nhúng file javascript ============ -->
     <script src="./assets/javascript/main.js"></script>
+    <script type="module" src="./assets/javascript/theloai.js"></script>
+    <script type="module" src="./assets/javascript/search.js"></script>
 </body>
 
 </html>

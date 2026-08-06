@@ -1,5 +1,5 @@
 const API_KEY = 'sk_13cd253a0155461b8677ac607310a370';
-const BASE_URL = 'https://music-server-production-b448.up.railway.app';
+const BASE_URL = 'https://myt-lh.konnn04.dev';
 
 async function apiFetch(endpoint) {
     try {
