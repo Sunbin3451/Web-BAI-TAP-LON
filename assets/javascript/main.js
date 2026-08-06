@@ -38,11 +38,15 @@ async function loadComponent(elementId, filePath) {
 // Hàm tải nội dung động vào #app-content
 async function loadPage(page) {
     try {
+        const pageKey = (page || '').trim().toLowerCase();
+        const normalizedPage = pageKey === 'albumdetail' ? 'album-detail' : pageKey;
+        const menuPage = normalizedPage === 'album-detail' ? 'album' : normalizedPage;
+
         let filePath;
-        if (page === 'index' || page === '') {
+        if (normalizedPage === 'index' || normalizedPage === '') {
             filePath = './content/home-content.html';
         } else {
-            filePath = `./content/${page}-content.html`;
+            filePath = `./content/${normalizedPage}-content.html`;
         }
 
         const response = await fetch(filePath);
@@ -55,7 +59,7 @@ async function loadPage(page) {
             appContent.innerHTML = htmlContent;
         }
 
-        setActiveMenu(page);
+        setActiveMenu(menuPage);
 
     } catch (error) {
         console.error('Lỗi tải nội dung:', error);
@@ -77,6 +81,25 @@ function attachSidebarListeners() {
     });
 }
 
+// Hàm lắng nghe click chuyển trang SPA trong vùng nội dung chính
+function attachContentPageListeners() {
+    const appContent = document.getElementById('app-content');
+
+    if (!appContent) return;
+
+    appContent.addEventListener('click', (e) => {
+        const target = e.target.closest('[data-page]');
+
+        if (!target) return;
+
+        e.preventDefault();
+        const page = target.getAttribute('data-page');
+        if (page) {
+            loadPage(page);
+        }
+    });
+}
+
 // Khởi tạo ứng dụng
 document.addEventListener("DOMContentLoaded", async () => {
     try {
@@ -86,6 +109,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             loadComponent("player-placeholder", "./components/player.html")
         ]);
 
+        attachContentPageListeners();
         loadPage('index');
 
     } catch (error) {
