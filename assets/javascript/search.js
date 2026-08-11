@@ -105,32 +105,37 @@ async function renderResults(query) {
 
 // Debounce: chờ người dùng ngừng gõ ~400ms mới gọi API, tránh gọi liên tục
 let debounceTimer;
-searchInput.addEventListener('input', (e) => {
-    clearTimeout(debounceTimer);
-    const value = e.target.value;
-    debounceTimer = setTimeout(() => renderResults(value), 400);
-});
+// Kiểm tra an toàn: Chỉ chạy khi các phần tử search thực sự tồn tại trên DOM
+if (searchInput) {
+    searchInput.addEventListener('input', (e) => {
+        clearTimeout(debounceTimer);
+        const value = e.target.value;
+        debounceTimer = setTimeout(() => renderResults(value), 400);
+    });
+}
 
-searchResults.addEventListener('click', (e) => {
-    const btn = e.target.closest('.playlist__result-add-btn');
-    if (!btn) return;
+if (searchResults) {
+    searchResults.addEventListener('click', (e) => {
+        const btn = e.target.closest('.playlist__result-add-btn');
+        if (!btn) return;
 
-    const title = btn.dataset.title;
+        const title = btn.dataset.title;
 
-    if (isInPlaylist(title)) {
-        removeFromPlaylist(title);
-    } else {
-        addToPlaylist({
-            title: btn.dataset.title,
-            artist: btn.dataset.artist,
-            album: btn.dataset.album,
-            duration: btn.dataset.duration
-        });
-    }
+        if (isInPlaylist(title)) {
+            removeFromPlaylist(title);
+        } else {
+            addToPlaylist({
+                title: btn.dataset.title,
+                artist: btn.dataset.artist,
+                album: btn.dataset.album,
+                duration: btn.dataset.duration
+            });
+        }
 
-    renderResults(searchInput.value);
-    renderPlaylist();
-});
+        if (searchInput) renderResults(searchInput.value);
+        renderPlaylist();
+    });
+}
 
 // ====== Render bảng playlist đã lưu ======
 function renderPlaylist() {
