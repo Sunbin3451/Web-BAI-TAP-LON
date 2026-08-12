@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng Nhập - Bài Tập Lớn</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+    <link rel="stylesheet" href="./assets/css/login.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="login__bg min-h-screen flex items-center justify-center relative overflow-hidden p-4">
+
+    <div
+        class="login__card relative z-10 w-full max-w-sm bg-neutral-900/70 backdrop-blur-xl border border-white/10 rounded-3xl p-8 shadow-2xl">
+
+        <div class="login__header flex items-center justify-center gap-2 mb-8">
+            <i class="fa-solid fa-music login__title-glow text-xl"></i>
+            <h1 class="login__title-glow text-xl font-extrabold tracking-wide">CHẾ ĐỘ TỐI</h1>
+        </div>
+
+        <form id="loginForm" class="login__form flex flex-col gap-4">
+
+            <div class="login__field relative">
+                <input type="text" id="loginUsername" required
+                    class="login__input w-full bg-white/5 border border-white/10 rounded-full px-5 py-3 text-sm text-white placeholder-neutral-400 transition"
+                    placeholder="Tên đăng nhập hoặc Email">
+            </div>
+
+            <div class="login__field relative">
+                <input type="password" id="loginPassword" required minlength="6"
+                    class="login__input w-full bg-white/5 border border-white/10 rounded-full px-5 py-3 text-sm text-white placeholder-neutral-400 transition"
+                    placeholder="Mật khẩu">
+            </div>
+
+            <p id="loginError" class="login__error text-red-400 text-xs text-center hidden"></p>
+
+            <button type="submit"
+                class="login__submit-btn w-full text-white font-bold rounded-full py-3 mt-2 text-sm tracking-wide transition">
+                Đăng Nhập
+            </button>
+
+            <p class="text-center text-xs text-neutral-400 mt-1">
+                Chưa có tài khoản?
+                <a href="register.html" class="text-pink-400 hover:underline">Đăng ký</a>
+            </p>
+        </form>
+    </div>
+
+    <div class="login__wave absolute bottom-6 left-1/2 -translate-x-1/2">
+        <span style="animation-delay: 0s"></span>
+        <span style="animation-delay: 0.1s"></span>
+        <span style="animation-delay: 0.2s"></span>
+        <span style="animation-delay: 0.3s"></span>
+        <span style="animation-delay: 0.4s"></span>
+        <span style="animation-delay: 0.5s"></span>
+        <span style="animation-delay: 0.6s"></span>
+        <span style="animation-delay: 0.7s"></span>
+    </div>
+
+    <script src="./assets/javascript/login.js"></script>
+</body>
+
+</html>
