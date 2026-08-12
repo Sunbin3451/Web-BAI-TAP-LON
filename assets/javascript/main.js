@@ -61,6 +61,9 @@ async function loadPage(page) {
 
         setActiveMenu(menuPage);
 
+        // Báo cho các module khác (search.js,...) biết trang nào vừa được load xong
+        document.dispatchEvent(new CustomEvent('spa:pageLoaded', { detail: { page: normalizedPage } }));
+
     } catch (error) {
         console.error('Lỗi tải nội dung:', error);
         document.getElementById('app-content').innerHTML = '<p>Lỗi tải trang. Vui lòng thử lại.</p>';

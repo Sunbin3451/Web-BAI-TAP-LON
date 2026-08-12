@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng Ký - Bài Tập Lớn</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+    <link rel="stylesheet" href="./assets/css/login.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="register__bg min-h-screen flex items-center justify-center relative overflow-hidden p-4">
+
+    <div
+        class="register__card relative z-10 w-full max-w-sm bg-neutral-900/70 backdrop-blur-xl border border-white/10 rounded-3xl p-8 shadow-2xl">
+
+        <div class="register__header flex items-center justify-center gap-2 mb-8">
+            <i class="fa-solid fa-music register__title-glow text-xl"></i>
+            <h1 class="register__title-glow text-xl font-extrabold tracking-wide">CHẾ ĐỘ TỐI</h1>
+        </div>
+
+        <form id="registerForm" class="register__form flex flex-col gap-4">
+
+            <div class="register__field relative">
+                <input type="text" id="regUsername" required
+                    class="register__input w-full bg-white/5 border border-white/10 rounded-full px-5 py-3 text-sm text-white placeholder-neutral-400 transition"
+                    placeholder="Tên đăng nhập (Username)">
+                <i id="regUsernameCheck"
+                    class="fa-solid fa-circle-check absolute right-4 top-1/2 -translate-y-1/2 text-neutral-600 text-sm"></i>
+            </div>
+
+            <div class="register__field relative">
+                <input type="email" id="regEmail" required
+                    class="register__input w-full bg-white/5 border border-white/10 rounded-full px-5 py-3 text-sm text-white placeholder-neutral-400 transition"
+                    placeholder="Email cá nhân">
+                <i id="regEmailCheck"
+                    class="fa-solid fa-circle-check absolute right-4 top-1/2 -translate-y-1/2 text-neutral-600 text-sm"></i>
+            </div>
+
+            <div class="register__field relative">
+                <input type="password" id="regPassword" required minlength="6"
+                    class="register__input w-full bg-white/5 border border-white/10 rounded-full px-5 py-3 text-sm text-white placeholder-neutral-400 transition"
+                    placeholder="Thiết lập mật khẩu">
+                <i id="regPasswordCheck"
+                    class="fa-solid fa-circle-check absolute right-4 top-1/2 -translate-y-1/2 text-neutral-600 text-sm"></i>
+            </div>
+
+            <div class="register__field relative">
+                <input type="password" id="regConfirmPassword" required minlength="6"
+                    class="register__input w-full bg-white/5 border border-white/10 rounded-full px-5 py-3 text-sm text-white placeholder-neutral-400 transition"
+                    placeholder="Nhập lại mật khẩu">
+                <i id="regConfirmCheck"
+                    class="fa-solid fa-circle-check absolute right-4 top-1/2 -translate-y-1/2 text-neutral-600 text-sm"></i>
+            </div>
+
+            <p id="registerError" class="register__error text-red-400 text-xs text-center hidden"></p>
+
+            <button type="submit"
+                class="register__submit-btn w-full text-white font-bold rounded-full py-3 mt-2 text-sm tracking-wide transition">
+                Đăng Ký
+            </button>
+
+            <p class="text-center text-xs text-neutral-400 mt-1">
+                Đã có tài khoản?
+                <a href="login.html" class="text-pink-400 hover:underline">Đăng nhập</a>
+            </p>
+        </form>
+    </div>
+
+    <div class="register__wave absolute bottom-6 left-1/2 -translate-x-1/2">
+        <span style="animation-delay: 0s"></span>
+        <span style="animation-delay: 0.1s"></span>
+        <span style="animation-delay: 0.2s"></span>
+        <span style="animation-delay: 0.3s"></span>
+        <span style="animation-delay: 0.4s"></span>
+        <span style="animation-delay: 0.5s"></span>
+        <span style="animation-delay: 0.6s"></span>
+        <span style="animation-delay: 0.7s"></span>
+    </div>
+
+    <script src="./assets/javascript/register.js"></script>
+</body>
+
+</html>
