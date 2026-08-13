@@ -372,3 +372,15 @@ body {
 #player-placeholder {
   height: 90px;
 }
+.header__login-btn {
+    background: #34075e;
+    color: #fff;
+    font-weight: 600;
+    font-size: 14px;
+    padding: 8px 20px;
+    border-radius: 9999px;
+    text-decoration: none;
+}
+.hidden {
+    display: none;
+}

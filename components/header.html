@@ -9,9 +9,19 @@
     </div>
 
     <div class="header-right">
-        <div class="profile-container">
-            <div class="profile-avatar">L</div>
-            <div class="status-indicator"></div>
+        <a href="login.html" id="headerLoginBtn" class="header__login-btn hidden">Đăng Nhập</a>
+
+        <div class="profile-container" id="headerProfile" style="position: relative;">
+            <div class="profile-avatar" id="headerAvatarBtn" style="cursor: pointer;">L</div>
+            <div id="headerLogoutMenu" class="hidden"
+                style="position: absolute; right: 0; top: 100%; margin-top: 8px; background: #282828; border: 1px solid #3e3e3e; border-radius: 8px; min-width: 160px; z-index: 50; overflow: hidden;">
+                <button id="headerLogoutBtn"
+                    style="width: 100%; text-align: left; padding: 10px 16px; background: none; border: none; color: #f87171; cursor: pointer; font-size: 14px;">
+                    Đăng xuất
+                </button>
+            </div>
         </div>
+        <div class="status-indicator"></div>
+    </div>
     </div>
     </div>
