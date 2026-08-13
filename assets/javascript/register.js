@@ -57,7 +57,12 @@ document.addEventListener('DOMContentLoaded', () => {
         // TODO: Gọi API đăng ký thật ở đây khi có endpoint
         // Ví dụ: await fetch(`${BASE_URL}/api/v1/auth/register`, { method: 'POST', body: JSON.stringify({ username, email, password }) })
 
-        localStorage.setItem('currentUser', JSON.stringify({ username, email }));
+        const normalizedUsername = username.normalize('NFC');
+        const normalizedEmail = email.normalize('NFC');
+        const userData = { username: normalizedUsername, email: normalizedEmail };
+
+        localStorage.setItem('registeredUser', JSON.stringify(userData)); // Lưu tài khoản, không mất khi đăng xuất
+        localStorage.setItem('currentUser', JSON.stringify(userData));    // Đánh dấu đang đăng nhập
 
         alert(`Đăng ký thành công! Chào mừng ${username}.`);
         window.location.href = 'index.html';

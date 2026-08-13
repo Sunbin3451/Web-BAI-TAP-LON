@@ -14,19 +14,20 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        // TODO: Gọi API đăng nhập thật ở đây khi có endpoint
-        // Ví dụ: await fetch(`${BASE_URL}/api/v1/auth/login`, { method: 'POST', body: JSON.stringify({ usernameOrEmail, password }) })
-
         let registeredUser = null;
         try {
-            registeredUser = JSON.parse(localStorage.getItem('currentUser'));
+            registeredUser = JSON.parse(localStorage.getItem('registeredUser'));
         } catch (err) {
             registeredUser = null;
         }
 
+        function normalizeText(str) {
+            return (str || '').normalize('NFC').trim().toLowerCase();
+        }
+
         const matched = registeredUser && (
-            registeredUser.username === usernameOrEmail ||
-            registeredUser.email === usernameOrEmail
+            normalizeText(registeredUser.username) === normalizeText(usernameOrEmail) ||
+            normalizeText(registeredUser.email) === normalizeText(usernameOrEmail)
         );
 
         if (!matched) {
@@ -34,6 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
+        localStorage.setItem('currentUser', JSON.stringify(registeredUser));
         alert(`Đăng nhập thành công! Chào mừng trở lại, ${registeredUser.username}.`);
         window.location.href = 'index.html';
     });
