@@ -21,7 +21,7 @@ async function apiFetch(endpoint) {
 }
 
 export async function getMusicByQuery(query) {
-    return await apiFetch(`/api/v1/music/search?q=${encodeURIComponent(query)}&type=track&limit=10`);
+    return await apiFetch(`/api/v1/music/search?q=${encodeURIComponent(query)}&type=track&limit=30`);
 }
 
 export async function getTrendingMusic() {
