@@ -1,0 +1,433 @@
+.back-link {
+    color: #9ca3af;
+    font-size: 0.875rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: color 0.2s ease;
+}
+.back-link:hover {
+    color: #a39aff;
+}
+.album-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+    background-color: rgba(255, 255, 255, 0.05);
+    padding: 1.5rem;
+    border-radius: 1rem;
+    margin-bottom: 2rem;
+}
+.album-cover-img {
+    width: 10rem;
+    height: 10rem;
+    object-fit: cover;
+    border-radius: 0.75rem;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+}
+.album-info {
+    flex: 1;
+    text-align: center;
+}
+.album-badge {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #f3f4f6;
+}
+.album-title {
+    font-size: 1.875rem;
+    font-weight: 800;
+    margin-top: 0.25rem;
+    margin-bottom: 0.5rem;
+    color: #ffffff;
+}
+.album-meta {
+    font-size: 0.875rem;
+    color: #d1d5db;
+}
+.highlight-text {
+    color: #a39aff;
+    font-weight: 600;
+}
+.btn-play-all {
+    margin-top: 1rem;
+    background-color: #a39aff;
+    color: #000000;
+    padding: 0.5rem 1.5rem;
+    border-radius: 9999px;
+    font-weight: 700;
+    font-size: 0.875rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-left: auto;
+    margin-right: auto;
+    transition: transform 0.2s ease;
+}
+.btn-play-all:hover {
+    transform: scale(1.05);
+}
+.table-container {
+    overflow-x: auto;
+    padding-bottom: 6rem;
+}
+.song-table {
+    width: 100%;
+    text-align: left;
+    border-collapse: collapse;
+}
+.song-table-header {
+    border-bottom: 1px solid #1f2937;
+    color: #9ca3af;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+.th-num {
+    padding: 0.75rem 0 0.75rem 1rem;
+    width: 3rem;
+    text-align: center;
+}
+.th-title {
+    padding: 0.75rem 0 0.75rem 1rem;
+}
+.th-time {
+    padding: 0.75rem 1rem 0.75rem 0;
+    text-align: right;
+    width: 5rem;
+}
+.song-table-body {
+    font-size: 0.875rem;
+}
+.song-table-body tr {
+    border-bottom: 1px solid rgba(17, 24, 39, 0.5);
+}
+@media (min-width: 640px) {
+    .album-header {
+        flex-direction: row;
+        align-items: flex-end;
+    }
+    .album-info {
+        text-align: left;
+    }
+    .btn-play-all {
+        margin-left: 0;
+        margin-right: 0;
+    }
+}
+
+/* LAYOUT CHO ALBUM */
+
+.album-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 1.5rem;
+    overflow-y: auto;
+}
+.album-section-header {
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid #1f2937; 
+    padding-bottom: 0.5rem;
+}
+.album-section-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #f3f4f6;
+}
+.artist-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.25rem;
+    margin-bottom: 10rem;
+}
+.artist-card {
+    background-color: rgba(255, 255, 255, 0.05);
+    padding: 1rem;
+    border-radius: 0.75rem;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+.artist-card:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    transform: translateY(-0.25rem);
+    
+}
+.artist-card-img {
+    width: 100%;
+    height: 11rem;
+    object-fit: cover;
+    border-radius: 0.5rem;
+    margin-bottom: 0.75rem;
+}
+.artist-card-name {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #f3f4f6;
+    letter-spacing: 0.025em;
+}
+.artist-card-name a {
+    color: #f3f4f6;
+    text-decoration: none;
+}
+.artist-card-name a:hover,
+.artist-card:hover .artist-card-name a {
+    color: #a39aff;
+}
+/* Responsive số cột theo kích thước màn hình */
+@media (min-width: 640px) { /* Tablet nhỏ */
+    .artist-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+@media (min-width: 768px) { /* Tablet vừa */
+    .artist-grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+}
+
+@media (min-width: 1024px) { /* Laptop / Desktop */
+    .artist-grid {
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+    }
+}
+/* ==========================================
+   STYLE DÀNH RIÊNG CHO TRANG DANH SÁCH ALBUM
+   ========================================== */
+
+/* Khung chứa tổng quan trang Album */
+.album-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 1.5rem;
+    overflow-y: auto;
+}
+
+/* Thanh tiêu đề mục ALBUM */
+.album-section-header {
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid #1f2937; /* tương đương border-gray-800 */
+    padding-bottom: 0.5rem;
+}
+
+.album-section-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #f3f4f6;
+}
+
+/* Lưới nghệ sĩ (Mobile mặc định 2 cột) */
+.artist-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.25rem;
+    margin-bottom: 10rem;
+}
+
+/* Responsive số cột theo kích thước màn hình */
+@media (min-width: 640px) { /* Tablet nhỏ */
+    .artist-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+@media (min-width: 768px) { /* Tablet vừa */
+    .artist-grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+}
+
+@media (min-width: 1024px) { /* Laptop / Desktop */
+    .artist-grid {
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+    }
+}
+
+/* ==========================================
+   CLASS RÚT GỌN CHO THẺ NGHỆ SĨ (TRONG JAVASCRIPT)
+   ========================================== */
+.artist-card {
+    background-color: rgba(255, 255, 255, 0.05);
+    padding: 1rem;
+    border-radius: 0.75rem;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.artist-card:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    transform: translateY(-0.25rem);
+}
+
+.artist-card-img {
+    width: 100%;
+    height: 11rem;
+    object-fit: cover;
+    border-radius: 0.5rem;
+    margin-bottom: 0.75rem;
+}
+
+.artist-card-name {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #f3f4f6;
+    letter-spacing: 0.025em;
+}
+
+.artist-card-name a:hover {
+    color: #39C;
+}
+/* ==========================================
+   STYLE DÀNH RIÊNG CHO TRANG ALBUM DETAIL
+   ========================================== */
+
+/* Nút quay lại */
+.back-link {
+    color: #9ca3af;
+    font-size: 0.875rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: color 0.2s ease;
+}
+.back-link:hover {
+    color: #a39aff;
+}
+
+/* Khung thông tin Album */
+.album-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+    background-color: rgba(255, 255, 255, 0.05);
+    padding: 1.5rem;
+    border-radius: 1rem;
+    margin-bottom: 2rem;
+}
+
+/* Ảnh bìa Album */
+.album-cover-img {
+    width: 10rem;
+    height: 10rem;
+    object-fit: cover;
+    border-radius: 0.75rem;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+}
+
+/* Nội dung thông tin */
+.album-info {
+    flex: 1;
+    text-align: center;
+}
+
+.album-badge {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #f3f4f6;
+}
+
+.album-title {
+    font-size: 1.875rem;
+    font-weight: 800;
+    margin-top: 0.25rem;
+    margin-bottom: 0.5rem;
+    color: #ffffff;
+}
+
+.album-meta {
+    font-size: 0.875rem;
+    color: #d1d5db;
+}
+
+.highlight-text {
+    color: #a39aff;
+    font-weight: 600;
+}
+
+/* Nút Phát tất cả */
+.btn-play-all {
+    margin-top: 1rem;
+    background-color: #a39aff;
+    color: #000000;
+    padding: 0.5rem 1.5rem;
+    border-radius: 9999px;
+    font-weight: 700;
+    font-size: 0.875rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-left: auto;
+    margin-right: auto;
+    transition: transform 0.2s ease;
+}
+
+.btn-play-all:hover {
+    transform: scale(1.05);
+}
+
+/* Bảng danh sách bài hát */
+.table-container {
+    overflow-x: auto;
+    padding-bottom: 6rem;
+}
+
+.song-table {
+    width: 100%;
+    text-align: left;
+    border-collapse: collapse;
+}
+
+.song-table-header {
+    border-bottom: 1px solid #1f2937;
+    color: #9ca3af;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.th-num {
+    padding: 0.75rem 0 0.75rem 1rem;
+    width: 3rem;
+    text-align: center;
+}
+
+.th-title {
+    padding: 0.75rem 0 0.75rem 1rem;
+}
+
+.th-time {
+    padding: 0.75rem 1rem 0.75rem 0;
+    text-align: right;
+    width: 5rem;
+}
+
+.song-table-body {
+    font-size: 0.875rem;
+}
+
+.song-table-body tr {
+    border-bottom: 1px solid rgba(17, 24, 39, 0.5);
+}
+
+/* Responsive trên màn hình từ Tablet / Desktop trở lên */
+@media (min-width: 640px) {
+    .album-header {
+        flex-direction: row;
+        align-items: flex-end;
+    }
+    .album-info {
+        text-align: left;
+    }
+    .btn-play-all {
+        margin-left: 0;
+        margin-right: 0;
+    }
+}
