@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
         confirm: { input: document.getElementById('regConfirmPassword'), check: document.getElementById('regConfirmCheck') },
     };
 
-    // 1. CÁC HÀM REGEX VALIDATION
+    // CÁC HÀM REGEX VALIDATION
     function isValidUsername(username) {
         const usernameRegex = /^[a-zA-Z0-9_]{3,20}$/;
         return usernameRegex.test(username);

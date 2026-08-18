@@ -174,7 +174,7 @@ function initHeaderEvents() {
 
 //  Khởi chạy khi DOM sẵn sàng
 if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", function() {
+    document.addEventListener("DOMContentLoaded", function () {
         loadHeaderComponent();
         checkAuthStateAndRender();
         startAuthStateWatcher();

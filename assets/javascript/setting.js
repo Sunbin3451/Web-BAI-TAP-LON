@@ -77,7 +77,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (editBtn && modal) {
     editBtn.addEventListener("click", () => {
-      updateHeaderUI(); 
+      updateHeaderUI();
       modal.style.display = "flex";
     });
 
@@ -87,10 +87,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (closeBtn) closeBtn.addEventListener("click", closeModal);
     if (cancelBtn) cancelBtn.addEventListener("click", closeModal);
-
-    modal.addEventListener("click", (e) => {
-      if (e.target === modal) closeModal();
-    });
 
     if (form) {
       form.addEventListener("submit", (e) => {
@@ -102,11 +98,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
         try {
           registeredUserObj = JSON.parse(localStorage.getItem('registeredUser')) || {};
-        } catch(e) {}
+        } catch (e) { }
 
         try {
           currentUserObj = JSON.parse(localStorage.getItem('currentUser')) || {};
-        } catch(e) {}
+        } catch (e) { }
 
         // Lấy dữ liệu CŨ trước khi lưu
         const oldName = currentUserObj.fullName || registeredUserObj.fullName || "";
@@ -222,12 +218,6 @@ document.addEventListener('DOMContentLoaded', () => {
   if (closePwdBtn) closePwdBtn.addEventListener('click', closePasswordModal);
   if (cancelPwdBtn) cancelPwdBtn.addEventListener('click', closePasswordModal);
 
-  window.addEventListener('click', (e) => {
-    if (e.target === pwdModal) {
-      closePasswordModal();
-    }
-  });
-
   if (pwdForm) {
     pwdForm.addEventListener('submit', (e) => {
       e.preventDefault();
@@ -241,11 +231,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
       try {
         registeredUserObj = JSON.parse(localStorage.getItem('registeredUser')) || {};
-      } catch(e) {}
+      } catch (e) { }
 
       try {
         currentUserObj = JSON.parse(localStorage.getItem('currentUser')) || {};
-      } catch(e) {}
+      } catch (e) { }
 
       const realPassword = currentUserObj.password || registeredUserObj.password || "123456";
 

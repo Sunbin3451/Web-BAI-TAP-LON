@@ -1,10 +1,3 @@
-:root {
-    --accent-primary: #a39aff;
-    --accent-solid: #584cff;
-    --accent-hover: #6c61ff;
-    --accent-glow: rgba(88, 76, 255, 0.25);
-}
-
 html {
     height: 100%;
     overflow-y: auto;
@@ -20,6 +13,7 @@ body {
     box-sizing: border-box;
     overflow-y: auto;
     overflow-x: hidden;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 .account-container {
@@ -34,13 +28,13 @@ body {
 }
 
 .card {
-    background-color: #121016; 
+    background-color: #121016;
     border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: 16px;
     padding: 24px;
     box-sizing: border-box;
     width: 100%;
-    backdrop-filter: none; 
+    backdrop-filter: none;
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
 }
 
@@ -266,7 +260,7 @@ body {
     width: 100%;
     max-width: 450px;
     padding: 24px;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
     color: #fff;
     box-sizing: border-box;
     max-height: 90vh;
@@ -294,13 +288,23 @@ body {
     cursor: pointer;
 }
 
-.close-btn:hover { color: #fff; }
+.close-btn:hover {
+    color: #fff;
+}
 
-.form-group { margin-bottom: 16px; }
+.form-group {
+    margin-bottom: 16px;
+}
 
-.form-group label { display: block; font-size: 13px; color: #aaa; margin-bottom: 6px; }
+.form-group label {
+    display: block;
+    font-size: 13px;
+    color: #aaa;
+    margin-bottom: 6px;
+}
 
-.form-group input, .form-group select {
+.form-group input,
+.form-group select {
     width: 100%;
     padding: 10px 14px;
     background: #242424;
@@ -313,45 +317,47 @@ body {
     transition: border-color 0.2s ease;
 }
 
-.form-group input:focus, .form-group select:focus {
+.form-group input:focus,
+.form-group select:focus {
     border-color: var(--accent-solid);
 }
 
-.modal-actions { 
-    display: flex; 
-    justify-content: flex-end; 
-    gap: 12px; 
-    margin-top: 24px; 
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 24px;
 }
 
-.btn-cancel, .btn-save {
-    padding: 10px 20px; 
-    border-radius: 6px; 
-    font-weight: 600; 
-    font-size: 14px; 
-    cursor: pointer; 
+.btn-cancel,
+.btn-save {
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
 }
 
-.btn-cancel { 
-    background: transparent; 
-    border: 1px solid #555; 
-    color: #fff; 
+.btn-cancel {
+    background: transparent;
+    border: 1px solid #555;
+    color: #fff;
 }
 
-.btn-cancel:hover { 
-    background: #2a2a2a; 
+.btn-cancel:hover {
+    background: #2a2a2a;
 }
 
-.btn-save { 
-    background: var(--accent-solid); 
-    border: none; 
-    color: #ffffff; 
+.btn-save {
+    background: var(--accent-solid);
+    border: none;
+    color: #ffffff;
     font-weight: 700;
     transition: background-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-.btn-save:hover { 
-    background: var(--accent-hover); 
+.btn-save:hover {
+    background: var(--accent-hover);
     box-shadow: 0 0 12px var(--accent-glow);
 }
 
