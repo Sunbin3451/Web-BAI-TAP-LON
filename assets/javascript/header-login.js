@@ -1,32 +1,23 @@
-//  Hàm nạp component Header
-async function loadHeaderComponent() {
-    const headerContainer = document.getElementById("header-container") || document.getElementById("header-placeholder");
-    if (!headerContainer || headerContainer.dataset.loaded === "true") return;
+const BASE_URL = 'https://myt-lh.konnn04.dev';
 
-    try {
-        const response = await fetch("components/header.html");
-        if (!response.ok) throw new Error("Không thể tải header component");
-
-        const htmlContent = await response.text();
-        headerContainer.innerHTML = htmlContent;
-        headerContainer.dataset.loaded = "true";
-
-        checkAuthStateAndRender();
-        initHeaderEvents();
-        startAuthStateWatcher();
-    } catch (error) {
-        console.error("Lỗi khi load header:", error);
+// Hàm khởi tạo sau khi Header đã được nạp vào DOM
+function initHeader() {
+    if (typeof lucide !== "undefined") {
+        lucide.createIcons();
     }
+    checkAuthStateAndRender();
+    initHeaderEvents();
 }
 
-//  Hàm kiểm tra Đăng nhập & Render thông tin User
-function checkAuthStateAndRender() {
+// Hàm kiểm tra Đăng nhập & Render thông tin User
+async function checkAuthStateAndRender() {
     const loginBtn = document.getElementById('headerLoginBtn');
-    const profileBox = document.getElementById('headerProfile');
+    const profileBox = document.getElementById('headerProfile') || document.getElementById('headerUserMenu');
 
-    const userDataStr = localStorage.getItem("currentUser") || localStorage.getItem("user");
+    const token = localStorage.getItem("accessToken");
     let user = null;
 
+    const userDataStr = localStorage.getItem("currentUser") || localStorage.getItem("user");
     if (userDataStr) {
         try {
             user = JSON.parse(userDataStr);
@@ -35,50 +26,59 @@ function checkAuthStateAndRender() {
         }
     }
 
-    const hasUser = user && (user.username || user.fullName || user.name || user.email);
+    if (token) {
+        try {
+            const response = await fetch(`${BASE_URL}/api/v1/auth/me`, {
+                method: "GET",
+                headers: {
+                    "Authorization": `Bearer ${token}`,
+                    "Content-Type": "application/json"
+                }
+            });
 
-    //  Ẩn / Hiện Nút Đăng nhập & Khung Profile trên Header
-    if (loginBtn && profileBox) {
-        if (hasUser) {
-            loginBtn.classList.add('hidden');
-            profileBox.classList.remove('hidden');
-        } else {
-            loginBtn.classList.remove('hidden');
-            profileBox.classList.add('hidden');
+            const result = await response.json();
+            if (response.ok && result.success !== false) {
+                user = result.data || result;
+                localStorage.setItem("currentUser", JSON.stringify(user));
+            } else if (response.status === 401) {
+                localStorage.removeItem("accessToken");
+                localStorage.removeItem("currentUser");
+                localStorage.removeItem("user");
+                user = null;
+            }
+        } catch (error) {
+            console.error("Lỗi gọi API /api/v1/auth/me:", error);
         }
     }
 
-    //  Render Tên, Email, Avatar vào UI (Bao gồm cả Header & Trang Setting)
+    const hasUser = !!token && !!user;
+
+    if (loginBtn) loginBtn.classList.toggle('hidden', hasUser);
+    if (profileBox) profileBox.classList.toggle('hidden', !hasUser);
+
     if (hasUser) {
         const nameEl = document.getElementById("user-display-name");
         const emailEl = document.getElementById("user-display-email");
         const avatarBtn = document.getElementById("user-avatar-btn") || document.getElementById("headerAvatarBtn");
-        const profileAvatarEl = document.getElementById("user-display-avatar"); // Avatar lớn ở trang Setting
+        const profileAvatarEl = document.getElementById("user-display-avatar");
 
-        const name = user.fullName || user.name || user.username || "Lê Văn A";
+        const name = user.displayName || user.fullName || user.username || user.name || (user.email ? user.email.split('@')[0] : "Người dùng");
         const initialLetter = name.trim().charAt(0).toUpperCase();
 
-        if (nameEl) {
-            nameEl.textContent = name;
-        }
+        if (nameEl) nameEl.textContent = name;
+        if (emailEl) emailEl.textContent = user.email || "";
 
-        if (emailEl) {
-            emailEl.textContent = user.email || "";
-        }
-
-        // Render Avatar nhỏ trên Header
         if (avatarBtn) {
             if (user.avatar) {
-                avatarBtn.innerHTML = `<img src="${user.avatar}" class="w-full h-full rounded-full object-cover" onerror="handleAvatarError(this)">`;
+                avatarBtn.innerHTML = `<img src="${user.avatar}" class="w-full h-full rounded-full object-cover" onerror="this.parentElement.textContent='${initialLetter}'">`;
             } else {
                 avatarBtn.textContent = initialLetter;
             }
         }
 
-        // Render Avatar lớn ở Banner trang Setting.html
         if (profileAvatarEl) {
             if (user.avatar) {
-                profileAvatarEl.innerHTML = `<img src="${user.avatar}" class="w-full h-full rounded-full object-cover" onerror="handleAvatarError(this)">`;
+                profileAvatarEl.innerHTML = `<img src="${user.avatar}" class="w-full h-full rounded-full object-cover" onerror="this.parentElement.textContent='${initialLetter}'">`;
             } else {
                 profileAvatarEl.textContent = initialLetter;
             }
@@ -86,22 +86,16 @@ function checkAuthStateAndRender() {
     }
 }
 
-// Chạy lặp kiểm tra định kỳ 300ms để đồng bộ trạng thái
-function startAuthStateWatcher() {
-    setInterval(checkAuthStateAndRender, 300);
-}
-
-// Hàm gắn toàn bộ sự kiện trong Header
+// Hàm Gắn sự kiện (Dropdown, Logout, Forgot Password)
 function initHeaderEvents() {
     const profileBtn = document.getElementById("user-avatar-btn") || document.getElementById("headerAvatarBtn");
     const dropdownMenu = document.getElementById("user-dropdown-menu") || document.getElementById("headerLogoutMenu");
 
-    // Toggle Menu Dropdown Avatar
     if (profileBtn && dropdownMenu) {
-        profileBtn.addEventListener("click", function (e) {
+        profileBtn.onclick = function (e) {
             e.stopPropagation();
             dropdownMenu.classList.toggle("hidden");
-        });
+        };
 
         document.addEventListener("click", function (e) {
             if (!profileBtn.contains(e.target) && !dropdownMenu.contains(e.target)) {
@@ -110,83 +104,117 @@ function initHeaderEvents() {
         });
     }
 
-    // Nút Cài đặt tài khoản
     const btnOpenSettings = document.getElementById("btn-open-settings");
     if (btnOpenSettings) {
-        btnOpenSettings.addEventListener("click", function () {
+        btnOpenSettings.onclick = function () {
             window.location.href = "setting.html";
-        });
+        };
     }
 
-    //  CHỨC NĂNG 1: ĐĂNG XUẤT
     const btnLogout = document.getElementById("btn-logout") || document.getElementById("headerLogoutBtn");
     if (btnLogout) {
-        btnLogout.addEventListener("click", function () {
+        btnLogout.onclick = function () {
             if (confirm("Bạn có chắc chắn muốn đăng xuất không?")) {
+                localStorage.removeItem("accessToken");
                 localStorage.removeItem("currentUser");
                 localStorage.removeItem("user");
+                localStorage.removeItem("registeredUser");
                 window.location.href = "login.html";
             }
-        });
+        };
     }
 
-    //  CHỨC NĂNG 2: QUÊN MẬT KHẨU (Mở Modal)
+    // CHỨC NĂNG QUÊN MẬT KHẨU
     const btnOpenForgot = document.getElementById("btn-open-forgot");
     const forgotModal = document.getElementById("forgot-modal");
     const btnCloseForgot = document.getElementById("btn-close-forgot");
     const forgotForm = document.getElementById("forgot-password-form");
+    const emailInput = document.getElementById("forgot-email-input");
 
     if (btnOpenForgot && forgotModal) {
-        // Mở modal
-        btnOpenForgot.addEventListener("click", function () {
-            if (dropdownMenu) dropdownMenu.classList.add("hidden"); // Đóng dropdown
-            forgotModal.classList.remove("hidden");
-        });
+        btnOpenForgot.onclick = function () {
+            if (dropdownMenu) dropdownMenu.classList.add("hidden");
 
-        // Đóng modal bằng nút Hủy
+            // Tự động điền sẵn email của user đang đăng nhập nếu có
+            const userDataStr = localStorage.getItem("currentUser") || localStorage.getItem("user");
+            if (userDataStr && emailInput) {
+                try {
+                    const currentUser = JSON.parse(userDataStr);
+                    if (currentUser.email) {
+                        emailInput.value = currentUser.email;
+                    }
+                } catch (e) {
+                    console.error("Lỗi đọc user email:", e);
+                }
+            }
+
+            forgotModal.classList.remove("hidden");
+        };
+
+        // Đóng popup bằng nút Hủy
         if (btnCloseForgot) {
-            btnCloseForgot.addEventListener("click", function () {
+            btnCloseForgot.onclick = function () {
                 forgotModal.classList.add("hidden");
-            });
+            };
         }
 
-        // Đóng modal khi click ra ngoài hộp thoại
-        forgotModal.addEventListener("click", function (e) {
+        // Đóng popup khi click ra ngoài overlay
+        forgotModal.onclick = function (e) {
             if (e.target === forgotModal) {
                 forgotModal.classList.add("hidden");
             }
-        });
+        };
 
-        // Form Gửi Yêu Cầu Quên Mật Khẩu
+        // Xử lý gửi Form
         if (forgotForm) {
-            forgotForm.addEventListener("submit", function (e) {
+            forgotForm.onsubmit = async function (e) {
                 e.preventDefault();
-                const emailInput = document.getElementById("forgot-email-input");
-                const email = emailInput ? emailInput.value : "";
+                const email = emailInput ? emailInput.value.trim() : "";
 
-                alert(`Đã gửi liên kết khôi phục mật khẩu tới email: ${email}`);
-                forgotModal.classList.add("hidden");
-                if (emailInput) emailInput.value = "";
-            });
+                if (!email) {
+                    alert("Vui lòng nhập địa chỉ email!");
+                    return;
+                }
+
+                const submitBtn = forgotForm.querySelector('button[type="submit"]');
+                const originalText = submitBtn ? submitBtn.innerText : "Gửi yêu cầu";
+
+                if (submitBtn) {
+                    submitBtn.disabled = true;
+                    submitBtn.innerText = "Đang gửi liên kết...";
+                }
+
+                try {
+                    const response = await fetch(`${BASE_URL}/api/v1/auth/forgot-password`, {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({
+                            email: email.normalize("NFC")
+                        })
+                    });
+
+                    const resData = await response.json();
+
+                    if (response.ok && resData.success !== false) {
+                        alert(`Đã gửi liên kết khôi phục mật khẩu đến email: ${email}\nVui lòng kiểm tra hộp thư đến (hoặc Spam).`);
+                        forgotModal.classList.add("hidden");
+                        if (emailInput) emailInput.value = "";
+                    } else {
+                        alert(resData.message || "Email không tồn tại trên hệ thống hoặc không hợp lệ.");
+                    }
+                } catch (err) {
+                    console.error("Lỗi API Forgot Password:", err);
+                    alert("Không thể kết nối máy chủ. Vui lòng thử lại sau.");
+                } finally {
+                    if (submitBtn) {
+                        submitBtn.disabled = false;
+                        submitBtn.innerText = originalText;
+                    }
+                }
+            };
         }
     }
 }
 
-//  Khởi chạy khi DOM sẵn sàng
-if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", function () {
-        loadHeaderComponent();
-        checkAuthStateAndRender();
-        startAuthStateWatcher();
-    });
-} else {
-    loadHeaderComponent();
-    checkAuthStateAndRender();
-    startAuthStateWatcher();
-}
-
-// Lỗi Avatar thay thế bằng hình mặc định
-window.handleAvatarError = function (img) {
-    img.onerror = null;
-    img.src = "https://i.pravatar.cc/150?img=11";
-};
+// Lắng nghe thay đổi đăng nhập từ tab khác
+window.addEventListener("storage", checkAuthStateAndRender);

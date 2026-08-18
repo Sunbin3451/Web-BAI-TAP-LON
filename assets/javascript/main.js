@@ -36,6 +36,12 @@ async function loadComponent(elementId, filePath) {
             }
         }
 
+        if (elementId === "header-placeholder" || elementId === "header-container") {
+            if (typeof initHeader === 'function') {
+                initHeader();
+            }
+        }
+
     } catch (error) {
         console.error('Lỗi hệ thống:', error);
     }
