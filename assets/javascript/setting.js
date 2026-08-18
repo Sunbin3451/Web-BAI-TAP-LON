@@ -1,15 +1,15 @@
 document.addEventListener("DOMContentLoaded", () => {
-  // 1. Khởi tạo Icon Lucide
   if (typeof lucide !== "undefined") {
     lucide.createIcons();
   }
 
-  // 2. Hàm cập nhật giao diện Header & Form
+  // Cập nhật giao diện Header & Form
   function updateHeaderUI() {
     const savedData = localStorage.getItem("currentUser") || localStorage.getItem("registeredUser");
     let user = {
-      fullName: "Lê Văn A",
+      fullName: "Nguyễn Văn A",
       email: "user@gmail.com",
+      gender: "Nam",
       avatar: ""
     };
 
@@ -40,16 +40,18 @@ document.addEventListener("DOMContentLoaded", () => {
     // Đổ dữ liệu vào Form Chỉnh Sửa
     const nameInput = document.getElementById("profile-name") || document.querySelector('#edit-profile-modal input[type="text"]');
     const emailInput = document.getElementById("profile-email") || document.querySelector('#edit-profile-modal input[type="email"]');
+    const genderSelect = document.getElementById("profile-gender") || document.querySelector('#edit-profile-modal select');
     const avatarInput = document.getElementById("profile-avatar");
 
     if (nameInput) nameInput.value = user.fullName || user.username || user.name || "";
     if (emailInput) emailInput.value = user.email || "";
+    if (genderSelect) genderSelect.value = user.gender || "Nam";
     if (avatarInput) avatarInput.value = user.avatar || "";
   }
 
   setTimeout(updateHeaderUI, 100);
 
-  // 3. Dropdown Menu Avatar
+  // Dropdown Menu Avatar
   const avatarBtn = document.getElementById("user-avatar-btn");
   const dropdownMenu = document.getElementById("user-dropdown-menu");
 
@@ -66,7 +68,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // 4. XỬ LÝ ĐỔI EMAIL & ĐỒNG BỘ CHO ĐĂNG NHẬP (registeredUser)
+  // Xử lý đổi thông tin người dùng (đồng bộ)
   const editBtn = document.getElementById("edit-profile-btn");
   const modal = document.getElementById("edit-profile-modal");
   const closeBtn = document.getElementById("close-modal-btn");
@@ -106,13 +108,20 @@ document.addEventListener("DOMContentLoaded", () => {
           currentUserObj = JSON.parse(localStorage.getItem('currentUser')) || {};
         } catch(e) {}
 
-        // Lấy dữ liệu mới từ ô Input
+        // Lấy dữ liệu CŨ trước khi lưu
+        const oldName = currentUserObj.fullName || registeredUserObj.fullName || "";
+        const oldEmail = currentUserObj.email || registeredUserObj.email || "";
+        const oldGender = currentUserObj.gender || registeredUserObj.gender || "Nam";
+
+        // Lấy dữ liệu MỚI từ các ô Input / Select
         const nameInput = document.getElementById("profile-name") || document.querySelector('#edit-profile-modal input[type="text"]');
         const emailInput = document.getElementById("profile-email") || document.querySelector('#edit-profile-modal input[type="email"]');
+        const genderSelect = document.getElementById("profile-gender") || document.querySelector('#edit-profile-modal select');
         const avatarInput = document.getElementById("profile-avatar");
 
-        const newName = nameInput ? nameInput.value.trim() : (currentUserObj.fullName || registeredUserObj.fullName || "Người dùng");
-        const newEmail = emailInput ? emailInput.value.trim() : (currentUserObj.email || registeredUserObj.email || "");
+        const newName = nameInput ? nameInput.value.trim() : oldName;
+        const newEmail = emailInput ? emailInput.value.trim() : oldEmail;
+        const newGender = genderSelect ? genderSelect.value : oldGender;
         const newAvatar = avatarInput ? avatarInput.value.trim() : (currentUserObj.avatar || registeredUserObj.avatar || "");
 
         if (!newEmail) {
@@ -120,11 +129,17 @@ document.addEventListener("DOMContentLoaded", () => {
           return;
         }
 
-        // Tạo Object đã cập nhật (Giữ nguyên username, password cũ của tài khoản)
+        // Kiểm tra xem trường nào bị thay đổi
+        const isNameChanged = (newName !== oldName);
+        const isEmailChanged = (newEmail !== oldEmail);
+        const isGenderChanged = (newGender !== oldGender);
+
+        // Tạo Object đã cập nhật
         const updatedRegisteredUser = {
           ...registeredUserObj,
           fullName: newName,
           email: newEmail,
+          gender: newGender,
           avatar: newAvatar
         };
 
@@ -133,25 +148,35 @@ document.addEventListener("DOMContentLoaded", () => {
           ...registeredUserObj,
           fullName: newName,
           email: newEmail,
+          gender: newGender,
           avatar: newAvatar
         };
 
-        // 🌟 QUAN TRỌNG: Lưu trực tiếp vào 'registeredUser' để login.js nhận diện ngay email mới
+        // Lưu dữ liệu vào LocalStorage
         localStorage.setItem("registeredUser", JSON.stringify(updatedRegisteredUser));
-        
-        // Cập nhật phiên đăng nhập hiện tại
         localStorage.setItem("currentUser", JSON.stringify(updatedCurrentUser));
 
         // Cập nhật giao diện lập tức
         updateHeaderUI();
 
-        alert("Đã đổi Email thành công! Bạn có thể dùng email mới này để đăng nhập.");
+        // Tạo thông báo linh hoạt theo các trường vừa đổi
+        const changedFields = [];
+        if (isNameChanged) changedFields.push("Tên hiển thị");
+        if (isEmailChanged) changedFields.push("Email");
+        if (isGenderChanged) changedFields.push("Giới tính");
+
+        if (changedFields.length > 0) {
+          alert(`Đã cập nhật ${changedFields.join(", ")} thành công!`);
+        } else {
+          alert("Bạn chưa thay đổi thông tin nào!");
+        }
+
         closeModal();
       });
     }
   }
 
-  // 5. Modal Quản lý gói đăng ký
+  // Modal Quản lý gói đăng ký
   const btnManageSub = document.getElementById("btn-manage-subscription");
   const subModal = document.getElementById("subscription-modal");
   const btnCloseSub = document.getElementById("close-sub-modal");
@@ -174,9 +199,8 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 });
-// ==========================================
-// XỬ LÝ MODAL ĐỔI MẬT KHẨU
-// ==========================================
+
+// Đổi mật khẩu
 document.addEventListener('DOMContentLoaded', () => {
   const pwdBtn = document.getElementById('change-password-btn');
   const pwdModal = document.getElementById('change-password-modal');
@@ -184,58 +208,81 @@ document.addEventListener('DOMContentLoaded', () => {
   const cancelPwdBtn = document.getElementById('cancel-pwd-btn');
   const pwdForm = document.getElementById('change-password-form');
 
-  // 1. Mở Modal khi bấm nút "Đổi mật khẩu"
   if (pwdBtn && pwdModal) {
     pwdBtn.addEventListener('click', () => {
       pwdModal.style.display = 'flex';
     });
   }
 
-  // 2. Hàm đóng Modal & xóa sạch ô nhập
   const closePasswordModal = () => {
     pwdModal.style.display = 'none';
-    pwdForm.reset(); // Reset form về trống
+    pwdForm.reset();
   };
 
   if (closePwdBtn) closePwdBtn.addEventListener('click', closePasswordModal);
   if (cancelPwdBtn) cancelPwdBtn.addEventListener('click', closePasswordModal);
 
-  // 3. Đóng Modal khi bấm ra vùng xám bên ngoài
   window.addEventListener('click', (e) => {
     if (e.target === pwdModal) {
       closePasswordModal();
     }
   });
 
-  // 4. Xử lý khi bấm nút "Lưu / Đổi mật khẩu"
   if (pwdForm) {
     pwdForm.addEventListener('submit', (e) => {
-      e.preventDefault(); // Chặn load lại trang
+      e.preventDefault();
 
       const oldPwd = document.getElementById('old-password').value;
       const newPwd = document.getElementById('new-password').value;
       const confirmPwd = document.getElementById('confirm-password').value;
 
-      // Check 1: Mật khẩu mới có trùng với xác nhận không
+      let registeredUserObj = {};
+      let currentUserObj = {};
+
+      try {
+        registeredUserObj = JSON.parse(localStorage.getItem('registeredUser')) || {};
+      } catch(e) {}
+
+      try {
+        currentUserObj = JSON.parse(localStorage.getItem('currentUser')) || {};
+      } catch(e) {}
+
+      const realPassword = currentUserObj.password || registeredUserObj.password || "123456";
+
+      if (oldPwd !== realPassword) {
+        alert('Mật khẩu hiện tại không chính xác!');
+        return;
+      }
+
       if (newPwd !== confirmPwd) {
         alert('Mật khẩu mới và xác nhận mật khẩu không trùng khớp!');
         return;
       }
 
-      // Check 2: Độ dài mật khẩu (ít nhất 6 ký tự)
       if (newPwd.length < 6) {
         alert('Mật khẩu mới phải có ít nhất 6 ký tự!');
         return;
       }
 
-      // Check 3: Mật khẩu mới trùng với mật khẩu cũ
       if (oldPwd === newPwd) {
         alert('Mật khẩu mới không được giống mật khẩu hiện tại!');
         return;
       }
 
-      // Thông báo thành công (Ở đây sau này bạn có thể fetch/call API lên Server)
-      alert('Đổi mật khẩu thành công!');
+      const updatedRegisteredUser = {
+        ...registeredUserObj,
+        password: newPwd
+      };
+
+      const updatedCurrentUser = {
+        ...currentUserObj,
+        password: newPwd
+      };
+
+      localStorage.setItem("registeredUser", JSON.stringify(updatedRegisteredUser));
+      localStorage.setItem("currentUser", JSON.stringify(updatedCurrentUser));
+
+      alert('Đổi mật khẩu thành công! Hãy dùng mật khẩu mới cho lần đăng nhập sau.');
       closePasswordModal();
     });
   }

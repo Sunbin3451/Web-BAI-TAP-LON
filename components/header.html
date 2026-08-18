@@ -1,87 +1,87 @@
-<!-- HEADER CHUẨN CÓ ĐẦY ĐỦ MENU VÀ AVATAR (DÙNG MÀU NỀN MẶC ĐỊNH) -->
-<header class="header-container flex items-center justify-between px-6 py-3 bg-[#121212] text-white border-b border-[#282828] relative">
-    <div class="header-left"></div>
+<header class="header-container">
 
-    <!-- Thanh tìm kiếm -->
-    <div class="header-center flex-1 max-w-md mx-4">
-        <div class="search-bar relative flex items-center">
-            <i class="fa-solid fa-magnifying-glass search-icon absolute left-3 text-gray-400"></i>
-            <input 
-                type="text" 
-                placeholder="What do you want to play?" 
-                class="search-input w-full pl-10 pr-4 py-2 bg-[#242424] text-sm text-white rounded-full border border-transparent focus:border-gray-500 focus:outline-none"
+    <div class="header-left"></div>
+    <div class="header-center">
+        <div class="search-bar">
+            <i class="fa-solid fa-magnifying-glass search-icon"></i>
+            <input
+                type="text"
+                placeholder="What do you want to play?"
+                class="search-input"
             >
         </div>
     </div>
 
-    <!-- Góc phải: Đăng nhập & Profile -->
-    <div class="header-right flex items-center gap-4">
-        <!-- Nút Đăng Nhập (Hiện khi CHƯA đăng nhập) -->
-        <a href="login.html" id="headerLoginBtn" class="header__login-btn hidden text-sm font-semibold hover:text-purple-400 transition">
+    <div class="header-right">
+        <a href="login.html" id="headerLoginBtn" class="header-login-btn hidden">
             Đăng Nhập
         </a>
-
-        <!-- Khung Profile (Hiện khi ĐÃ đăng nhập) -->
-        <div class="profile-container relative" id="headerProfile">
-            <div class="relative flex items-center">
-                <!-- 👉 Đã bỏ bg-purple-600, trả lại class profile-avatar màu cũ của bạn -->
-                <button id="user-avatar-btn" class="profile-avatar" style="cursor: pointer;">
+        <div class="profile-container" id="headerProfile">
+            <div class="profile-avatar-wrapper">
+                <button id="user-avatar-btn" class="profile-avatar">
                     L
                 </button>
                 <div class="status-indicator"></div>
             </div>
-
-            <!-- Menu Dropdown Đầy Đủ Cài Đặt -->
-            <div 
-                id="user-dropdown-menu" 
-                class="hidden absolute right-0 mt-2 w-56 bg-[#282828] border border-[#3e3e3e] rounded-xl shadow-2xl py-2 text-sm text-gray-200 z-50"
-            >
-                <div class="px-4 py-2 border-b border-[#3e3e3e]">
-                    <p id="user-display-name" class="font-semibold text-white truncate">Tên Người Dùng</p>
-                    <p id="user-display-email" class="text-xs text-gray-400 truncate">user@gmail.com</p>
+            <div id="user-dropdown-menu" class="dropdown-menu hidden">
+                <div class="dropdown-header">
+                    <p id="user-display-name" class="user-name">
+                        Tên Người Dùng
+                    </p>
+                    <p id="user-display-email" class="user-email">
+                        user@gmail.com
+                    </p>
                 </div>
-
-                <button id="btn-open-settings" type="button" class="w-full text-left px-4 py-2.5 hover:bg-[#3e3e3e] flex items-center gap-3 transition">
-                    <i class="fa-solid fa-gear text-gray-400 w-4"></i> Cài đặt tài khoản
+                <button id="btn-open-settings" type="button" class="dropdown-item">
+                    <i class="fa-solid fa-gear dropdown-icon"></i>
+                    Cài đặt tài khoản
                 </button>
-
-                <button id="btn-open-forgot" type="button" class="w-full text-left px-4 py-2.5 hover:bg-[#3e3e3e] flex items-center gap-3 transition">
-                    <i class="fa-solid fa-key text-gray-400 w-4"></i> Quên mật khẩu
+                <button id="btn-open-forgot" type="button" class="dropdown-item">
+                    <i class="fa-solid fa-key dropdown-icon"></i>
+                    Quên mật khẩu
                 </button>
-
-                <div class="border-t border-[#3e3e3e] my-1"></div>
-
-                <button id="btn-logout" type="button" class="w-full text-left px-4 py-2.5 hover:bg-[#3e3e3e] text-red-400 flex items-center gap-3 transition font-medium">
-                    <i class="fa-solid fa-right-from-bracket w-4"></i> Đăng xuất
+                <div class="dropdown-divider"></div>
+                <button id="btn-logout" type="button" class="dropdown-item logout-btn">
+                    <i class="fa-solid fa-right-from-bracket dropdown-icon"></i>
+                    Đăng xuất
                 </button>
             </div>
         </div>
     </div>
 </header>
 
-<!-- MODAL KHÔI PHỤC MẬT KHẨU -->
-<div id="forgot-modal" class="hidden fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
-    <div class="bg-[#282828] border border-[#3e3e3e] w-full max-w-md rounded-xl p-6 shadow-2xl text-gray-200 relative">
-        <h3 class="text-xl font-bold text-white mb-2">Khôi phục mật khẩu</h3>
-        <p class="text-xs text-gray-400 mb-4">Nhập email của bạn để nhận liên kết đặt lại mật khẩu.</p>
-
-        <form id="forgot-password-form" class="space-y-4">
-            <div>
-                <label class="block text-xs font-medium text-gray-400 mb-1">Email đăng ký</label>
-                <input 
-                    type="email" 
-                    id="forgot-email-input" 
-                    required 
-                    placeholder="example@gmail.com" 
-                    class="w-full px-3 py-2 bg-[#121212] border border-[#3e3e3e] rounded-lg text-white text-sm focus:outline-none focus:border-purple-500"
+<div id="forgot-modal" class="modal-overlay hidden">
+    <div class="modal-card">
+        <h3 class="modal-title">
+            Khôi phục mật khẩu
+        </h3>
+        <p class="modal-subtitle">
+            Nhập email của bạn để nhận liên kết đặt lại mật khẩu.
+        </p>
+        <form id="forgot-password-form" class="modal-form">
+            <div class="form-group">
+                <label class="form-label">
+                    Email đăng ký
+                </label>
+                <input
+                    type="email"
+                    id="forgot-email-input"
+                    required
+                    placeholder="example@gmail.com"
+                    class="form-input"
                 >
-            </div>
 
-            <div class="flex justify-end gap-2 pt-2">
-                <button type="button" id="btn-close-forgot" class="px-4 py-2 text-sm bg-gray-600 hover:bg-gray-500 text-white rounded-lg transition">
+            </div>
+            <div class="form-actions">
+                <button
+                    type="button"
+                    id="btn-close-forgot"
+                    class="btn-secondary">
                     Hủy
                 </button>
-                <button type="submit" class="px-4 py-2 text-sm bg-purple-600 hover:bg-purple-700 text-white font-medium rounded-lg transition">
+                <button
+                    type="submit"
+                    class="btn-primary">
                     Gửi yêu cầu
                 </button>
             </div>
