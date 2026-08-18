@@ -186,8 +186,9 @@ body {
 }
 
 #sidebar-placeholder {
-  width: 240px;
-  min-height: 100vh;
+    width: 200px;
+    min-width: 200px;
+    min-height: 100vh;
 }
 
 /* =============== PLAYER STYLE =============== */
@@ -384,6 +385,9 @@ body {
 .hidden {
     display: none;
 }
+
+
+
 
 
 
