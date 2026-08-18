@@ -30,13 +30,18 @@ async function loadComponent(elementId, filePath) {
             attachSidebarListeners();
         }
 
+        if (elementId === "player-placeholder") {
+            if (typeof initPlayer === 'function') {
+                initPlayer();
+            }
+        }
+
     } catch (error) {
         console.error('Lỗi hệ thống:', error);
     }
 }
 
-// Hàm tải nội dung động vào #app-content
-async function loadPage(page) {
+async function loadPage(page, artistId = null) {
     try {
         const pageKey = (page || '').trim().toLowerCase();
         const normalizedPage = pageKey === 'albumdetail' ? 'album-detail' : pageKey;
@@ -61,12 +66,24 @@ async function loadPage(page) {
 
         setActiveMenu(menuPage);
 
+        // Kích hoạt lại JS tương ứng cho từng trang
+        if (normalizedPage === "album") {
+            if (typeof initAlbum === 'function') initAlbum();
+        }
+
+        // Trang Album Detail - đã nhận artistId an toàn
+        if (normalizedPage === "album-detail") {
+            if (typeof initAlbumDetail === 'function') {
+                initAlbumDetail(artistId);
+            }
+        }
+
         // Báo cho các module khác (search.js,...) biết trang nào vừa được load xong
         document.dispatchEvent(new CustomEvent('spa:pageLoaded', { detail: { page: normalizedPage } }));
 
     } catch (error) {
         console.error('Lỗi tải nội dung:', error);
-        document.getElementById('app-content').innerHTML = '<p>Lỗi tải trang. Vui lòng thử lại.</p>';
+        document.getElementById('app-content').innerHTML = '<p class="text-white p-4">Lỗi tải trang. Vui lòng thử lại.</p>';
     }
 }
 
@@ -84,7 +101,6 @@ function attachSidebarListeners() {
     });
 }
 
-// Hàm lắng nghe click chuyển trang SPA trong vùng nội dung chính
 function attachContentPageListeners() {
     const appContent = document.getElementById('app-content');
 
@@ -97,8 +113,10 @@ function attachContentPageListeners() {
 
         e.preventDefault();
         const page = target.getAttribute('data-page');
+        const artistId = target.getAttribute('data-artist'); // Lấy ID ở đây
+
         if (page) {
-            loadPage(page);
+            loadPage(page, artistId); // Truyền ID sang loadPage
         }
     });
 }
