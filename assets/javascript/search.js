@@ -94,7 +94,7 @@ function initPlaylistPage() {
                     <p class="playlist__result-title text-sm text-white truncate">${s.title}</p>
                     <p class="playlist__result-artist text-xs text-neutral-400 truncate">${s.artist}</p>
                 </div>
-                <p class="playlist__result-album text-sm text-neutral-400 truncate hidden sm:block">${s.album}</p>
+                <p class="playlist__result-album text-sm text-neutral-400 truncate hidden md:block">${s.album}</p>
                 <button
                     class="playlist__result-add-btn search-add-btn ${isInPlaylist(s.id) ? "added" : ""} w-7 h-7 rounded-full border border-neutral-400 text-white flex items-center justify-center flex-shrink-0"
                     data-id="${s.id}" data-title="${s.title}" data-artist="${s.artist}" data-album="${s.album}" data-duration="${s.duration}" data-thumbnail="${s.thumbnail || ''}">
