@@ -1,6 +1,6 @@
-<header class="header-container flex">
-    <div class="header-left"></div>
+<header class="header-container">
 
+    <div class="header-left"></div>
     <div class="header-center">
         <div class="search-bar">
             <i class="fa-solid fa-magnifying-glass search-icon"></i>
@@ -9,19 +9,65 @@
     </div>
 
     <div class="header-right">
-        <a href="login.html" id="headerLoginBtn" class="header__login-btn hidden">Đăng Nhập</a>
-
-        <div class="profile-container" id="headerProfile" style="position: relative;">
-            <div class="profile-avatar" id="headerAvatarBtn" style="cursor: pointer;">L</div>
-            <div id="headerLogoutMenu" class="hidden"
-                style="position: absolute; right: 0; top: 100%; margin-top: 8px; background: #282828; border: 1px solid #3e3e3e; border-radius: 8px; min-width: 160px; z-index: 50; overflow: hidden;">
-                <button id="headerLogoutBtn"
-                    style="width: 100%; text-align: left; padding: 10px 16px; background: none; border: none; color: #f87171; cursor: pointer; font-size: 14px;">
+        <a href="login.html" id="headerLoginBtn" class="header-login-btn hidden">
+            Đăng Nhập
+        </a>
+        <div class="profile-container" id="headerProfile">
+            <div class="profile-avatar-wrapper">
+                <button id="user-avatar-btn" class="profile-avatar"></button>
+                <div class="status-indicator"></div>
+            </div>
+            <div id="user-dropdown-menu" class="dropdown-menu hidden">
+                <div class="dropdown-header">
+                    <p id="user-display-name" class="user-name">
+                        Tên Người Dùng
+                    </p>
+                    <p id="user-display-email" class="user-email">
+                        user@gmail.com
+                    </p>
+                </div>
+                <button id="btn-open-settings" type="button" class="dropdown-item">
+                    <i class="fa-solid fa-gear dropdown-icon"></i>
+                    Cài đặt tài khoản
+                </button>
+                <button id="btn-open-forgot" type="button" class="dropdown-item">
+                    <i class="fa-solid fa-key dropdown-icon"></i>
+                    Quên mật khẩu
+                </button>
+                <div class="dropdown-divider"></div>
+                <button id="btn-logout" type="button" class="dropdown-item logout-btn">
+                    <i class="fa-solid fa-right-from-bracket dropdown-icon"></i>
                     Đăng xuất
                 </button>
             </div>
         </div>
-        <div class="status-indicator"></div>
     </div>
+</header>
+
+<div id="forgot-modal" class="modal-overlay hidden">
+    <div class="modal-card">
+        <h3 class="modal-title">
+            Khôi phục mật khẩu
+        </h3>
+        <p class="modal-subtitle">
+            Nhập email của bạn để nhận liên kết đặt lại mật khẩu.
+        </p>
+        <form id="forgot-password-form" class="modal-form">
+            <div class="form-group">
+                <label class="form-label">
+                    Email đăng ký
+                </label>
+                <input type="email" id="forgot-email-input" required placeholder="example@gmail.com" class="form-input">
+
+            </div>
+            <div class="form-actions">
+                <button type="button" id="btn-close-forgot" class="btn-secondary">
+                    Hủy
+                </button>
+                <button type="submit" class="btn-primary">
+                    Gửi yêu cầu
+                </button>
+            </div>
+        </form>
     </div>
-    </div>
+</div>

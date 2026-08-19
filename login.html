@@ -4,60 +4,93 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Đăng Nhập - Bài Tập Lớn</title>
+    <title>Đăng Nhập</title>
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
-    <link rel="stylesheet" href="./assets/css/login.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="./assets/css/auth.css">
+    <link rel="stylesheet" href="./assets/css/color.css">
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
 <body class="login__bg min-h-screen flex items-center justify-center relative overflow-hidden p-4">
 
     <div
-        class="login__card relative z-10 w-full max-w-sm bg-neutral-900/70 backdrop-blur-xl border border-white/10 rounded-3xl p-8 shadow-2xl">
+        class="login__card relative z-10 w-full bg-neutral-900/70 backdrop-blur-xl border border-white/10 rounded-3xl shadow-2xl">
 
         <div class="login__header flex items-center justify-center gap-2 mb-8">
             <i class="fa-solid fa-music login__title-glow text-xl"></i>
-            <h1 class="login__title-glow text-xl font-extrabold tracking-wide">ĐĂNG NHẬP</h1>
+            <h1 class="login__title-glow text-xl font-extrabold tracking-wide">OU PULSE</h1>
         </div>
 
         <form id="loginForm" class="login__form flex flex-col gap-4">
 
             <div class="login__field relative">
                 <input type="text" id="loginUsername" required
-                    class="login__input w-full bg-white/5 border border-white/10 rounded-full px-5 py-3 text-sm text-white placeholder-neutral-400 transition"
-                    placeholder="Tên đăng nhập hoặc Email">
+                    class="login__input w-full bg-white/5 border border-white/10 rounded-full text-white placeholder-neutral-400 transition"
+                    placeholder="Email đăng nhập">
             </div>
 
             <div class="login__field relative">
                 <input type="password" id="loginPassword" required minlength="6"
-                    class="login__input w-full bg-white/5 border border-white/10 rounded-full px-5 py-3 text-sm text-white placeholder-neutral-400 transition"
+                    class="login__input w-full bg-white/5 border border-white/10 rounded-full text-white placeholder-neutral-400 transition"
                     placeholder="Mật khẩu">
             </div>
 
             <p id="loginError" class="login__error text-red-400 text-xs text-center hidden"></p>
 
             <button type="submit"
-                class="login__submit-btn w-full text-white font-bold rounded-full py-3 mt-2 text-sm tracking-wide transition">
+                class="login__submit-btn w-full text-white font-bold rounded-full mt-2 text-sm tracking-wide transition">
                 Đăng Nhập
             </button>
 
-            <p class="text-center text-xs text-neutral-400 mt-1">
-                Chưa có tài khoản?
-                <a href="register.html" class="text-pink-400 hover:underline">Đăng ký</a>
-            </p>
+            <div class="flex flex-col items-center gap-2 mt-1">
+                <p class="text-xs text-neutral-400">
+                    Chưa có tài khoản?
+                    <a href="./register.html" class="text-pink-400 hover:underline font-medium">Đăng ký</a>
+                </p>
+                <a href="#" id="btn-open-forgot" class="text-xs text-neutral-400 hover:text-white transition">
+                    Quên mật khẩu?
+                </a>
+            </div>
         </form>
     </div>
 
+    <!-- Modal Quên Mật Khẩu -->
+    <div id="forgot-modal" class="modal-overlay hidden">
+        <div class="modal-card">
+            <h3 class="modal-title">Khôi phục mật khẩu</h3>
+            <p class="modal-subtitle">
+                Nhập email của bạn để nhận liên kết đặt lại mật khẩu.
+            </p>
+
+            <form id="forgot-password-form" class="modal-form">
+                <div class="form-group">
+                    <label class="form-label">Email đăng ký</label>
+                    <input type="email" id="forgot-email-input" required placeholder="example@gmail.com"
+                        class="form-input">
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" id="btn-close-forgot" class="btn-secondary">
+                        Hủy
+                    </button>
+                    <button type="submit" class="btn-primary">
+                        Gửi yêu cầu
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <div class="login__wave absolute bottom-6 left-1/2 -translate-x-1/2">
-        <span style="animation-delay: 0s"></span>
-        <span style="animation-delay: 0.1s"></span>
-        <span style="animation-delay: 0.2s"></span>
-        <span style="animation-delay: 0.3s"></span>
-        <span style="animation-delay: 0.4s"></span>
-        <span style="animation-delay: 0.5s"></span>
-        <span style="animation-delay: 0.6s"></span>
-        <span style="animation-delay: 0.7s"></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
     </div>
 
     <script src="./assets/javascript/login.js"></script>

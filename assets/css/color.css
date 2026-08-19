@@ -10,13 +10,31 @@
     /* ACCENT COLORS */
     --accent-primary: #a39aff;
     --accent-solid: #584cff;
-    --accent-hover: #584cff;
+    --accent-hover: #473bcc;
     --accent-glow: rgba(88, 76, 255, 0.25);
 
-    /* TEXT COLORS  */
+    /* TEXT COLORS */
     --text-primary: #f3f4f6;
     --text-secondary: #9ca3af;
+    --text-muted: #6b7280;
+
+    /* STATUS / FEEDBACK COLORS */
+    --color-success: #4ade80;
+
+    /* Green */
+    --color-success-bg: rgba(74, 222, 128, 0.15);
+    --color-danger: #f87171;
+
+    /* Red */
+    --color-danger-bg: rgba(248, 113, 113, 0.15);
+    --color-warning: #facc15;
+
+    /* Yellow */
+    --color-warning-bg: rgba(250, 204, 21, 0.15);
 
     /* BORDERS COLORS */
     --border-color: #27272a;
+    --border-focus: #584cff;
+    --border-danger: #f87171;
+    --border-success: #4ade80;
 }
