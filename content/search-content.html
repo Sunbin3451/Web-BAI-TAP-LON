@@ -1,0 +1,118 @@
+<div class="search__container">
+    <!-- Trạng thái ban đầu (khi chưa nhập từ khóa) -->
+    <div id="search-initial-state" class="search__empty-state">
+        <i class="fa-solid fa-magnifying-glass search__empty-icon"></i>
+        <h3 class="search__empty-title">Tìm kiếm bài hát & nghệ sĩ</h3>
+        <p class="search__empty-subtitle">Nhập từ khóa vào thanh tìm kiếm ở trên để khám phá âm nhạc</p>
+    </div>
+
+    <!-- Trạng thái Skeleton Loading khi đang tìm kiếm -->
+    <div id="search-loading-state" class="search__skeleton-list hidden">
+        <div class="search__skeleton-item">
+            <div class="search__skeleton-left">
+                <div class="search__skeleton-thumb"></div>
+                <div class="search__skeleton-info">
+                    <div class="search__skeleton-text search__skeleton-text--title"></div>
+                    <div class="search__skeleton-text search__skeleton-text--artist"></div>
+                </div>
+            </div>
+            <div class="search__skeleton-right">
+                <div class="search__skeleton-text search__skeleton-text--time"></div>
+            </div>
+        </div>
+        <div class="search__skeleton-item">
+            <div class="search__skeleton-left">
+                <div class="search__skeleton-thumb"></div>
+                <div class="search__skeleton-info">
+                    <div class="search__skeleton-text search__skeleton-text--title"></div>
+                    <div class="search__skeleton-text search__skeleton-text--artist"></div>
+                </div>
+            </div>
+            <div class="search__skeleton-right">
+                <div class="search__skeleton-text search__skeleton-text--time"></div>
+            </div>
+        </div>
+        <div class="search__skeleton-item">
+            <div class="search__skeleton-left">
+                <div class="search__skeleton-thumb"></div>
+                <div class="search__skeleton-info">
+                    <div class="search__skeleton-text search__skeleton-text--title"></div>
+                    <div class="search__skeleton-text search__skeleton-text--artist"></div>
+                </div>
+            </div>
+            <div class="search__skeleton-right">
+                <div class="search__skeleton-text search__skeleton-text--time"></div>
+            </div>
+        </div>
+        <div class="search__skeleton-item">
+            <div class="search__skeleton-left">
+                <div class="search__skeleton-thumb"></div>
+                <div class="search__skeleton-info">
+                    <div class="search__skeleton-text search__skeleton-text--title"></div>
+                    <div class="search__skeleton-text search__skeleton-text--artist"></div>
+                </div>
+            </div>
+            <div class="search__skeleton-right">
+                <div class="search__skeleton-text search__skeleton-text--time"></div>
+            </div>
+        </div>
+        <div class="search__skeleton-item">
+            <div class="search__skeleton-left">
+                <div class="search__skeleton-thumb"></div>
+                <div class="search__skeleton-info">
+                    <div class="search__skeleton-text search__skeleton-text--title"></div>
+                    <div class="search__skeleton-text search__skeleton-text--artist"></div>
+                </div>
+            </div>
+            <div class="search__skeleton-right">
+                <div class="search__skeleton-text search__skeleton-text--time"></div>
+            </div>
+        </div>
+        <div class="search__skeleton-item">
+            <div class="search__skeleton-left">
+                <div class="search__skeleton-thumb"></div>
+                <div class="search__skeleton-info">
+                    <div class="search__skeleton-text search__skeleton-text--title"></div>
+                    <div class="search__skeleton-text search__skeleton-text--artist"></div>
+                </div>
+            </div>
+            <div class="search__skeleton-right">
+                <div class="search__skeleton-text search__skeleton-text--time"></div>
+            </div>
+        </div>
+        <div class="search__skeleton-item">
+            <div class="search__skeleton-left">
+                <div class="search__skeleton-thumb"></div>
+                <div class="search__skeleton-info">
+                    <div class="search__skeleton-text search__skeleton-text--title"></div>
+                    <div class="search__skeleton-text search__skeleton-text--artist"></div>
+                </div>
+            </div>
+            <div class="search__skeleton-right">
+                <div class="search__skeleton-text search__skeleton-text--time"></div>
+            </div>
+        </div>
+        <div class="search__skeleton-item">
+            <div class="search__skeleton-left">
+                <div class="search__skeleton-thumb"></div>
+                <div class="search__skeleton-info">
+                    <div class="search__skeleton-text search__skeleton-text--title"></div>
+                    <div class="search__skeleton-text search__skeleton-text--artist"></div>
+                </div>
+            </div>
+            <div class="search__skeleton-right">
+                <div class="search__skeleton-text search__skeleton-text--time"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Trạng thái không tìm thấy kết quả -->
+    <div id="search-notfound-state" class="search__empty-state hidden">
+        <i class="fa-regular fa-face-frown search__empty-icon"></i>
+        <h3 class="search__empty-title">Không tìm thấy kết quả</h3>
+        <p class="search__empty-subtitle">Thử tìm kiếm với tên bài hát, nghệ sĩ hoặc từ khóa khác</p>
+    </div>
+
+    <!-- Danh sách kết quả bài hát -->
+    <div id="search-results-list" class="search__results-list hidden"></div>
+</div>

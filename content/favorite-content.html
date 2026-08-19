@@ -1,4 +1,34 @@
-<div class="flex-col w-full p-6 text-white">
-    <h2 class="text-3xl font-bold mb-4">Bài Hát Yêu Thích</h2>
-    <p class="text-neutral-400">Các bài hát mà bạn đã thích sẽ hiển thị ở đây</p>
+<div class="favorite__container">
+    <!-- Header Banner của Playlist Yêu thích -->
+    <div class="favorite__header">
+        <div class="favorite__cover">
+            <i class="fa-solid fa-heart favorite__cover-icon"></i>
+        </div>
+        <div class="favorite__info">
+            <span class="favorite__badge">PLAYLIST</span>
+            <h1 class="favorite__title">Bài hát đã thích</h1>
+            <p class="favorite__meta">
+                <span id="fav-user-name" class="favorite__user">Người dùng</span>
+                <span class="favorite__dot">•</span>
+                <span id="fav-count">0 bài hát</span>
+            </p>
+        </div>
+    </div>
+
+    <!-- Thanh công cụ (Nút Play All) -->
+    <div class="favorite__actions">
+        <button type="button" id="btn-play-all-fav" class="favorite__play-btn" title="Phát tất cả">
+            <i class="fa-solid fa-play"></i>
+        </button>
+    </div>
+
+    <!-- Trạng thái chưa có bài hát yêu thích -->
+    <div id="fav-empty-state" class="favorite__empty-state hidden">
+        <i class="fa-regular fa-heart favorite__empty-icon"></i>
+        <h3 class="favorite__empty-title">Chưa có bài hát yêu thích</h3>
+        <p class="favorite__empty-subtitle">Hãy thả tim các bài hát bạn yêu thích khi tìm kiếm hoặc nghe nhạc</p>
+    </div>
+
+    <!-- Danh sách bài hát yêu thích -->
+    <div id="fav-songs-list" class="favorite__songs-list"></div>
 </div>

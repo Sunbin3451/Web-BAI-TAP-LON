@@ -56,7 +56,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 const userData = result.data?.user || result.user || { identifier: usernameOrEmail };
                 localStorage.setItem('currentUser', JSON.stringify(userData));
 
-                alert('Đăng nhập thành công!');
                 window.location.href = 'index.html';
             } else {
                 showError(result.message || 'Tên đăng nhập/email hoặc mật khẩu không chính xác.');
