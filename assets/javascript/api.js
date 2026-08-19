@@ -53,3 +53,8 @@ export async function getHomeDashboard() {
 export async function getPlaylistById(source, id) {
     return await apiFetch(`/api/v1/music/playlists/${source}/${id}`);
 }
+
+// Lấy link audio tốt nhất để phát
+export async function getAudioStreamUrl(videoId) {
+    return await apiFetch(`/api/v1/stream/${videoId}/audio`);
+}

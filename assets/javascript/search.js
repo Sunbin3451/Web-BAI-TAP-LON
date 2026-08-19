@@ -154,15 +154,15 @@ function renderSongItems(songs) {
 function attachSongItemEvents(container, songs) {
     const songItems = container.querySelectorAll('.search__song-item');
 
-    songItems.forEach(item => {
-        const index = item.getAttribute('data-index');
+    songItems.forEach((item, index) => {
         const songData = songs[index];
 
         item.addEventListener('click', (e) => {
             if (e.target.closest('.favorite-btn') || e.target.closest('.search__more-btn')) {
                 return;
             }
-            if (window.playSong && songData) {
+
+            if (typeof window.playSong === 'function' && songData) {
                 window.playSong(songData);
             }
         });
