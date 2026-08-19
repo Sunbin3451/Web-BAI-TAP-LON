@@ -1,7 +1,6 @@
 const LIKED_STORAGE_KEY = 'ou_liked';
 
-// 1. Lấy danh sách yêu thích
-function getLikedSongs() {
+export function getLikedSongs() {
     try {
         const stored = localStorage.getItem(LIKED_STORAGE_KEY);
         return stored ? JSON.parse(stored) : [];
@@ -11,14 +10,12 @@ function getLikedSongs() {
     }
 }
 
-// 2. Kiểm tra bài hát đã thích chưa
-function isSongLiked(songId) {
+export function isSongLiked(songId) {
     const songs = getLikedSongs();
     return songs.some(song => (song.id || song.sourceId || song._id) === songId);
 }
 
-// 3. Toggle Like / Unlike
-function toggleLikeSong(song) {
+export function toggleLikeSong(song) {
     let songs = getLikedSongs();
     const songId = song.id || song.sourceId || song._id;
     const index = songs.findIndex(s => (s.id || s.sourceId || s._id) === songId);
@@ -33,7 +30,7 @@ function toggleLikeSong(song) {
             source: song.source || 'youtube',
             sourceId: song.sourceId || song.id,
             title: song.title || song.name || 'Unknown Title',
-            artist: song.artist || song.singer || 'Unknown Artist',
+            artist: song.artist || song.singer || (Array.isArray(song.artists) ? song.artists.map(a => a.name || a).join(', ') : 'Unknown Artist'),
             thumbnail: song.thumbnail || song.coverUrl || song.image || './assets/images/default.jpg',
             duration: song.duration || 0
         };
@@ -43,24 +40,32 @@ function toggleLikeSong(song) {
     }
 }
 
-// 4. Render danh sách bài hát yêu thích ra màn hình
-function renderFavoritePage() {
+export function renderFavoritePage() {
     const listContainer = document.getElementById('fav-songs-list');
     const emptyState = document.getElementById('fav-empty-state');
     const countEl = document.getElementById('fav-count');
-    const userEl = document.getElementById('fav-user-name');
+    const playAllBtn = document.getElementById('btn-play-all-fav');
 
     if (!listContainer) return;
-
-    try {
-        const user = JSON.parse(localStorage.getItem('currentUser') || '{}');
-        if (userEl && user.name) userEl.textContent = user.name;
-    } catch (_) {}
 
     const songs = getLikedSongs();
 
     if (countEl) {
         countEl.textContent = `${songs.length} bài hát`;
+    }
+
+    // Ẩn nút Phát tất cả khi không có bài hát
+    if (playAllBtn) {
+        if (songs.length === 0) {
+            playAllBtn.classList.add('hidden');
+        } else {
+            playAllBtn.classList.remove('hidden');
+            playAllBtn.onclick = () => {
+                if (window.playSong && songs.length > 0) {
+                    window.playSong(songs[0]);
+                }
+            };
+        }
     }
 
     if (songs.length === 0) {
@@ -97,14 +102,13 @@ function renderFavoritePage() {
         `;
     }).join('');
 
-    // Sự kiện click bài hát & xóa yêu thích
     const items = listContainer.querySelectorAll('.favorite__song-item');
     items.forEach(item => {
         const index = item.getAttribute('data-index');
         const songData = songs[index];
 
         item.addEventListener('click', (e) => {
-            if (e.target.closest('.fav-btn-remove')) return;
+            if (e.target.closest('.fav-btn-remove') || e.target.closest('.favorite-btn')) return;
             if (window.playSong && songData) {
                 window.playSong(songData);
             }
@@ -115,19 +119,25 @@ function renderFavoritePage() {
             removeBtn.addEventListener('click', (e) => {
                 e.stopPropagation();
                 toggleLikeSong(songData);
-                renderFavoritePage();
+
+                item.style.transition = 'opacity 0.25s ease, transform 0.25s ease';
+                item.style.opacity = '0';
+                item.style.transform = 'translateX(20px)';
+
+                setTimeout(() => {
+                    item.remove();
+
+                    const remainingSongs = getLikedSongs();
+                    if (countEl) countEl.textContent = `${remainingSongs.length} bài hát`;
+
+                    if (remainingSongs.length === 0) {
+                        if (emptyState) emptyState.classList.remove('hidden');
+                        if (playAllBtn) playAllBtn.classList.add('hidden');
+                    }
+                }, 250);
             });
         }
     });
-
-    const playAllBtn = document.getElementById('btn-play-all-fav');
-    if (playAllBtn) {
-        playAllBtn.onclick = () => {
-            if (songs.length > 0 && window.playSong) {
-                window.playSong(songs[0]);
-            }
-        };
-    }
 }
 
 function formatDuration(duration) {
@@ -138,13 +148,6 @@ function formatDuration(duration) {
     return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
 }
 
-// Đưa toàn bộ hàm lên global window
-window.getLikedSongs = getLikedSongs;
-window.isSongLiked = isSongLiked;
-window.toggleLikeSong = toggleLikeSong;
-window.renderFavoritePage = renderFavoritePage;
-
-// Tự động render khi bấm vào tab Yêu Thích ở Sidebar
 document.addEventListener('click', (e) => {
     const navItem = e.target.closest('.sidebar-nav-item, .nav-item, a, button');
     if (navItem && navItem.textContent.includes('Yêu Thích')) {

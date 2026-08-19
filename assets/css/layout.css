@@ -433,7 +433,7 @@ body {
     left: 0;
     width: 100%;
     z-index: 100;
-    height: 80px;
+    height: 90px;
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
 }
@@ -456,6 +456,7 @@ body {
     color: var(--text-secondary);
     border: 1px solid var(--border-color);
     font-size: 1.25rem;
+    box-sizing: border-box;
 }
 
 .song-info {
@@ -533,7 +534,6 @@ body {
     font-size: 0.875rem;
 }
 
-
 .progress-container {
     display: flex;
     align-items: center;
@@ -602,8 +602,24 @@ body {
     width: 33.33%;
 }
 
+/* ======================================================== */
+/* KHOẢNG ĐỆM ĐÁY TOÀN BỘ DANH SÁCH BÀI HÁT                 */
+/* ======================================================== */
+
 #player-placeholder {
-    height: 90px;
+    height: 110px;
+    width: 100%;
+}
+
+/* Chừa khoảng trống dưới cùng để cuộn không bao giờ bị che */
+#search-results-list,
+#fav-songs-list,
+.favorite-content,
+.search-content,
+.main-content,
+.content-area {
+    padding-bottom: 120px !important;
+    box-sizing: border-box;
 }
 
 .header__login-btn {

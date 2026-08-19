@@ -1,3 +1,6 @@
+const LAST_PAGE_KEY = 'ou_last_page';
+const LAST_ARTIST_ID_KEY = 'ou_last_artist_id';
+
 // Hàm set class active cho sidebar dựa vào trang hiện tại
 function setActiveMenu(page) {
     const navLinks = document.querySelectorAll('.nav-section a');
@@ -72,19 +75,26 @@ async function loadPage(page, artistId = null) {
 
         setActiveMenu(menuPage);
 
+        // Ghi nhớ trang hiện tại vào localStorage
+        localStorage.setItem(LAST_PAGE_KEY, normalizedPage);
+        if (artistId) {
+            localStorage.setItem(LAST_ARTIST_ID_KEY, artistId);
+        } else {
+            localStorage.removeItem(LAST_ARTIST_ID_KEY);
+        }
+
         // Kích hoạt lại JS tương ứng cho từng trang
         if (normalizedPage === "album") {
             if (typeof initAlbum === 'function') initAlbum();
         }
 
-        // Trang Album Detail - đã nhận artistId an toàn
         if (normalizedPage === "album-detail") {
             if (typeof initAlbumDetail === 'function') {
                 initAlbumDetail(artistId);
             }
         }
 
-        // Báo cho các module khác (search.js,...) biết trang nào vừa được load xong
+        // Báo cho các module khác (search.js, favorite.js,...) biết trang nào vừa được load xong
         document.dispatchEvent(new CustomEvent('spa:pageLoaded', { detail: { page: normalizedPage } }));
 
     } catch (error) {
@@ -119,10 +129,10 @@ function attachContentPageListeners() {
 
         e.preventDefault();
         const page = target.getAttribute('data-page');
-        const artistId = target.getAttribute('data-artist'); // Lấy ID ở đây
+        const artistId = target.getAttribute('data-artist');
 
         if (page) {
-            loadPage(page, artistId); // Truyền ID sang loadPage
+            loadPage(page, artistId);
         }
     });
 }
@@ -137,10 +147,14 @@ document.addEventListener("DOMContentLoaded", async () => {
         ]);
 
         attachContentPageListeners();
-        loadPage('index');
+
+        // Khôi phục trang trước khi reload (mặc định là 'index' nếu chưa có dữ liệu)
+        const savedPage = localStorage.getItem(LAST_PAGE_KEY) || 'index';
+        const savedArtistId = localStorage.getItem(LAST_ARTIST_ID_KEY);
+
+        loadPage(savedPage, savedArtistId);
 
     } catch (error) {
         console.error("Lỗi tải khung giao diện:", error);
     }
 });
-
