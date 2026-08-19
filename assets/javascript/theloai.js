@@ -1,24 +1,24 @@
 import { getMusicByQuery } from './api.js';
 
 const songCache = {};
-let currentAbortController = null; // Quản lý việc hủy Request cũ
+let currentAbortController = null;
 
 // 1. SKELETON LOADING
 function showSkeletonLoading(container) {
     let skeletons = '';
     for (let i = 0; i < 10; i++) {
         skeletons += `
-            <div class="bg-[var(--bg-surface)] p-4 rounded-lg animate-pulse">
-                <div class="w-full aspect-square bg-gray-700/40 rounded-md mb-4"></div>
-                <div class="h-4 bg-gray-700/50 rounded w-3/4 mb-2"></div>
-                <div class="h-3 bg-gray-700/30 rounded w-1/2"></div>
+            <div class="bg-[var(--bg-surface)] p-2.5 sm:p-4 rounded-lg animate-pulse">
+                <div class="w-full aspect-square bg-gray-700/40 rounded-md mb-2 sm:mb-4"></div>
+                <div class="h-3 sm:h-4 bg-gray-700/50 rounded w-3/4 mb-1.5 sm:mb-2"></div>
+                <div class="h-2.5 sm:h-3 bg-gray-700/30 rounded w-1/2"></div>
             </div>
         `;
     }
     container.innerHTML = skeletons;
 }
 
-// HÀM RENDER BÀI HÁT
+// 2. HÀM RENDER BÀI HÁT
 function renderSongsToUI(songs) {
     const container = document.getElementById('song-list-container');
     if (!container) return;
@@ -29,17 +29,17 @@ function renderSongsToUI(songs) {
         const artistName = song.artist || (Array.isArray(song.artists) ? song.artists.join(', ') : 'Unknown Artist');
 
         htmlContent += `
-            <div class="bg-[var(--bg-surface)] p-4 rounded-lg hover:bg-[var(--bg-surface-hover)] transition-all cursor-pointer group" data-id="${song.id}">
-                <div class="relative w-full aspect-square mb-4 rounded-md overflow-hidden shadow-lg">
+            <div class="bg-[var(--bg-surface)] p-2.5 sm:p-4 rounded-lg hover:bg-[var(--bg-surface-hover)] transition-all cursor-pointer group" data-id="${song.id}">
+                <div class="relative w-full aspect-square mb-2 sm:mb-4 rounded-md overflow-hidden shadow-lg">
                     <img src="${imageUrl}" alt="${song.title}" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                     <div class="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                        <button class="w-12 h-12 bg-[var(--accent-primary)] rounded-full flex items-center justify-center text-white hover:scale-110 transition-transform shadow-lg">
-                            <i class="fa-solid fa-play ml-1"></i>
+                        <button class="w-9 h-9 sm:w-12 sm:h-12 bg-[var(--accent-primary)] rounded-full flex items-center justify-center text-white hover:scale-110 transition-transform shadow-lg">
+                            <i class="fa-solid fa-play ml-0.5 text-xs sm:text-base"></i>
                         </button>
                     </div>
                 </div>
-                <h4 class="font-bold text-[var(--text-primary)] truncate mb-1">${song.title}</h4>
-                <p class="text-sm text-[var(--text-secondary)] truncate">${artistName}</p>
+                <h4 class="font-bold text-xs sm:text-sm md:text-base text-[var(--text-primary)] truncate mb-0.5 sm:mb-1">${song.title}</h4>
+                <p class="text-[11px] sm:text-xs md:text-sm text-[var(--text-secondary)] truncate">${artistName}</p>
             </div>
         `;
     });
@@ -47,7 +47,7 @@ function renderSongsToUI(songs) {
     container.innerHTML = htmlContent;
 }
 
-// HÀM TẢI VÀ RENDER NHẠC
+// 3. HÀM TẢI VÀ RENDER NHẠC
 async function renderSongs(theLoaiDuocChon) {
     const container = document.getElementById('song-list-container');
     if (!container) return;
@@ -81,7 +81,7 @@ async function renderSongs(theLoaiDuocChon) {
     }
 }
 
-// HÀM TẢI TRƯỚC DỮ LIỆU KHI DI CHUỘT
+// 4. PREFETCH
 function prefetchGenre(genreName) {
     if (!songCache[genreName]) {
         getMusicByQuery(genreName).then(data => {
@@ -90,7 +90,7 @@ function prefetchGenre(genreName) {
     }
 }
 
-// HÀM KHỞI TẠO TRANG
+// 5. KHỞI TẠO TRANG
 function initTheLoaiPage() {
     const container = document.getElementById('song-list-container');
     if (!container) return;
@@ -103,7 +103,7 @@ function initTheLoaiPage() {
 
 document.addEventListener('DOMContentLoaded', initTheLoaiPage);
 
-// HÀM CLICK SỰ KIỆN CÁC NÚT THỂ LOẠI
+// 6. SỰ KIỆN CLICK CHUYỂN THỂ LOẠI
 document.addEventListener('click', function (e) {
     const genreBtn = e.target.closest('.btn-the-loai');
     if (genreBtn) {
@@ -127,7 +127,7 @@ document.addEventListener('click', function (e) {
     }
 });
 
-// LẮNG NGHE DI CHUỘT VÀO NÚT ĐỂ PREFETCH TẢI TRƯỚC DỮ LIỆU
+// 7. SỰ KIỆN MOUSEOVER PREFETCH
 document.addEventListener('mouseover', function (e) {
     const genreBtn = e.target.closest('.btn-the-loai');
     if (genreBtn) {

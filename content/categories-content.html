@@ -1,73 +1,73 @@
-<div class="flex-1 px-8 overflow-y-auto">
-    <h2 class="text-3xl font-bold mb-8 text-[var(--text-primary)]">Thể Loại Nhạc</h2>
+<div class="flex-1 px-4 sm:px-8 overflow-y-auto">
+    <h2 class="text-2xl sm:text-3xl font-bold mb-6 sm:mb-8 text-[var(--text-primary)]">Thể Loại Nhạc</h2>
 
     <!-- THANH LỌC THỂ LOẠI -->
-    <div class="flex items-center gap-3 overflow-x-auto pb-2 [&::-webkit-scrollbar]:hidden whitespace-nowrap w-full">
+    <div class="flex items-center gap-2 sm:gap-3 overflow-x-auto pb-2 [&::-webkit-scrollbar]:hidden whitespace-nowrap w-full">
 
         <!-- V-Pop -->
-        <button class="btn-the-loai">
-            <i class="fa-solid fa-star"></i>
-            <span class="text-sm font-medium">V-Pop</span>
+        <button class="btn-the-loai flex-shrink-0">
+            <i class="fa-solid fa-star text-xs sm:text-base"></i>
+            <span class="text-xs sm:text-sm font-medium">V-Pop</span>
         </button>
 
-        <!-- K-Pop (Có thêm class 'active') -->
-        <button class="btn-the-loai active">
-            <i class="fa-solid fa-heart"></i>
-            <span class="text-sm font-bold">K-Pop</span>
+        <!-- K-Pop (active) -->
+        <button class="btn-the-loai active flex-shrink-0">
+            <i class="fa-solid fa-heart text-xs sm:text-base"></i>
+            <span class="text-xs sm:text-sm font-bold">K-Pop</span>
         </button>
 
         <!-- US/UK -->
-        <button class="btn-the-loai">
-            <i class="fa-solid fa-globe"></i>
-            <span class="text-sm font-medium">US/UK</span>
+        <button class="btn-the-loai flex-shrink-0">
+            <i class="fa-solid fa-globe text-xs sm:text-base"></i>
+            <span class="text-xs sm:text-sm font-medium">US/UK</span>
         </button>
 
         <!-- Nhạc trẻ -->
-        <button class="btn-the-loai">
-            <i class="fa-solid fa-fire"></i>
-            <span class="text-sm font-medium">Nhạc trẻ</span>
+        <button class="btn-the-loai flex-shrink-0">
+            <i class="fa-solid fa-fire text-xs sm:text-base"></i>
+            <span class="text-xs sm:text-sm font-medium">Nhạc trẻ</span>
         </button>
 
         <!-- Chill -->
-        <button class="btn-the-loai">
-            <i class="fa-solid fa-mug-hot"></i>
-            <span class="text-sm font-medium">Chill</span>
+        <button class="btn-the-loai flex-shrink-0">
+            <i class="fa-solid fa-mug-hot text-xs sm:text-base"></i>
+            <span class="text-xs sm:text-sm font-medium">Chill</span>
         </button>
 
         <!-- Rap Việt -->
-        <button class="btn-the-loai">
-            <i class="fa-solid fa-microphone-lines"></i>
-            <span class="text-sm font-medium">Rap Việt</span>
+        <button class="btn-the-loai flex-shrink-0">
+            <i class="fa-solid fa-microphone-lines text-xs sm:text-base"></i>
+            <span class="text-xs sm:text-sm font-medium">Rap Việt</span>
         </button>
 
         <!-- Ballad -->
-        <button class="btn-the-loai">
-            <i class="fa-solid fa-guitar"></i>
-            <span class="text-sm font-medium">Ballad</span>
+        <button class="btn-the-loai flex-shrink-0">
+            <i class="fa-solid fa-guitar text-xs sm:text-base"></i>
+            <span class="text-xs sm:text-sm font-medium">Ballad</span>
         </button>
 
         <!-- EDM -->
-        <button class="btn-the-loai">
-            <i class="fa-solid fa-bolt"></i>
-            <span class="text-sm font-medium">EDM</span>
+        <button class="btn-the-loai flex-shrink-0">
+            <i class="fa-solid fa-bolt text-xs sm:text-base"></i>
+            <span class="text-xs sm:text-sm font-medium">EDM</span>
         </button>
 
         <!-- OST -->
-        <button class="btn-the-loai">
-            <i class="fa-solid fa-film"></i>
-            <span class="text-sm font-medium">OST</span>
+        <button class="btn-the-loai flex-shrink-0">
+            <i class="fa-solid fa-film text-xs sm:text-base"></i>
+            <span class="text-xs sm:text-sm font-medium">OST</span>
         </button>
 
         <!-- Indie -->
-        <button class="btn-the-loai">
-            <i class="fa-solid fa-seedling"></i>
-            <span class="text-sm font-medium">Indie</span>
+        <button class="btn-the-loai flex-shrink-0">
+            <i class="fa-solid fa-seedling text-xs sm:text-base"></i>
+            <span class="text-xs sm:text-sm font-medium">Indie</span>
         </button>
 
     </div>
-
-    <!-- KHU VỰC CHỨA DANH SÁCH BÀI HÁT TƯƠNG ỨNG VỚI THỂ LOẠI -->
-    <div id="song-list-container" class="mt-8 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-6">
-        <!-- JavaScript sẽ tự động bơm các thẻ vuông (Card) bài hát vào đây -->
+    
+    <!-- KHU VỰC LƯỚI BÀI HÁT: 2 cột (Mobile) -> 3 cột (Tablet) -> 4-5 cột (Desktop) -->
+    <div id="song-list-container" class="mt-6 sm:mt-8 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-6">
+        <!-- JavaScript sẽ tự động render bài hát vào đây -->
     </div>
 </div>
