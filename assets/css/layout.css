@@ -37,6 +37,31 @@ body {
 
 .header-left {
     flex: 1;
+    display: flex;
+    align-items: center;
+}
+
+.header-brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    user-select: none;
+}
+
+.brand-logo {
+    width: 34px;
+    height: 34px;
+    object-fit: contain;
+    border-radius: 8px;
+}
+
+.brand-name {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    letter-spacing: -0.5px;
+    white-space: nowrap;
 }
 
 .header-center {
@@ -632,6 +657,169 @@ body {
     text-decoration: none;
 }
 
-.hidden {
-    display: none;
+/* =============== RESPONSIVE DESIGN =============== */
+
+/* Tablet & Smaller Laptops */
+@media screen and (max-width: 992px) {
+    .player-left {
+        width: 30%;
+    }
+
+    .player-center {
+        width: 45%;
+    }
+
+    .player-right {
+        width: 25%;
+    }
+}
+
+/* Mobile & Small Screens */
+@media screen and (max-width: 768px) {
+
+    .header-container {
+        padding: 0 12px;
+    }
+
+    .brand-name {
+        display: none;
+    }
+
+    .header-center {
+        flex: 3;
+    }
+
+    .search-bar {
+        height: 36px;
+    }
+
+    .sidebar-container {
+        width: 64px !important;
+        padding: 76px 0 90px 0 !important;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    #sidebar-placeholder {
+        width: 64px !important;
+    }
+
+    .nav-container,
+    .nav-section {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .nav-section {
+        margin-bottom: 0.75rem;
+    }
+
+    .list-container {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .nav-container h3 {
+        display: none;
+    }
+
+    .nav-item {
+        width: 44px !important;
+        height: 44px !important;
+        padding: 0 !important;
+        margin: 0 auto 4px auto !important;
+        gap: 0 !important;
+        font-size: 0 !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        border-radius: 10px;
+    }
+
+    .nav-item i,
+    .nav-item svg {
+        font-size: 1.15rem !important;
+        margin: 0 !important;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .nav-item.active {
+        width: 44px !important;
+        height: 44px !important;
+    }
+
+    /* 3. Player Bar */
+    .footer-container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0.5rem 12px;
+    }
+
+    .player-left {
+        width: auto;
+        max-width: 40%;
+        gap: 0.5rem;
+        flex-shrink: 1;
+        overflow: hidden;
+    }
+
+    .album-art-placeholder {
+        width: 2.5rem;
+        height: 2.5rem;
+        flex-shrink: 0;
+    }
+
+    .song-info {
+        overflow: hidden;
+        white-space: nowrap;
+    }
+
+    .song-title,
+    .song-subtitle {
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .player-center {
+        width: auto;
+        flex: 1;
+        max-width: 100%;
+        padding: 0 8px;
+    }
+
+    .playback-controls {
+        gap: 0.75rem;
+        margin-bottom: 0.25rem;
+    }
+
+    .playback-controls .control-btn:not(.step-btn) {
+        display: none;
+    }
+
+    .play-btn {
+        width: 2rem;
+        height: 2rem;
+    }
+
+    .player-right {
+        width: auto;
+        gap: 0.5rem;
+    }
+
+    .volume-bar {
+        display: none;
+    }
+
+    .btn-volume>i {
+        display: none;
+    }
 }
