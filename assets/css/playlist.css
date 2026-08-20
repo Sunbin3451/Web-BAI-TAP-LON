@@ -1,11 +1,11 @@
-/* Khung chứa chính */
 .playlist__container,
 #playlist-cards-container {
     width: 100%;
+    max-width: 100%;
+    min-width: 0;
     color: var(--text-primary);
-    padding: 0 24px;
+    padding: 0 24px 140px 24px;
     box-sizing: border-box;
-    padding-bottom: 120px;
 }
 
 .playlist__section-title {
@@ -15,26 +15,29 @@
     margin-bottom: 24px;
 }
 
-/* Lưới hiển thị danh sách playlist */
+/* LƯỚI DANH SÁCH PLAYLIST & THẺ CARD */
 .playlist__grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-    gap: 20px;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 16px;
+    width: 100%;
+    box-sizing: border-box;
 }
 
-/* Thẻ tạo Playlist mới */
 .playlist__create-card {
-    aspect-ratio: 4 / 5;
     border-radius: 16px;
     border: 2px dashed rgba(255, 255, 255, 0.15);
     background-color: var(--bg-surface);
-    padding: 20px;
+    padding: 14px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     cursor: pointer;
     transition: all 0.3s ease;
+    box-sizing: border-box;
+    min-height: 180px;
+    min-width: 0;
 }
 
 .playlist__create-card:hover {
@@ -43,16 +46,16 @@
 }
 
 .playlist__create-icon {
-    width: 52px;
-    height: 52px;
+    width: 46px;
+    height: 46px;
     border-radius: 50%;
     background-color: var(--bg-surface-bright);
     color: var(--text-secondary);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.25rem;
-    margin-bottom: 14px;
+    font-size: 1.2rem;
+    margin-bottom: 10px;
     transition: all 0.3s ease;
 }
 
@@ -64,28 +67,29 @@
 }
 
 .playlist__create-text {
-    font-size: 0.875rem;
+    font-size: 0.85rem;
     font-weight: 500;
     color: var(--text-secondary);
     transition: color 0.2s ease;
+    text-align: center;
 }
 
 .playlist__create-card:hover .playlist__create-text {
     color: var(--text-primary);
 }
 
-/* Thẻ Card Playlist đã tạo */
 .playlist__card-item {
-    aspect-ratio: 4 / 5;
     border-radius: 16px;
     background-color: var(--bg-surface);
-    padding: 16px;
+    padding: 12px;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: flex-start;
     cursor: pointer;
     border: 1px solid rgba(255, 255, 255, 0.05);
     transition: all 0.3s ease;
+    box-sizing: border-box;
+    min-width: 0;
 }
 
 .playlist__card-item:hover {
@@ -98,58 +102,62 @@
     width: 100%;
     aspect-ratio: 1 / 1;
     object-fit: cover;
-    border-radius: 12px;
-    margin-bottom: 12px;
+    border-radius: 10px;
+    margin-bottom: 8px;
     display: block;
 }
 
 .playlist__card-placeholder {
     width: 100%;
     aspect-ratio: 1 / 1;
-    border-radius: 12px;
-    margin-bottom: 12px;
+    border-radius: 10px;
+    margin-bottom: 8px;
     background: var(--accent-gradient);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 2rem;
+    font-size: 1.8rem;
     color: #ffffff;
     box-shadow: 0 4px 14px var(--accent-glow);
+    flex-shrink: 0;
 }
 
 .playlist__card-footer {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 8px;
-    margin-top: auto;
+    gap: 6px;
+    width: 100%;
+    min-width: 0;
+    margin-top: 4px;
 }
 
 .playlist__card-info {
     min-width: 0;
     flex-grow: 1;
+    overflow: hidden;
 }
 
 .playlist__card-title {
-    font-size: 1rem;
+    font-size: 0.9rem;
     font-weight: 700;
     color: var(--text-primary);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    margin: 0 0 4px 0;
+    margin: 0 0 2px 0;
 }
 
 .playlist__card-count {
-    font-size: 0.75rem;
+    font-size: 0.72rem;
     font-weight: 500;
     color: var(--text-muted);
     margin: 0;
 }
 
 .playlist__card-btn-delete {
-    width: 32px;
-    height: 32px;
+    width: 28px;
+    height: 28px;
     border-radius: 50%;
     background-color: var(--bg-surface-bright);
     color: var(--text-muted);
@@ -174,7 +182,7 @@
     transform: scale(1.1);
 }
 
-/* Nút quay lại */
+/* TRANG CHI TIẾT PLAYLIST */
 .playlist__back-btn {
     display: inline-flex;
     align-items: center;
@@ -194,10 +202,8 @@
     color: var(--text-primary);
 }
 
-/* Banner Hero chi tiết Playlist */
 .playlist__hero {
     display: flex;
-    flex-wrap: wrap;
     align-items: flex-end;
     gap: 24px;
     margin-bottom: 32px;
@@ -206,8 +212,8 @@
 }
 
 .playlist__hero-cover {
-    width: 190px;
-    height: 190px;
+    width: 180px;
+    height: 180px;
     border-radius: 16px;
     overflow: hidden;
     background: var(--accent-gradient);
@@ -224,6 +230,7 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
+    display: block;
 }
 
 .playlist__hero-info {
@@ -242,7 +249,7 @@
 }
 
 .playlist__hero-title {
-    font-size: 1.5rem;
+    font-size: 2rem;
     font-weight: 900;
     color: var(--text-primary);
     margin: 6px 0;
@@ -305,7 +312,7 @@
     color: var(--color-danger);
 }
 
-/* Danh sách bài hát trong Playlist */
+/* DANH SÁCH BÀI HÁT TRONG PLAYLIST */
 .playlist__track-list {
     display: flex;
     flex-direction: column;
@@ -331,12 +338,13 @@
     align-items: center;
     gap: 14px;
     min-width: 0;
+    flex: 1;
 }
 
 .playlist__track-thumb-wrapper {
     position: relative;
-    width: 48px;
-    height: 48px;
+    width: 46px;
+    height: 46px;
     border-radius: 8px;
     overflow: hidden;
     flex-shrink: 0;
@@ -346,6 +354,7 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
+    display: block;
 }
 
 .playlist__track-play-btn {
@@ -367,6 +376,8 @@
 
 .playlist__track-info {
     min-width: 0;
+    flex: 1;
+    overflow: hidden;
 }
 
 .playlist__track-title {
@@ -409,15 +420,15 @@
     transition: color 0.2s ease;
 }
 
-.playlist__track-fav-btn:hover {
-    color: var(--favorite-btn);
-}
-
+.playlist__track-fav-btn:hover,
 .playlist__track-fav-btn.is-active {
     color: var(--favorite-btn);
 }
 
-/* Trạng thái trống */
+#detail-songs-list {
+    padding-bottom: 120px;
+}
+
 .playlist__empty-state {
     padding: 48px 0;
     text-align: center;
@@ -436,7 +447,7 @@
     margin: 0;
 }
 
-/* Modal Popup Tạo Playlist */
+/* MODAL POPUP & CONTEXT MENU */
 .playlist__modal-overlay {
     position: fixed;
     inset: 0;
@@ -594,7 +605,6 @@
     margin: 4px 6px;
 }
 
-/* Modal Danh sách Playlist */
 .playlist__modal--add {
     max-width: 340px;
     padding: 24px;
@@ -654,6 +664,101 @@
     filter: brightness(1.1);
 }
 
-#detail-songs-list {
-    padding-bottom: 120px;
+/* Tablet & Laptop nhỏ */
+@media (max-width: 1024px) {
+
+    .playlist__container,
+    #playlist-cards-container {
+        padding: 0 16px 140px 16px;
+    }
+
+    .playlist__grid {
+        grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+        gap: 12px;
+    }
+
+    .playlist__hero {
+        gap: 18px;
+    }
+
+    .playlist__hero-cover {
+        width: 150px;
+        height: 150px;
+    }
+
+    .playlist__hero-title {
+        font-size: 1.6rem;
+    }
+}
+
+/* Tablet dọc & Mobile */
+@media (max-width: 768px) {
+
+    .playlist__container,
+    #playlist-cards-container {
+        padding: 0 12px 140px 12px;
+    }
+
+    .playlist__section-title {
+        font-size: 1.35rem;
+        margin-bottom: 16px;
+    }
+
+    .playlist__grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
+    }
+
+    .playlist__card-item {
+        padding: 10px;
+    }
+
+    .playlist__create-card {
+        padding: 10px;
+        min-height: 150px;
+    }
+
+    .playlist__card-btn-delete {
+        opacity: 1;
+        width: 26px;
+        height: 26px;
+    }
+
+    .playlist__hero {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+    }
+
+    .playlist__hero-cover {
+        width: 130px;
+        height: 130px;
+        font-size: 2.8rem;
+    }
+
+    .playlist__hero-title {
+        font-size: 1.4rem;
+    }
+
+    .playlist__track-duration {
+        display: none;
+    }
+}
+
+/* Mobile nhỏ */
+@media (max-width: 480px) {
+
+    .playlist__container,
+    #playlist-cards-container {
+        padding: 0 10px 140px 10px;
+    }
+
+    .playlist__grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 8px;
+    }
+
+    .playlist__modal {
+        padding: 18px;
+    }
 }
