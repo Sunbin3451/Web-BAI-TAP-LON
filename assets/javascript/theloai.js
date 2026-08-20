@@ -1,17 +1,17 @@
 import { getMusicByQuery } from './api.js';
 
 const songCache = {};
-let currentAbortController = null; // Quản lý việc hủy Request cũ
+let currentAbortController = null;
 
 // 1. SKELETON LOADING
 function showSkeletonLoading(container) {
     let skeletons = '';
     for (let i = 0; i < 10; i++) {
         skeletons += `
-            <div class="bg-[var(--bg-surface)] p-4 rounded-lg animate-pulse">
-                <div class="w-full aspect-square bg-gray-700/40 rounded-md mb-4"></div>
-                <div class="h-4 bg-gray-700/50 rounded w-3/4 mb-2"></div>
-                <div class="h-3 bg-gray-700/30 rounded w-1/2"></div>
+            <div class="bg-[var(--bg-surface)] p-2.5 sm:p-4 rounded-lg animate-pulse">
+                <div class="w-full aspect-square bg-gray-700/40 rounded-md mb-2 sm:mb-4"></div>
+                <div class="h-3 sm:h-4 bg-gray-700/50 rounded w-3/4 mb-1.5 sm:mb-2"></div>
+                <div class="h-2.5 sm:h-3 bg-gray-700/30 rounded w-1/2"></div>
             </div>
         `;
     }
@@ -62,7 +62,7 @@ function renderSongsToUI(songs) {
     });
 }
 
-// HÀM TẢI VÀ RENDER NHẠC
+// 3. HÀM TẢI VÀ RENDER NHẠC
 async function renderSongs(theLoaiDuocChon) {
     const container = document.getElementById('song-list-container');
     if (!container) return;
@@ -96,7 +96,7 @@ async function renderSongs(theLoaiDuocChon) {
     }
 }
 
-// HÀM TẢI TRƯỚC DỮ LIỆU KHI DI CHUỘT
+// 4. PREFETCH
 function prefetchGenre(genreName) {
     if (!songCache[genreName]) {
         getMusicByQuery(genreName).then(data => {
@@ -105,7 +105,7 @@ function prefetchGenre(genreName) {
     }
 }
 
-// HÀM KHỞI TẠO TRANG
+// 5. KHỞI TẠO TRANG
 function initTheLoaiPage() {
     const container = document.getElementById('song-list-container');
     if (!container) return;
@@ -118,7 +118,7 @@ function initTheLoaiPage() {
 
 document.addEventListener('DOMContentLoaded', initTheLoaiPage);
 
-// HÀM CLICK SỰ KIỆN CÁC NÚT THỂ LOẠI
+// 6. SỰ KIỆN CLICK CHUYỂN THỂ LOẠI
 document.addEventListener('click', function (e) {
     const genreBtn = e.target.closest('.btn-the-loai');
     if (genreBtn) {
@@ -142,7 +142,7 @@ document.addEventListener('click', function (e) {
     }
 });
 
-// LẮNG NGHE DI CHUỘT VÀO NÚT ĐỂ PREFETCH TẢI TRƯỚC DỮ LIỆU
+// 7. SỰ KIỆN MOUSEOVER PREFETCH
 document.addEventListener('mouseover', function (e) {
     const genreBtn = e.target.closest('.btn-the-loai');
     if (genreBtn) {
