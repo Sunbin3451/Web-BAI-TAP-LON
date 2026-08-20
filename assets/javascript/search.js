@@ -1,35 +1,68 @@
 import { getMusicByQuery } from './api.js';
 import { toggleLikeSong, isSongLiked } from './favorite.js';
 
-// Bộ nhớ đệm lưu trữ kết quả và từ khóa tìm kiếm gần nhất
-let cachedSearchQuery = '';
+let cachedSearchQuery = localStorage.getItem('ou_last_search_query') || '';
+let currentSearchAbortController = null;
+
+// Khôi phục kết quả đã lưu từ sessionStorage
 let cachedSearchResults = [];
+try {
+    const savedResults = sessionStorage.getItem('ou_cached_search_results');
+    if (savedResults) {
+        cachedSearchResults = JSON.parse(savedResults);
+        window.currentSearchResults = cachedSearchResults;
+    }
+} catch (e) {
+    cachedSearchResults = [];
+}
+
+// Hàm đảm bảo chuyển sang view Tìm Kiếm
+async function ensureSearchPageLoaded() {
+    if (document.getElementById('search-results-list')) return true;
+
+    if (typeof window.loadPage === 'function') {
+        window.loadPage('search');
+    } else {
+        const searchNavBtn = document.querySelector('[data-page="search"]')
+            || Array.from(document.querySelectorAll('.sidebar-nav-item, .nav-item, a, button')).find(
+                el => el.textContent && el.textContent.includes('Tìm Kiếm')
+            );
+        if (searchNavBtn) searchNavBtn.click();
+    }
+
+    for (let i = 0; i < 15; i++) {
+        await new Promise(res => setTimeout(res, 50));
+        if (document.getElementById('search-results-list')) return true;
+    }
+    return false;
+}
 
 // Hàm chính xử lý tìm kiếm & hiển thị kết quả
 export async function triggerSearch(queryText) {
-    const searchInput = document.querySelector('.search-input');
+    let searchInput = document.querySelector('.search-input');
     const query = queryText !== undefined ? queryText : (searchInput ? searchInput.value.trim() : '');
 
-    const searchNavBtn = Array.from(document.querySelectorAll('.sidebar-nav-item, .nav-item, a, button')).find(
-        el => el.textContent && el.textContent.includes('Tìm Kiếm')
-    );
+    // Nếu đang ở trang khác, tự động chuyển về trang Tìm Kiếm trước
+    await ensureSearchPageLoaded();
 
-    let resultsList = document.getElementById('search-results-list');
-    if (!resultsList && searchNavBtn) {
-        searchNavBtn.click();
-        await new Promise(resolve => setTimeout(resolve, 150));
+    // Đồng bộ lại giá trị trên thanh input sau khi chuyển trang
+    searchInput = document.querySelector('.search-input');
+    if (searchInput && searchInput.value !== query) {
+        searchInput.value = query;
     }
 
+    const resultsList = document.getElementById('search-results-list');
     const initialState = document.getElementById('search-initial-state');
     const loadingState = document.getElementById('search-loading-state');
     const notfoundState = document.getElementById('search-notfound-state');
-    resultsList = document.getElementById('search-results-list');
 
-    // Nếu ô tìm kiếm trống -> xóa cache, xóa localStorage và về trạng thái ban đầu
+    // 1. Nếu ô tìm kiếm trống
     if (!query) {
         cachedSearchQuery = '';
         cachedSearchResults = [];
+        window.currentSearchResults = [];
         localStorage.removeItem('ou_last_search_query');
+        sessionStorage.removeItem('ou_cached_search_results');
 
         if (initialState) initialState.classList.remove('hidden');
         if (loadingState) loadingState.classList.add('hidden');
@@ -41,23 +74,27 @@ export async function triggerSearch(queryText) {
         return;
     }
 
-    // Lưu lại từ khóa tìm kiếm vào localStorage
-    localStorage.setItem('ou_last_search_query', query);
-
-    // Nếu từ khóa giống hệt lần tìm trước và đã có cache -> khôi phục ngay lập tức
-    if (query === cachedSearchQuery && cachedSearchResults.length > 0) {
+    // 2. Nếu từ khóa trùng với cache và đã có dữ liệu -> RENDER NGAY
+    if (query === cachedSearchQuery && cachedSearchResults.length > 0 && resultsList) {
+        localStorage.setItem('ou_last_search_query', query);
         if (initialState) initialState.classList.add('hidden');
         if (notfoundState) notfoundState.classList.add('hidden');
         if (loadingState) loadingState.classList.add('hidden');
-        if (resultsList) {
-            resultsList.innerHTML = renderSongItems(cachedSearchResults);
-            resultsList.classList.remove('hidden');
-            attachSongItemEvents(resultsList, cachedSearchResults);
-        }
+
+        resultsList.innerHTML = renderSongItems(cachedSearchResults);
+        resultsList.classList.remove('hidden');
+        attachSongItemEvents(resultsList, cachedSearchResults);
         return;
     }
 
-    // Nếu là từ khóa mới -> Bật Skeleton Loading và gọi API
+    // 3. Tìm kiếm từ khóa mới
+    if (currentSearchAbortController) {
+        currentSearchAbortController.abort();
+    }
+    currentSearchAbortController = new AbortController();
+
+    localStorage.setItem('ou_last_search_query', query);
+
     if (initialState) initialState.classList.add('hidden');
     if (notfoundState) notfoundState.classList.add('hidden');
     if (resultsList) resultsList.classList.add('hidden');
@@ -80,34 +117,44 @@ export async function triggerSearch(queryText) {
                 || [];
         }
 
-        // Lưu vào bộ nhớ đệm
         cachedSearchQuery = query;
         cachedSearchResults = songs;
+        window.currentSearchResults = songs;
+        try {
+            sessionStorage.setItem('ou_cached_search_results', JSON.stringify(songs));
+        } catch (e) { }
 
+        const listEl = document.getElementById('search-results-list');
         if (songs && songs.length > 0) {
-            if (resultsList) {
-                resultsList.innerHTML = renderSongItems(songs);
-                resultsList.classList.remove('hidden');
-                attachSongItemEvents(resultsList, songs);
+            if (listEl) {
+                listEl.innerHTML = renderSongItems(songs);
+                listEl.classList.remove('hidden');
+                attachSongItemEvents(listEl, songs);
             }
         } else {
             if (notfoundState) notfoundState.classList.remove('hidden');
         }
     } catch (error) {
-        console.error('Lỗi trong quá trình tìm kiếm:', error);
-        if (loadingState) loadingState.classList.add('hidden');
-        if (notfoundState) notfoundState.classList.remove('hidden');
+        if (error.name !== 'AbortError') {
+            console.error('Lỗi tìm kiếm:', error);
+            if (loadingState) loadingState.classList.add('hidden');
+            if (notfoundState) notfoundState.classList.remove('hidden');
+        }
     }
 }
 
-// Khôi phục kết quả tìm kiếm khi quay lại tab Tìm Kiếm
 export function restoreSearchState() {
     const searchInput = document.querySelector('.search-input');
-    const currentInputValue = searchInput ? searchInput.value.trim() : '';
+    const currentInputVal = searchInput ? searchInput.value.trim() : '';
+    const savedQuery = localStorage.getItem('ou_last_search_query') || '';
 
-    // Nếu trên thanh search đang có chữ hoặc có dữ liệu đã cache
-    if (currentInputValue || cachedSearchResults.length > 0) {
-        triggerSearch(currentInputValue || cachedSearchQuery);
+    const queryToUse = currentInputVal || savedQuery;
+    if (searchInput && queryToUse) {
+        searchInput.value = queryToUse;
+    }
+
+    if (queryToUse || cachedSearchResults.length > 0) {
+        triggerSearch(queryToUse || cachedSearchQuery);
     }
 }
 
@@ -143,7 +190,7 @@ function renderSongItems(songs) {
                         <i class="${heartIconClass}"></i>
                     </button>
                     <button class="search__action-btn search__more-btn" title="Tùy chọn">
-                        <i class="fa-solid fa-ellipsis-vertical"></i>
+                        <i class="fa-solid fa-ellipsis-vertical pointer-events-none"></i>
                     </button>
                 </div>
             </div>
@@ -161,7 +208,6 @@ function attachSongItemEvents(container, songs) {
             if (e.target.closest('.favorite-btn') || e.target.closest('.search__more-btn')) {
                 return;
             }
-
             if (typeof window.playSong === 'function' && songData) {
                 window.playSong(songData);
             }
@@ -172,7 +218,6 @@ function attachSongItemEvents(container, songs) {
             favBtn.addEventListener('click', (e) => {
                 e.stopPropagation();
                 const isLikedNow = toggleLikeSong(songData);
-
                 favBtn.classList.toggle('active', isLikedNow);
                 favBtn.title = isLikedNow ? 'Bỏ yêu thích' : 'Yêu thích';
 
@@ -180,11 +225,28 @@ function attachSongItemEvents(container, songs) {
                 if (heartIcon) {
                     heartIcon.className = isLikedNow ? 'fa-solid fa-heart' : 'fa-regular fa-heart';
                 }
+
+                favBtn.classList.remove('heart-pop');
+                void favBtn.offsetWidth;
+                favBtn.classList.add('heart-pop');
+
+                setTimeout(() => {
+                    favBtn.classList.remove('heart-pop');
+                }, 350);
+            });
+        }
+
+        const moreBtn = item.querySelector('.search__more-btn');
+        if (moreBtn) {
+            moreBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                if (typeof window.openSongContextMenu === 'function') {
+                    window.openSongContextMenu(moreBtn, songData);
+                }
             });
         }
     });
 }
-
 function formatDuration(duration) {
     if (!duration || isNaN(duration)) return '--:--';
     let totalSeconds = duration > 10000 ? Math.floor(duration / 1000) : Math.floor(duration);
@@ -193,11 +255,7 @@ function formatDuration(duration) {
     return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
 }
 
-// ========================================================
-// GLOBAL EVENT LISTENERS
-// ========================================================
-
-// 1. Phím Enter trên ô input
+// Global Event Listeners
 document.addEventListener('keydown', (e) => {
     if (e.key === 'Enter' && e.target && e.target.classList.contains('search-input')) {
         e.preventDefault();
@@ -205,7 +263,6 @@ document.addEventListener('keydown', (e) => {
     }
 });
 
-// 2. Click icon kính lúp
 document.addEventListener('click', (e) => {
     const searchIcon = e.target.closest('.search-icon, .fa-magnifying-glass, .search-btn');
     if (searchIcon) {
@@ -214,27 +271,21 @@ document.addEventListener('click', (e) => {
             triggerSearch(searchInput.value.trim());
         }
     }
-});
 
-// 3. Tự động phục hồi kết quả khi người dùng bấm quay lại tab "Tìm Kiếm" trên Sidebar
-document.addEventListener('click', (e) => {
     const navItem = e.target.closest('.sidebar-nav-item, .nav-item, a, button');
-    if (navItem && navItem.textContent.includes('Tìm Kiếm')) {
-        setTimeout(() => {
-            restoreSearchState();
-        }, 150);
+    if (navItem && navItem.textContent && navItem.textContent.includes('Tìm Kiếm')) {
+        setTimeout(restoreSearchState, 50);
     }
 });
 
-// 4. Tự động khôi phục chữ trên thanh Search và kết quả khi reload
-document.addEventListener('spa:pageLoaded', (e) => {
-    if (e.detail.page === 'search') {
-        const searchInput = document.querySelector('.search-input');
-        const savedQuery = localStorage.getItem('ou_last_search_query');
+document.addEventListener('DOMContentLoaded', () => {
+    if (document.getElementById('search-results-list')) {
+        restoreSearchState();
+    }
+});
 
-        if (searchInput && savedQuery) {
-            searchInput.value = savedQuery;
-            triggerSearch(savedQuery);
-        }
+document.addEventListener('spa:pageLoaded', (e) => {
+    if (e.detail?.page === 'search') {
+        restoreSearchState();
     }
 });

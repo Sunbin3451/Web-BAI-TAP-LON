@@ -73,8 +73,11 @@
 
 .favorite-btn.active,
 .favorite-btn.active i {
-    animation: heart-pulse 0.3s ease;
     color: var(--favorite-btn);
+}
+
+.favorite-btn.heart-pop i {
+    animation: heart-pulse 0.3s ease;
 }
 
 @keyframes heart-pulse {

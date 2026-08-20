@@ -1,5 +1,7 @@
 * {
     box-sizing: border-box;
+    padding: 0;
+    margin: 0;
 }
 
 body {
@@ -411,7 +413,6 @@ body {
 
 .main-container {
     background-color: var(--bg-main);
-    padding: 1rem;
     flex: 1;
     overflow-y: auto;
     padding-top: 80px;
