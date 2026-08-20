@@ -5,13 +5,15 @@
     --bg-surface-hover: #1f1f25;
     --bg-aside: #111118;
     --bg-main: #100f14d7;
-    --bg-transparent: rgba(10, 10, 10, 0.9);
+    --bg-transparent: rgba(10, 10, 10, 0.5);
+    --bg-surface-bright: #282830;
 
     /* ACCENT COLORS */
     --accent-primary: #a39aff;
     --accent-solid: #584cff;
     --accent-hover: #473bcc;
     --accent-glow: rgba(88, 76, 255, 0.25);
+    --accent-gradient: linear-gradient(135deg, #584cff 0%, #a39aff 100%);
 
     /* TEXT COLORS */
     --text-primary: #f3f4f6;
@@ -20,6 +22,7 @@
 
     /* STATUS / FEEDBACK COLORS */
     --color-success: #4ade80;
+    --favorite-btn: #ec4899;
 
     /* Green */
     --color-success-bg: rgba(74, 222, 128, 0.15);
@@ -37,4 +40,56 @@
     --border-focus: #584cff;
     --border-danger: #f87171;
     --border-success: #4ade80;
+}
+
+/* Icon nút yêu thích và animation để dùng cho các trang */
+.favorite-btn {
+    background: transparent;
+    border: none;
+    outline: none;
+    color: var(--text-secondary, #9ca3af);
+    cursor: pointer;
+    padding: 6px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.2s ease, transform 0.15s ease;
+}
+
+.favorite-btn i {
+    display: inline-block;
+    font-size: 16px;
+    transition: transform 0.2s ease;
+}
+
+.favorite-btn:hover i {
+    color: var(--text-primary, #ffffff);
+}
+
+.favorite-btn:active i {
+    transform: scale(0.9);
+}
+
+.favorite-btn.active,
+.favorite-btn.active i {
+    color: var(--favorite-btn);
+}
+
+.favorite-btn.heart-pop i {
+    animation: heart-pulse 0.3s ease;
+}
+
+@keyframes heart-pulse {
+    0% {
+        transform: scale(1);
+    }
+
+    45% {
+        transform: scale(1.1);
+    }
+
+    100% {
+        transform: scale(1);
+    }
 }

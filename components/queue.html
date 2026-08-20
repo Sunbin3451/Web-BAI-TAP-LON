@@ -1,0 +1,27 @@
+<!-- Drawer Danh Sách Phát (Queue Component) -->
+<div id="queue-drawer" class="queue-drawer hidden">
+    <div class="queue-header">
+        <h3 class="queue-title">Danh sách phát</h3>
+        <button type="button" id="btn-close-queue" class="queue-close-btn" title="Đóng danh sách phát">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+    </div>
+
+    <div class="queue-content">
+        <!-- Phần: Đang phát -->
+        <div class="queue-section">
+            <span class="queue-section-label">ĐANG PHÁT</span>
+            <div id="queue-current-song" class="queue-current-item">
+                <span class="queue-empty-text">Chưa phát bài nào</span>
+            </div>
+        </div>
+
+        <!-- Phần: Tiếp theo -->
+        <div class="queue-section">
+            <span class="queue-section-label">TIẾP THEO</span>
+            <div id="queue-next-list" class="queue-list">
+                <span class="queue-empty-text">Danh sách chờ trống</span>
+            </div>
+        </div>
+    </div>
+</div>

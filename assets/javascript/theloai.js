@@ -18,33 +18,48 @@ function showSkeletonLoading(container) {
     container.innerHTML = skeletons;
 }
 
-// 2. HÀM RENDER BÀI HÁT
+// HÀM RENDER BÀI HÁT & GẮN SỰ KIỆN PHÁT NHẠC
 function renderSongsToUI(songs) {
     const container = document.getElementById('song-list-container');
     if (!container) return;
 
     let htmlContent = '';
-    songs.forEach(song => {
-        const imageUrl = song.thumbnail || song.image || song.cover || 'https://placehold.co/300x300/1e1e2e/ffffff?text=Music';
-        const artistName = song.artist || (Array.isArray(song.artists) ? song.artists.join(', ') : 'Unknown Artist');
+    songs.forEach((song, index) => {
+        const imageUrl = song.thumbnail || song.image || song.cover || song.coverUrl || 'https://placehold.co/300x300/1e1e2e/ffffff?text=Music';
+        const artistName = song.artist || (Array.isArray(song.artists) ? song.artists.map(a => a.name || a).join(', ') : 'Unknown Artist');
+        const songId = song.id || song.sourceId || song._id || song.videoId;
 
         htmlContent += `
-            <div class="bg-[var(--bg-surface)] p-2.5 sm:p-4 rounded-lg hover:bg-[var(--bg-surface-hover)] transition-all cursor-pointer group" data-id="${song.id}">
-                <div class="relative w-full aspect-square mb-2 sm:mb-4 rounded-md overflow-hidden shadow-lg">
-                    <img src="${imageUrl}" alt="${song.title}" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+            <div class="theloai-song-card bg-[var(--bg-surface)] p-4 rounded-lg hover:bg-[var(--bg-surface-hover)] transition-all cursor-pointer group" data-index="${index}" data-id="${songId}">
+                <div class="relative w-full aspect-square mb-4 rounded-md overflow-hidden shadow-lg">
+                    <img src="${imageUrl}" alt="${song.title || song.name}" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.src='./assets/images/default.jpg'">
                     <div class="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                        <button class="w-9 h-9 sm:w-12 sm:h-12 bg-[var(--accent-primary)] rounded-full flex items-center justify-center text-white hover:scale-110 transition-transform shadow-lg">
-                            <i class="fa-solid fa-play ml-0.5 text-xs sm:text-base"></i>
+                        <button class="w-12 h-12 bg-[var(--accent-primary)] rounded-full flex items-center justify-center text-white hover:scale-110 transition-transform shadow-lg pointer-events-none">
+                            <i class="fa-solid fa-play ml-1"></i>
                         </button>
                     </div>
                 </div>
-                <h4 class="font-bold text-xs sm:text-sm md:text-base text-[var(--text-primary)] truncate mb-0.5 sm:mb-1">${song.title}</h4>
-                <p class="text-[11px] sm:text-xs md:text-sm text-[var(--text-secondary)] truncate">${artistName}</p>
+                <h4 class="font-bold text-[var(--text-primary)] truncate mb-1">${song.title || song.name}</h4>
+                <p class="text-sm text-[var(--text-secondary)] truncate">${artistName}</p>
             </div>
         `;
     });
 
     container.innerHTML = htmlContent;
+
+    // Gắn sự kiện click để phát bài hát
+    container.querySelectorAll('.theloai-song-card').forEach(card => {
+        card.onclick = () => {
+            const index = parseInt(card.getAttribute('data-index'), 10);
+            const selectedSong = songs[index];
+            if (!selectedSong) return;
+
+            // Phát bài hát đã chọn
+            if (typeof window.playSong === 'function') {
+                window.playSong(selectedSong);
+            }
+        };
+    });
 }
 
 // 3. HÀM TẢI VÀ RENDER NHẠC

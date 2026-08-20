@@ -1,5 +1,7 @@
 * {
     box-sizing: border-box;
+    padding: 0;
+    margin: 0;
 }
 
 body {
@@ -21,15 +23,12 @@ body {
     top: 0;
     left: 0;
     width: 100%;
-    height: 70px;
+    height: 60px;
     padding: 0 24px;
-    box-sizing: border-box;
-
     display: flex;
     align-items: center;
     justify-content: space-between;
-
-    background-color: var(--bg-transparent);
+    background-color: var(--bg-surface);
     border-bottom: 1px solid var(--border-color);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
@@ -60,19 +59,20 @@ body {
     width: 100%;
     max-width: 500px;
     height: 42px;
-    padding: 0 16px;
-    box-sizing: border-box;
-
+    padding: 0px 16px;
     background-color: var(--bg-surface-hover);
     border: 1px solid var(--border-color);
     border-radius: 9999px;
     transition: background-color 0.2s ease, border-color 0.2s ease;
 }
 
-.search-bar:hover,
+.search-bar:hover {
+    border-color: var(--accent-hover);
+}
+
 .search-bar:focus-within {
-    background-color: var(--bg-surface);
     border-color: var(--accent-primary);
+    background-color: var(--bg-surface-bright);
 }
 
 .search-icon {
@@ -80,6 +80,17 @@ body {
     color: var(--text-secondary);
     display: flex;
     align-items: center;
+    cursor: pointer;
+    transition: transform 0.15s ease, color 0.15s ease;
+}
+
+.search-icon:hover {
+    color: var(--accent-primary, #a39aff);
+    transform: scale(1.15);
+}
+
+.search-icon:active {
+    opacity: 0.9;
 }
 
 .search-input {
@@ -402,7 +413,6 @@ body {
 
 .main-container {
     background-color: var(--bg-main);
-    padding: 1rem;
     flex: 1;
     overflow-y: auto;
     padding-top: 80px;
@@ -424,7 +434,7 @@ body {
     left: 0;
     width: 100%;
     z-index: 100;
-    height: 80px;
+    height: 90px;
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
 }
@@ -447,6 +457,7 @@ body {
     color: var(--text-secondary);
     border: 1px solid var(--border-color);
     font-size: 1.25rem;
+    box-sizing: border-box;
 }
 
 .song-info {
@@ -520,10 +531,8 @@ body {
 }
 
 .play-btn i {
-    margin-left: 0.125rem;
     font-size: 0.875rem;
 }
-
 
 .progress-container {
     display: flex;
@@ -593,8 +602,24 @@ body {
     width: 33.33%;
 }
 
+/* ======================================================== */
+/* KHOẢNG ĐỆM ĐÁY TOÀN BỘ DANH SÁCH BÀI HÁT                 */
+/* ======================================================== */
+
 #player-placeholder {
-    height: 90px;
+    height: 110px;
+    width: 100%;
+}
+
+/* Chừa khoảng trống dưới cùng để cuộn không bao giờ bị che */
+#search-results-list,
+#fav-songs-list,
+.favorite-content,
+.search-content,
+.main-content,
+.content-area {
+    padding-bottom: 120px !important;
+    box-sizing: border-box;
 }
 
 .header__login-btn {

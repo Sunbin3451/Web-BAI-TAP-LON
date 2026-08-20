@@ -1,19 +1,19 @@
-// Hàm set class active cho sidebar dựa vào trang hiện tại
+import { initPlayer } from './music-player.js';
+
+const LAST_PAGE_KEY = 'ou_last_page';
+const LAST_ARTIST_ID_KEY = 'ou_last_artist_id';
+
 function setActiveMenu(page) {
     const navLinks = document.querySelectorAll('.nav-section a');
-
     navLinks.forEach(link => {
         link.classList.remove('active');
-
         const linkPage = link.getAttribute('data-page');
-
         if (linkPage === page) {
             link.classList.add('active');
         }
     });
 }
 
-// Hàm tải component cố định (Header, Sidebar, Player)
 async function loadComponent(elementId, filePath) {
     try {
         const response = await fetch(filePath);
@@ -30,20 +30,13 @@ async function loadComponent(elementId, filePath) {
             attachSidebarListeners();
         }
 
-        if (elementId === "player-placeholder") {
-            if (typeof initPlayer === 'function') {
-                initPlayer();
-            }
-        }
-
         if (elementId === "header-placeholder" || elementId === "header-container") {
             if (typeof initHeader === 'function') {
                 initHeader();
             }
         }
-
     } catch (error) {
-        console.error('Lỗi hệ thống:', error);
+        console.error('Lỗi hệ thống khi tải component:', error);
     }
 }
 
@@ -72,35 +65,37 @@ async function loadPage(page, artistId = null) {
 
         setActiveMenu(menuPage);
 
-        // Kích hoạt lại JS tương ứng cho từng trang
-        if (normalizedPage === "album") {
-            if (typeof initAlbum === 'function') initAlbum();
+        localStorage.setItem(LAST_PAGE_KEY, normalizedPage);
+        if (artistId) {
+            localStorage.setItem(LAST_ARTIST_ID_KEY, artistId);
+        } else {
+            localStorage.removeItem(LAST_ARTIST_ID_KEY);
         }
 
-        // Trang Album Detail - đã nhận artistId an toàn
-        if (normalizedPage === "album-detail") {
-            if (typeof initAlbumDetail === 'function') {
-                initAlbumDetail(artistId);
-            }
+        if (normalizedPage === "album" && typeof initAlbum === 'function') {
+            initAlbum();
         }
 
-        // Báo cho các module khác (search.js,...) biết trang nào vừa được load xong
+        if (normalizedPage === "album-detail" && typeof initAlbumDetail === 'function') {
+            initAlbumDetail(artistId);
+        }
+
         document.dispatchEvent(new CustomEvent('spa:pageLoaded', { detail: { page: normalizedPage } }));
 
     } catch (error) {
-        console.error('Lỗi tải nội dung:', error);
-        document.getElementById('app-content').innerHTML = '<p class="text-white p-4">Lỗi tải trang. Vui lòng thử lại.</p>';
+        console.error('Lỗi tải nội dung trang:', error);
+        const appContent = document.getElementById('app-content');
+        if (appContent) {
+            appContent.innerHTML = '<p class="text-white p-4">Lỗi tải trang. Vui lòng thử lại.</p>';
+        }
     }
 }
 
-// Hàm gắn sự kiện click cho sidebar
 function attachSidebarListeners() {
     const navLinks = document.querySelectorAll('.nav-section a[data-page]');
-
     navLinks.forEach(link => {
         link.addEventListener('click', (e) => {
             e.preventDefault();
-
             const page = link.getAttribute('data-page');
             loadPage(page);
         });
@@ -109,37 +104,44 @@ function attachSidebarListeners() {
 
 function attachContentPageListeners() {
     const appContent = document.getElementById('app-content');
-
     if (!appContent) return;
 
     appContent.addEventListener('click', (e) => {
         const target = e.target.closest('[data-page]');
-
         if (!target) return;
 
         e.preventDefault();
         const page = target.getAttribute('data-page');
-        const artistId = target.getAttribute('data-artist'); // Lấy ID ở đây
+        const artistId = target.getAttribute('data-artist');
 
         if (page) {
-            loadPage(page, artistId); // Truyền ID sang loadPage
+            loadPage(page, artistId);
         }
     });
 }
 
-// Khởi tạo ứng dụng
 document.addEventListener("DOMContentLoaded", async () => {
     try {
+        // Tải toàn bộ khung HTML
         await Promise.all([
             loadComponent("sidebar-placeholder", "./components/sidebar.html"),
             loadComponent("header-placeholder", "./components/header.html"),
+            loadComponent("queue-placeholder", "./components/queue.html"),
             loadComponent("player-placeholder", "./components/player.html")
         ]);
 
+        if (typeof initPlayer === 'function') {
+            initPlayer();
+        }
+
         attachContentPageListeners();
-        loadPage('index');
+
+        const savedPage = localStorage.getItem(LAST_PAGE_KEY) || 'index';
+        const savedArtistId = localStorage.getItem(LAST_ARTIST_ID_KEY);
+
+        loadPage(savedPage, savedArtistId);
 
     } catch (error) {
-        console.error("Lỗi tải khung giao diện:", error);
+        console.error("Lỗi khởi tạo giao diện:", error);
     }
 });
