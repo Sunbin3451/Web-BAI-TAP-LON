@@ -54,6 +54,36 @@ export async function getPlaylistById(source, id) {
     return await apiFetch(`/api/v1/music/playlists/${source}/${id}`);
 }
 
+// Lấy danh sách bài hát nổi bật/thịnh hành cho Trang Chủ (qua Search)
+export async function getHomeFeaturedTracks(query = 'vpop hit 2026') {
+    try {
+        const response = await fetch(`${BASE_URL}/api/v1/music/search?q=${encodeURIComponent(query)}&type=track&limit=20`, {
+            headers: { 'X-API-Key': API_KEY }
+        });
+        const data = await response.json();
+        return data.success && Array.isArray(data.data) ? data.data : [];
+    } catch (error) {
+        console.error('Lỗi khi lấy featured tracks:', error);
+        return [];
+    }
+}
+
+// Lấy danh sách bài hát gợi ý theo trackId
+export async function getRecommendations(trackId) {
+    if (!trackId) return [];
+    try {
+        const cleanId = trackId.replace('youtube:', '');
+        const response = await fetch(`${BASE_URL}/api/v1/music/recommendations/${cleanId}`, {
+            headers: { 'X-API-Key': API_KEY }
+        });
+        const data = await response.json();
+        return data.success && Array.isArray(data.data) ? data.data : [];
+    } catch (error) {
+        console.error('Lỗi khi lấy bài hát gợi ý:', error);
+        return [];
+    }
+}
+
 // Hàm chuyển đổi ID Spotify sang YouTube Video ID
 export async function resolveSpotifyToYouTube(spotifyId) {
     if (!spotifyId) return null;

@@ -1,4 +1,5 @@
 import { initPlayer } from './music-player.js';
+import { initHomePage } from './home.js';
 
 const LAST_PAGE_KEY = 'ou_last_page';
 const LAST_ARTIST_ID_KEY = 'ou_last_artist_id';
@@ -44,10 +45,10 @@ async function loadPage(page, artistId = null) {
     try {
         const pageKey = (page || '').trim().toLowerCase();
         const normalizedPage = pageKey === 'albumdetail' ? 'album-detail' : pageKey;
-        const menuPage = normalizedPage === 'album-detail' ? 'album' : normalizedPage;
+        const menuPage = ((normalizedPage === 'index' || normalizedPage === '') ? 'home' : normalizedPage);
 
         let filePath;
-        if (normalizedPage === 'index' || normalizedPage === '') {
+        if (normalizedPage === 'index' || normalizedPage === '' || normalizedPage === 'home') {
             filePath = './content/home-content.html';
         } else {
             filePath = `./content/${normalizedPage}-content.html`;
@@ -72,12 +73,9 @@ async function loadPage(page, artistId = null) {
             localStorage.removeItem(LAST_ARTIST_ID_KEY);
         }
 
-        if (normalizedPage === "album" && typeof initAlbum === 'function') {
-            initAlbum();
-        }
-
-        if (normalizedPage === "album-detail" && typeof initAlbumDetail === 'function') {
-            initAlbumDetail(artistId);
+        // 1. Kích hoạt logic Trang Chủ
+        if ((normalizedPage === "index" || normalizedPage === "home" || normalizedPage === "") && typeof initHomePage === 'function') {
+            initHomePage();
         }
 
         document.dispatchEvent(new CustomEvent('spa:pageLoaded', { detail: { page: normalizedPage } }));

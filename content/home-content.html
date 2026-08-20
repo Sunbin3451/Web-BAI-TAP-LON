@@ -1,4 +1,34 @@
-<div class="flex-col w-full p-6 text-white">
-    <h2 class="text-3xl font-bold mb-4">Danh Sách Bài Hát</h2>
-    <p class="text-neutral-400">Chào mừng bạn đến với ứng dụng nghe nhạc trực tuyến!</p>
+<div class="home__container">
+    <!-- Hero Banner -->
+    <div class="home__hero">
+        <div class="home__hero-content">
+            <span class="home__badge">
+                <i class="fa-solid fa-fire"></i> Nổi bật hôm nay
+            </span>
+            <h1 id="hero-title" class="home__hero-title">Đang tải bài hát...</h1>
+            <p id="hero-artist" class="home__hero-artist">...</p>
+            <button id="hero-play-btn" class="home__hero-btn">
+                <i class="fa-solid fa-play"></i> Phát ngay
+            </button>
+        </div>
+        <div class="home__hero-cover">
+            <img id="hero-thumb" src="" alt="Featured" style="display: none;" />
+        </div>
+    </div>
+
+    <!-- Danh sách bài hát nổi bật -->
+    <div class="home__section">
+        <h2 class="home__section-title">Bài Hát Nổi Bật</h2>
+        <div id="home-trending-grid" class="home__grid-trending">
+            <div class="home__loading">Đang tải danh sách bài hát...</div>
+        </div>
+    </div>
+
+    <!-- Gợi ý dành cho bạn -->
+    <div class="home__section">
+        <h2 class="home__section-title">Gợi Ý Dành Cho Bạn</h2>
+        <div id="home-recommended-grid" class="home__grid-rec">
+            <div class="home__loading">Đang tải gợi ý...</div>
+        </div>
+    </div>
 </div>
