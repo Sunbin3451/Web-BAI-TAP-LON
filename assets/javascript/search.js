@@ -1,265 +1,240 @@
 import { getMusicByQuery } from './api.js';
+import { toggleLikeSong, isSongLiked } from './favorite.js';
 
-function initPlaylistPage() {
-    const searchInput = document.getElementById('songSearchInput');
-    const searchResults = document.getElementById('searchResults');
-    if (!searchInput || !searchResults) return; // không phải trang playlist thì bỏ qua
+// Bộ nhớ đệm lưu trữ kết quả và từ khóa tìm kiếm gần nhất
+let cachedSearchQuery = '';
+let cachedSearchResults = [];
 
-    function normalize(str) {
-        return (str || '').normalize('NFC').toLowerCase();
+// Hàm chính xử lý tìm kiếm & hiển thị kết quả
+export async function triggerSearch(queryText) {
+    const searchInput = document.querySelector('.search-input');
+    const query = queryText !== undefined ? queryText : (searchInput ? searchInput.value.trim() : '');
+
+    const searchNavBtn = Array.from(document.querySelectorAll('.sidebar-nav-item, .nav-item, a, button')).find(
+        el => el.textContent && el.textContent.includes('Tìm Kiếm')
+    );
+
+    let resultsList = document.getElementById('search-results-list');
+    if (!resultsList && searchNavBtn) {
+        searchNavBtn.click();
+        await new Promise(resolve => setTimeout(resolve, 150));
     }
 
-    // ====== Playlist dùng chung, lưu qua localStorage ======
-    function getCurrentUsername() {
-        try {
-            const user = JSON.parse(localStorage.getItem('currentUser'));
-            return user && user.username ? user.username : 'guest';
-        } catch {
-            return 'guest';
+    const initialState = document.getElementById('search-initial-state');
+    const loadingState = document.getElementById('search-loading-state');
+    const notfoundState = document.getElementById('search-notfound-state');
+    resultsList = document.getElementById('search-results-list');
+
+    // Nếu ô tìm kiếm trống -> xóa cache, xóa localStorage và về trạng thái ban đầu
+    if (!query) {
+        cachedSearchQuery = '';
+        cachedSearchResults = [];
+        localStorage.removeItem('ou_last_search_query');
+
+        if (initialState) initialState.classList.remove('hidden');
+        if (loadingState) loadingState.classList.add('hidden');
+        if (notfoundState) notfoundState.classList.add('hidden');
+        if (resultsList) {
+            resultsList.innerHTML = '';
+            resultsList.classList.add('hidden');
         }
+        return;
     }
 
-    function getPlaylistKey() {
-        return `myPlaylist_${getCurrentUsername()}`;
-    }
+    // Lưu lại từ khóa tìm kiếm vào localStorage
+    localStorage.setItem('ou_last_search_query', query);
 
-    function isLoggedIn() {
-        try {
-            const user = JSON.parse(localStorage.getItem('currentUser'));
-            return !!(user && user.username);
-        } catch {
-            return false;
+    // Nếu từ khóa giống hệt lần tìm trước và đã có cache -> khôi phục ngay lập tức
+    if (query === cachedSearchQuery && cachedSearchResults.length > 0) {
+        if (initialState) initialState.classList.add('hidden');
+        if (notfoundState) notfoundState.classList.add('hidden');
+        if (loadingState) loadingState.classList.add('hidden');
+        if (resultsList) {
+            resultsList.innerHTML = renderSongItems(cachedSearchResults);
+            resultsList.classList.remove('hidden');
+            attachSongItemEvents(resultsList, cachedSearchResults);
         }
+        return;
     }
 
-    function getPlaylist() {
-        try {
-            return JSON.parse(localStorage.getItem(getPlaylistKey())) || [];
-        } catch {
-            return [];
-        }
-    }
+    // Nếu là từ khóa mới -> Bật Skeleton Loading và gọi API
+    if (initialState) initialState.classList.add('hidden');
+    if (notfoundState) notfoundState.classList.add('hidden');
+    if (resultsList) resultsList.classList.add('hidden');
+    if (loadingState) loadingState.classList.remove('hidden');
 
-    function savePlaylist(list) {
-        localStorage.setItem(getPlaylistKey(), JSON.stringify(list));
-    }
+    try {
+        const responseData = await getMusicByQuery(query);
 
-    function addToPlaylist(song) {
-        const list = getPlaylist();
-        if (!list.some(s => s.id === song.id)) {
-            list.push({ ...song, dateAdded: new Date().toLocaleDateString('vi-VN') });
-            savePlaylist(list);
-        }
-    }
+        if (loadingState) loadingState.classList.add('hidden');
 
-    function removeFromPlaylist(id) {
-        savePlaylist(getPlaylist().filter(s => s.id !== id));
-    }
-
-    function isInPlaylist(id) {
-        return getPlaylist().some(s => s.id === id);
-    }
-
-    // ====== Gọi API tìm kiếm bài hát ======
-    function formatDuration(totalSeconds) {
-        if (!totalSeconds && totalSeconds !== 0) return '';
-        const minutes = Math.floor(totalSeconds / 60);
-        const seconds = Math.floor(totalSeconds % 60).toString().padStart(2, '0');
-        return `${minutes}:${seconds}`;
-    }
-
-    async function searchSongs(query) {
-        const data = await getMusicByQuery(query);
-        if (!data || !Array.isArray(data)) return [];
-
-        return data.map(track => ({
-            id: track.id,
-            title: track.title,
-            artist: track.artist,
-            album: track.album,
-            duration: formatDuration(track.duration),
-            thumbnail: track.thumbnail
-        }));
-    }
-
-    function renderResultRow(s) {
-        return `
-            <div class="playlist__result-row grid grid-cols-[auto_1fr_1fr_auto] items-center gap-4 px-2 py-2 rounded cursor-pointer">
-                <div class="playlist__result-thumb w-10 h-10 bg-neutral-700 rounded flex items-center justify-center flex-shrink-0 overflow-hidden">
-                    ${s.thumbnail
-                ? `<img src="${s.thumbnail}" class="w-full h-full object-cover" alt="${s.title}">`
-                : `<i class="fa-solid fa-music text-neutral-400 text-sm"></i>`}
-                </div>
-                <div class="playlist__result-info min-w-0">
-                    <p class="playlist__result-title text-sm text-white truncate">${s.title}</p>
-                    <p class="playlist__result-artist text-xs text-neutral-400 truncate">${s.artist}</p>
-                </div>
-                <p class="playlist__result-album text-sm text-neutral-400 truncate hidden sm:block">${s.album}</p>
-                <button
-                    class="playlist__result-add-btn search-add-btn ${isInPlaylist(s.id) ? "added" : ""} w-7 h-7 rounded-full border border-neutral-400 text-white flex items-center justify-center flex-shrink-0"
-                    data-id="${s.id}" data-title="${s.title}" data-artist="${s.artist}" data-album="${s.album}" data-duration="${s.duration}" data-thumbnail="${s.thumbnail || ''}">
-                    <i class="fa-solid ${isInPlaylist(s.id) ? "fa-check" : "fa-plus"} text-xs"></i>
-                </button>
-            </div>
-        `;
-    }
-
-    async function renderResults(query) {
-        const q = query.trim();
-
-        if (!q) {
-            searchResults.classList.add('hidden');
-            searchResults.innerHTML = '';
-            return;
+        let songs = [];
+        if (Array.isArray(responseData)) {
+            songs = responseData;
+        } else if (responseData && typeof responseData === 'object') {
+            songs = responseData.tracks?.items
+                || responseData.tracks
+                || responseData.items
+                || responseData.data
+                || responseData.results
+                || [];
         }
 
-        searchResults.innerHTML = `<p class="text-neutral-400 text-sm px-2 py-3">Đang tìm kiếm...</p>`;
-        searchResults.classList.remove('hidden');
+        // Lưu vào bộ nhớ đệm
+        cachedSearchQuery = query;
+        cachedSearchResults = songs;
 
-        const matches = await searchSongs(q);
-
-        if (matches.length === 0) {
-            searchResults.innerHTML = `<p class="text-neutral-400 text-sm px-2 py-3">Không tìm thấy bài hát nào cho "${query}"</p>`;
-            return;
-        }
-
-        searchResults.innerHTML = matches.map(renderResultRow).join('');
-    }
-
-    let debounceTimer;
-    searchInput.addEventListener('input', (e) => {
-        clearTimeout(debounceTimer);
-        const value = e.target.value;
-        debounceTimer = setTimeout(() => renderResults(value), 400);
-    });
-
-    searchResults.addEventListener('click', (e) => {
-        const btn = e.target.closest('.playlist__result-add-btn');
-        if (!btn) return;
-
-        if (!isLoggedIn()) {
-            alert('Bạn cần đăng nhập để thêm bài hát vào danh sách phát.');
-            window.location.href = 'login.html';
-            return;
-        }
-
-        const id = btn.dataset.id;
-
-        if (isInPlaylist(id)) {
-            removeFromPlaylist(id);
-        } else {
-            addToPlaylist({
-                id: btn.dataset.id,
-                title: btn.dataset.title,
-                artist: btn.dataset.artist,
-                album: btn.dataset.album,
-                duration: btn.dataset.duration,
-                thumbnail: btn.dataset.thumbnail
-            });
-        }
-
-        renderResults(searchInput.value);
-        renderPlaylist();
-    });
-
-    // ====== Render bảng playlist đã lưu ======
-    function renderPlaylist() {
-        const fullView = document.getElementById('playlistFullView');
-        const trackList = document.getElementById('playlistTrackList');
-        const countEl = document.getElementById('playlistCount');
-        const durationEl = document.getElementById('playlistTotalDuration');
-        const coverEl = document.getElementById('playlistCover');
-        if (!fullView || !trackList) return;
-
-        const playlistSongs = getPlaylist();
-
-        if (coverEl) {
-            const customCover = localStorage.getItem('playlistCustomCover');
-            if (customCover) {
-                coverEl.innerHTML = `<img src="${customCover}" class="w-full h-full object-cover">`;
-            } else if (playlistSongs.length > 0 && playlistSongs[0].thumbnail) {
-                coverEl.innerHTML = `<img src="${playlistSongs[0].thumbnail}" class="w-full h-full object-cover rounded" alt="${playlistSongs[0].title}">`;
-            } else {
-                coverEl.innerHTML = `<i class="fa-solid fa-music text-5xl text-neutral-400"></i>`;
+        if (songs && songs.length > 0) {
+            if (resultsList) {
+                resultsList.innerHTML = renderSongItems(songs);
+                resultsList.classList.remove('hidden');
+                attachSongItemEvents(resultsList, songs);
             }
+        } else {
+            if (notfoundState) notfoundState.classList.remove('hidden');
         }
-
-        if (playlistSongs.length === 0) {
-            fullView.classList.add('hidden');
-            trackList.innerHTML = '';
-            return;
-        }
-
-        let totalSeconds = 0;
-        playlistSongs.forEach(s => {
-            const [m, sec] = (s.duration || '0:00').split(':').map(Number);
-            totalSeconds += (m || 0) * 60 + (sec || 0);
-        });
-        const totalMin = Math.floor(totalSeconds / 60);
-        const totalSec = totalSeconds % 60;
-
-        countEl.textContent = `${playlistSongs.length} bài hát`;
-        durationEl.textContent = totalMin > 0 ? `, khoảng ${totalMin} phút ${totalSec} giây` : `, ${totalSec} giây`;
-
-        trackList.innerHTML = playlistSongs.map((s, index) => `
-            <tr class="playlist__table-row hover:bg-white/10 group">
-                <td class="py-3 pl-2 text-neutral-400">${index + 1}</td>
-                <td class="py-3">
-                    <div class="flex items-center gap-3 min-w-0">
-                        <div class="w-10 h-10 bg-neutral-700 rounded flex items-center justify-center flex-shrink-0 overflow-hidden">
-                            ${s.thumbnail
-                ? `<img src="${s.thumbnail}" class="w-full h-full object-cover" alt="${s.title}">`
-                : `<i class="fa-solid fa-music text-neutral-400 text-sm"></i>`}
-                        </div>
-                        <p class="text-sm text-white truncate">${s.title}</p>
-                    </div>
-                </td>
-                <td class="py-3 text-neutral-400 text-sm hidden md:table-cell">${s.artist}</td>
-                <td class="py-3 text-neutral-400 text-sm hidden lg:table-cell">${s.album || ''}</td>
-                <td class="py-3 text-neutral-400 text-sm hidden lg:table-cell">${s.dateAdded || ''}</td>
-                <td class="py-3 pr-4 text-right text-neutral-400 text-sm">
-                    <button class="playlist__remove-btn remove-track-btn opacity-0 group-hover:opacity-100 mr-2 hover:text-white" data-id="${s.id}">
-                        <i class="fa-solid fa-xmark"></i>
-                    </button>${s.duration || ''}
-                </td>
-            </tr>
-        `).join('');
-
-        fullView.classList.remove('hidden');
+    } catch (error) {
+        console.error('Lỗi trong quá trình tìm kiếm:', error);
+        if (loadingState) loadingState.classList.add('hidden');
+        if (notfoundState) notfoundState.classList.remove('hidden');
     }
-
-    document.getElementById('playlistTrackList')?.addEventListener('click', (e) => {
-        const btn = e.target.closest('.playlist__remove-btn');
-        if (!btn) return;
-        removeFromPlaylist(btn.getAttribute('data-id'));
-        renderPlaylist();
-        renderResults(searchInput.value);
-    });
-
-    // Chọn ảnh bìa tùy chỉnh
-    const coverElInit = document.getElementById('playlistCover');
-    const coverUploadInput = document.getElementById('coverUploadInput');
-
-    coverElInit?.addEventListener('click', () => coverUploadInput?.click());
-
-    coverUploadInput?.addEventListener('change', (e) => {
-        const file = e.target.files[0];
-        if (!file) return;
-
-        const reader = new FileReader();
-        reader.onload = (event) => {
-            localStorage.setItem('playlistCustomCover', event.target.result);
-            renderPlaylist();
-        };
-        reader.readAsDataURL(file);
-    });
-
-    renderPlaylist();
 }
 
-// Lắng nghe tín hiệu từ router: chỉ chạy initPlaylistPage() khi đúng trang "playlist" được load
+// Khôi phục kết quả tìm kiếm khi quay lại tab Tìm Kiếm
+export function restoreSearchState() {
+    const searchInput = document.querySelector('.search-input');
+    const currentInputValue = searchInput ? searchInput.value.trim() : '';
+
+    // Nếu trên thanh search đang có chữ hoặc có dữ liệu đã cache
+    if (currentInputValue || cachedSearchResults.length > 0) {
+        triggerSearch(currentInputValue || cachedSearchQuery);
+    }
+}
+
+function renderSongItems(songs) {
+    return songs.map((song, index) => {
+        const title = song.title || song.name || 'Unknown Title';
+        const artist = song.artist || song.singer || (Array.isArray(song.artists) ? song.artists.map(a => a.name || a).join(', ') : 'Unknown Artist');
+        const cover = song.thumbnail || song.coverUrl || song.image || './assets/images/default.jpg';
+        const duration = formatDuration(song.duration);
+        const songId = song.id || song._id || song.sourceId || index;
+
+        const liked = isSongLiked(songId);
+        const activeClass = liked ? ' active' : '';
+        const heartIconClass = liked ? 'fa-solid fa-heart' : 'fa-regular fa-heart';
+
+        return `
+            <div class="search__song-item" data-id="${songId}" data-index="${index}">
+                <div class="search__song-left">
+                    <div class="search__thumb-wrapper">
+                        <img src="${cover}" alt="${title}" class="search__song-thumb" onerror="this.src='./assets/images/default.jpg'">
+                        <button class="search__play-btn" title="Phát bài hát">
+                            <i class="fa-solid fa-play"></i>
+                        </button>
+                    </div>
+                    <div class="search__song-info">
+                        <span class="search__song-title">${title}</span>
+                        <span class="search__song-artist">${artist}</span>
+                    </div>
+                </div>
+                <div class="search__song-right">
+                    <span class="search__song-duration">${duration}</span>
+                    <button class="favorite-btn${activeClass}" title="${liked ? 'Bỏ yêu thích' : 'Yêu thích'}">
+                        <i class="${heartIconClass}"></i>
+                    </button>
+                    <button class="search__action-btn search__more-btn" title="Tùy chọn">
+                        <i class="fa-solid fa-ellipsis-vertical"></i>
+                    </button>
+                </div>
+            </div>
+        `;
+    }).join('');
+}
+
+function attachSongItemEvents(container, songs) {
+    const songItems = container.querySelectorAll('.search__song-item');
+
+    songItems.forEach((item, index) => {
+        const songData = songs[index];
+
+        item.addEventListener('click', (e) => {
+            if (e.target.closest('.favorite-btn') || e.target.closest('.search__more-btn')) {
+                return;
+            }
+
+            if (typeof window.playSong === 'function' && songData) {
+                window.playSong(songData);
+            }
+        });
+
+        const favBtn = item.querySelector('.favorite-btn');
+        if (favBtn) {
+            favBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const isLikedNow = toggleLikeSong(songData);
+
+                favBtn.classList.toggle('active', isLikedNow);
+                favBtn.title = isLikedNow ? 'Bỏ yêu thích' : 'Yêu thích';
+
+                const heartIcon = favBtn.querySelector('i');
+                if (heartIcon) {
+                    heartIcon.className = isLikedNow ? 'fa-solid fa-heart' : 'fa-regular fa-heart';
+                }
+            });
+        }
+    });
+}
+
+function formatDuration(duration) {
+    if (!duration || isNaN(duration)) return '--:--';
+    let totalSeconds = duration > 10000 ? Math.floor(duration / 1000) : Math.floor(duration);
+    const mins = Math.floor(totalSeconds / 60);
+    const secs = totalSeconds % 60;
+    return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+}
+
+// ========================================================
+// GLOBAL EVENT LISTENERS
+// ========================================================
+
+// 1. Phím Enter trên ô input
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' && e.target && e.target.classList.contains('search-input')) {
+        e.preventDefault();
+        triggerSearch(e.target.value.trim());
+    }
+});
+
+// 2. Click icon kính lúp
+document.addEventListener('click', (e) => {
+    const searchIcon = e.target.closest('.search-icon, .fa-magnifying-glass, .search-btn');
+    if (searchIcon) {
+        const searchInput = document.querySelector('.search-input');
+        if (searchInput) {
+            triggerSearch(searchInput.value.trim());
+        }
+    }
+});
+
+// 3. Tự động phục hồi kết quả khi người dùng bấm quay lại tab "Tìm Kiếm" trên Sidebar
+document.addEventListener('click', (e) => {
+    const navItem = e.target.closest('.sidebar-nav-item, .nav-item, a, button');
+    if (navItem && navItem.textContent.includes('Tìm Kiếm')) {
+        setTimeout(() => {
+            restoreSearchState();
+        }, 150);
+    }
+});
+
+// 4. Tự động khôi phục chữ trên thanh Search và kết quả khi reload
 document.addEventListener('spa:pageLoaded', (e) => {
-    if (e.detail && e.detail.page === 'playlist') {
-        initPlaylistPage();
+    if (e.detail.page === 'search') {
+        const searchInput = document.querySelector('.search-input');
+        const savedQuery = localStorage.getItem('ou_last_search_query');
+
+        if (searchInput && savedQuery) {
+            searchInput.value = savedQuery;
+            triggerSearch(savedQuery);
+        }
     }
 });

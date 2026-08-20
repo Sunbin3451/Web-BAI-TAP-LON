@@ -12,15 +12,17 @@
     <!-- Center: Playback Controls & Progress -->
     <div class="player-center">
         <div class="playback-controls">
-            <button class="control-btn"><i class="fa-solid fa-shuffle"></i></button>
-            <button class="control-btn step-btn"><i class="fa-solid fa-backward-step"></i></button>
+            <button class="control-btn btn-shuffle" title="Phát ngẫu nhiên"><i class="fa-solid fa-shuffle"></i></button>
+            <button class="control-btn step-btn btn-prev" title="Bài trước"><i
+                    class="fa-solid fa-backward-step"></i></button>
 
-            <button class="play-btn">
+            <button class="play-btn" title="Phát/Dừng">
                 <i class="fa-solid fa-play"></i>
             </button>
 
-            <button class="control-btn step-btn"><i class="fa-solid fa-forward-step"></i></button>
-            <button class="control-btn"><i class="fa-solid fa-repeat"></i></button>
+            <button class="control-btn step-btn btn-next" title="Bài tiếp theo"><i
+                    class="fa-solid fa-forward-step"></i></button>
+            <button class="control-btn btn-repeat" title="Lặp lại"><i class="fa-solid fa-repeat"></i></button>
         </div>
 
         <div class="progress-container">
@@ -34,12 +36,11 @@
 
     <!-- Right: Extra Controls & Volume -->
     <div class="player-right">
-        <button class="control-btn"><i class="fa-solid fa-list-ul"></i></button>
-        <button class="control-btn"><i class="fa-solid fa-volume-high"></i></button>
+        <button class="control-btn" title="Danh sách phát"><i class="fa-solid fa-list-ul"></i></button>
+        <button class="control-btn btn-volume" title="Âm lượng"><i class="fa-solid fa-volume-high"></i></button>
 
         <div class="volume-bar">
             <div class="volume-fill"></div>
         </div>
-    </div>
     </div>
 </footer>

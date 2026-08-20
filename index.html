@@ -7,17 +7,20 @@
     <meta name="description" content="Website nghe nhạc trực tuyến đa nền tảng, thiết kế giao diện hiện đại">
     <meta name="keywords"
         content="rap việt, v-pop, vpopmusic, vpop, nghe nhạc, music streaming, playlist, lofi, html5, tailwind css">
-    <link rel="icon" href="./assets/img/logo.jpg" type="image/jpeg">
+    <link rel="icon" href="./assets/img/Logo_final.png" type="image/jpeg">
 
     <title>OU Pulse - Nghe Nhạc Trực Tuyến</title>
 
     <!-- ============ Nhúng file css ============ -->
     <link rel="stylesheet" href="./assets/css/color.css">
     <link rel="stylesheet" href="./assets/css/layout.css">
+    <link rel="stylesheet" href="./assets/css/scrollbar.css">
     <link rel="stylesheet" href="./assets/css/theloai.css">
     <link rel="stylesheet" href="./assets/css/search.css">
     <link rel="stylesheet" href="./assets/css/album.css">
-    <link rel="stylesheet" href="./assets/css/scrollbar.css">
+    <link rel="stylesheet" href="./assets/css/favorite.css">
+    <link rel="stylesheet" href="./assets/css/queue.css">
+
     <!-- <link rel="stylesheet" href="./assets/css/header.css"> -->
 
     <!-- ============ Các thư viện ============ -->
@@ -42,16 +45,24 @@
         </main>
     </div>
 
-    <!-- Music Player -->
+    <!-- Music Player & Queue -->
     <div id="player-placeholder"></div>
+    <div id="queue-placeholder"></div>
 
     <!-- ============ Nhúng file javascript ============ -->
+    <script type="module" src="./assets/javascript/main.js"></script>
+    <script type="module" src="./assets/javascript/favorite.js"></script>
+    <script type="module" src="./assets/javascript/search.js"></script>
+    <script type="module" src="./assets/javascript/theloai.js"></script>
+    <script type="module" src="./assets/javascript/playlist-search.js"></script>
+    <script type="module" src="./assets/javascript/music-player.js"></script>
     <script src="./assets/javascript/album.js"></script>
     <script src="./assets/javascript/album-detail.js"></script>
-    <script src="./assets/javascript/main.js"></script>
-    <script type="module" src="./assets/javascript/theloai.js"></script>
-    <script type="module" src="./assets/javascript/search.js"></script>
     <script src="./assets/javascript/header-login.js"></script>
+
+</body>
+
+</html>
 </body>
 
 </html>

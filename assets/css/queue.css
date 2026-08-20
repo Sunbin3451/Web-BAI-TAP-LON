@@ -1,0 +1,163 @@
+.queue-drawer {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 320px;
+    height: calc(100vh - 90px);
+    background-color: var(--bg-surface, #18181b);
+    border-left: 1px solid var(--border-color, #27272a);
+    box-shadow: -4px 0 16px rgba(0, 0, 0, 0.4);
+    z-index: 999;
+    display: flex;
+    flex-direction: column;
+    padding: 1.25rem;
+    box-sizing: border-box;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.queue-drawer.hidden {
+    display: none !important;
+}
+
+.queue-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border-color, #27272a);
+    margin-bottom: 1rem;
+}
+
+.queue-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text-primary, #ffffff);
+    margin: 0;
+}
+
+.queue-close-btn {
+    background: transparent;
+    border: none;
+    outline: none;
+    color: var(--text-secondary, #a1a1aa);
+    font-size: 1.15rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px;
+    border-radius: 4px;
+    transition: color 0.2s ease, background-color 0.2s ease;
+}
+
+.queue-close-btn:hover {
+    color: #ffffff;
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.queue-content {
+    flex: 1;
+    overflow-y: auto;
+    padding-right: 4px;
+}
+
+.queue-content::-webkit-scrollbar {
+    width: 5px;
+}
+
+.queue-content::-webkit-scrollbar-thumb {
+    background: #3f3f46;
+    border-radius: 4px;
+}
+
+.queue-section {
+    margin-bottom: 1.5rem;
+}
+
+.queue-section-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--text-secondary, #71717a);
+    letter-spacing: 0.05em;
+    margin-bottom: 0.75rem;
+    display: block;
+}
+
+.queue-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.5rem;
+    border-radius: 0.375rem;
+    margin-bottom: 0.35rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.queue-item:hover {
+    background-color: var(--bg-surface-hover, #27272a);
+}
+
+.queue-item-left {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    overflow: hidden;
+    flex: 1;
+}
+
+.queue-thumb {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 0.25rem;
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+.queue-info {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    line-height: 1.3;
+}
+
+.queue-song-title {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-primary, #ffffff);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.queue-song-artist {
+    font-size: 0.75rem;
+    color: var(--text-secondary, #a1a1aa);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.queue-btn-remove {
+    background: transparent;
+    border: none;
+    outline: none;
+    color: var(--text-secondary, #71717a);
+    cursor: pointer;
+    padding: 6px;
+    font-size: 0.85rem;
+    border-radius: 4px;
+    transition: color 0.2s ease, background-color 0.2s ease;
+}
+
+.queue-btn-remove:hover {
+    color: #ef4444;
+    background-color: rgba(239, 68, 68, 0.1);
+}
+
+.queue-empty-text {
+    font-size: 0.8rem;
+    color: var(--text-secondary, #71717a);
+    padding: 0.5rem 0;
+    display: block;
+}
