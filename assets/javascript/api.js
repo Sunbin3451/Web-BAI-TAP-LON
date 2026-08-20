@@ -54,7 +54,91 @@ export async function getPlaylistById(source, id) {
     return await apiFetch(`/api/v1/music/playlists/${source}/${id}`);
 }
 
-// Lấy link audio tốt nhất để phát
-export async function getAudioStreamUrl(videoId) {
-    return await apiFetch(`/api/v1/stream/${videoId}/audio`);
+// Hàm chuyển đổi ID Spotify sang YouTube Video ID
+export async function resolveSpotifyToYouTube(spotifyId) {
+    if (!spotifyId) return null;
+    const cleanId = spotifyId.includes(':') ? spotifyId.split(':').pop() : spotifyId;
+    return await apiFetch(`/api/v1/music/resolve/${cleanId}`);
+}
+
+// Hàm tạo Token phát nhạc ngắn hạn từ YouTube Video ID
+export async function getStreamDownloadToken(ytVideoId) {
+    if (!ytVideoId) return null;
+
+    try {
+        const token = localStorage.getItem('accessToken');
+        const headers = {
+            'X-API-Key': API_KEY
+        };
+        if (token) {
+            headers['Authorization'] = `Bearer ${token}`;
+        }
+
+        // Gửi POST với body là object rỗng {} để tránh lỗi 400 do rỗng body
+        const response = await fetch(`${BASE_URL}/api/v1/stream/${ytVideoId}/download-token`, {
+            method: 'POST',
+            headers: {
+                ...headers,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({})
+        });
+
+        if (!response.ok) {
+            console.warn(`Download-token API status: ${response.status}`);
+            return null;
+        }
+
+        const resData = await response.json();
+        console.log('Download token response:', resData);
+        return resData?.data?.token || resData?.token;
+    } catch (error) {
+        console.error('Lỗi khi gọi API Download-Token:', error);
+        return null;
+    }
+}
+
+// Hàm gộp lấy link audio trực tiếp
+export async function getPlayableAudioUrl(song) {
+    if (!song) return null;
+
+    let rawId = song.id || song.sourceId || song._id || song.videoId || '';
+    let trackId = rawId.includes(':') ? rawId.split(':').pop() : rawId;
+    let ytId = song.youtubeId || (trackId.length === 11 ? trackId : null);
+
+    // Resolve Spotify -> YouTube ID nếu ID không phải 11 ký tự
+    if (!ytId || ytId.length !== 11) {
+        try {
+            const resolveRes = await resolveSpotifyToYouTube(trackId);
+            ytId = resolveRes?.youtube?.sourceId
+                || resolveRes?.data?.youtube?.sourceId
+                || resolveRes?.youtubeId
+                || resolveRes?.sourceId
+                || resolveRes?.id;
+        } catch (err) {
+            console.warn('Lỗi Resolve Spotify sang YouTube:', err);
+        }
+    }
+
+    if (!ytId) {
+        console.error('Không tìm thấy YouTube ID cho bài hát này:', song);
+        return null;
+    }
+
+    console.log('Đã có YouTube ID:', ytId);
+
+    // Lấy Token để phát qua Public Stream
+    try {
+        const token = await getStreamDownloadToken(ytId);
+        if (token) {
+            const directUrl = `${BASE_URL}/api/v1/public-stream/download/${token}`;
+            console.log('URL Stream thành công:', directUrl);
+            return directUrl;
+        }
+    } catch (err) {
+        console.warn('Không lấy được Token, chuyển sang Fallback stream:', err);
+    }
+
+    // Fallback: Nếu không sinh được Token, phát trực tiếp qua Stream Proxy
+    return `${BASE_URL}/api/v1/stream/${ytId}`;
 }

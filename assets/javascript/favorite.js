@@ -54,15 +54,21 @@ export function renderFavoritePage() {
         countEl.textContent = `${songs.length} bài hát`;
     }
 
-    // Ẩn nút Phát tất cả khi không có bài hát
+    // Xử lý nút Phát tất cả
     if (playAllBtn) {
         if (songs.length === 0) {
             playAllBtn.classList.add('hidden');
         } else {
             playAllBtn.classList.remove('hidden');
             playAllBtn.onclick = () => {
-                if (window.playSong && songs.length > 0) {
-                    window.playSong(songs[0]);
+                const currentLikedSongs = getLikedSongs();
+                if (currentLikedSongs.length > 0) {
+                    if (typeof window.setPlayQueue === 'function') {
+                        // Nạp toàn bộ danh sách bài hát yêu thích vào Queue và phát từ bài 0
+                        window.setPlayQueue(currentLikedSongs, 0);
+                    } else if (typeof window.playSong === 'function') {
+                        window.playSong(currentLikedSongs[0]);
+                    }
                 }
             };
         }
@@ -104,7 +110,7 @@ export function renderFavoritePage() {
 
     const items = listContainer.querySelectorAll('.favorite__song-item');
     items.forEach(item => {
-        const index = item.getAttribute('data-index');
+        const index = parseInt(item.getAttribute('data-index'), 10);
         const songData = songs[index];
 
         item.addEventListener('click', (e) => {
