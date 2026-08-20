@@ -12,13 +12,14 @@ export function getLikedSongs() {
 
 export function isSongLiked(songId) {
     const songs = getLikedSongs();
-    return songs.some(song => (song.id || song.sourceId || song._id) === songId);
+    return songs.some(song => (song.id || song.sourceId || song._id || song.videoId) === songId);
 }
 
 export function toggleLikeSong(song) {
+    if (!song) return false;
     let songs = getLikedSongs();
-    const songId = song.id || song.sourceId || song._id;
-    const index = songs.findIndex(s => (s.id || s.sourceId || s._id) === songId);
+    const songId = song.id || song.sourceId || song._id || song.videoId;
+    const index = songs.findIndex(s => (s.id || s.sourceId || s._id || song.videoId) === songId);
 
     if (index > -1) {
         songs.splice(index, 1);
@@ -46,7 +47,7 @@ export function renderFavoritePage() {
     const countEl = document.getElementById('fav-count');
     const playAllBtn = document.getElementById('btn-play-all-fav');
 
-    if (!listContainer) return;
+    if (!listContainer && !emptyState) return;
 
     const songs = getLikedSongs();
 
@@ -64,7 +65,6 @@ export function renderFavoritePage() {
                 const currentLikedSongs = getLikedSongs();
                 if (currentLikedSongs.length > 0) {
                     if (typeof window.setPlayQueue === 'function') {
-                        // Nạp toàn bộ danh sách bài hát yêu thích vào Queue và phát từ bài 0
                         window.setPlayQueue(currentLikedSongs, 0);
                     } else if (typeof window.playSong === 'function') {
                         window.playSong(currentLikedSongs[0]);
@@ -74,23 +74,28 @@ export function renderFavoritePage() {
         }
     }
 
+    // Xử lý trạng thái khi danh sách rỗng
     if (songs.length === 0) {
         if (emptyState) emptyState.classList.remove('hidden');
-        listContainer.innerHTML = '';
+        if (listContainer) {
+            listContainer.innerHTML = '';
+            listContainer.classList.add('hidden');
+        }
         return;
     }
 
     if (emptyState) emptyState.classList.add('hidden');
+    if (listContainer) listContainer.classList.remove('hidden');
 
     listContainer.innerHTML = songs.map((song, index) => {
         const duration = formatDuration(song.duration);
-        const songId = song.id || song.sourceId;
+        const songId = song.id || song.sourceId || song._id;
 
         return `
             <div class="favorite__song-item" data-id="${songId}" data-index="${index}">
                 <div class="favorite__song-left">
                     <div class="favorite__thumb-wrapper">
-                        <img src="${song.thumbnail}" alt="${song.title}" class="favorite__song-thumb" onerror="this.src='./assets/images/default.jpg'">
+                        <img src="${song.thumbnail || './assets/images/default.jpg'}" alt="${song.title}" class="favorite__song-thumb" onerror="this.src='./assets/images/default.jpg'">
                         <button class="favorite__play-icon" title="Phát bài hát"><i class="fa-solid fa-play"></i></button>
                     </div>
                     <div class="favorite__song-info">
@@ -101,7 +106,10 @@ export function renderFavoritePage() {
                 <div class="favorite__song-right">
                     <span class="favorite__song-duration">${duration}</span>
                     <button class="favorite-btn active fav-btn-remove" title="Bỏ yêu thích">
-                        <i class="fa-solid fa-heart"></i>
+                        <i class="fa-solid fa-heart pointer-events-none"></i>
+                    </button>
+                    <button class="btn-song-more p-2 text-zinc-400 hover:text-white transition-colors" title="Tuỳ chọn">
+                        <i class="fa-solid fa-ellipsis-vertical pointer-events-none"></i>
                     </button>
                 </div>
             </div>
@@ -113,13 +121,15 @@ export function renderFavoritePage() {
         const index = parseInt(item.getAttribute('data-index'), 10);
         const songData = songs[index];
 
+        // Click vào hàng để phát nhạc
         item.addEventListener('click', (e) => {
-            if (e.target.closest('.fav-btn-remove') || e.target.closest('.favorite-btn')) return;
-            if (window.playSong && songData) {
+            if (e.target.closest('.fav-btn-remove') || e.target.closest('.favorite-btn') || e.target.closest('.btn-song-more')) return;
+            if (typeof window.playSong === 'function' && songData) {
                 window.playSong(songData);
             }
         });
 
+        // Click bỏ yêu thích (Xóa mượt khỏi UI)
         const removeBtn = item.querySelector('.fav-btn-remove');
         if (removeBtn) {
             removeBtn.addEventListener('click', (e) => {
@@ -143,6 +153,17 @@ export function renderFavoritePage() {
                 }, 250);
             });
         }
+
+        // Click nút 3 chấm mở Context Menu
+        const moreBtn = item.querySelector('.btn-song-more');
+        if (moreBtn) {
+            moreBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                if (typeof window.openSongContextMenu === 'function') {
+                    window.openSongContextMenu(moreBtn, songData);
+                }
+            });
+        }
     });
 }
 
@@ -154,11 +175,22 @@ function formatDuration(duration) {
     return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
 }
 
+// LẮNG NGHE CHUYỂN TRANG & RELOAD
+document.addEventListener('DOMContentLoaded', () => {
+    if (document.getElementById('fav-songs-list') || document.getElementById('fav-empty-state')) {
+        renderFavoritePage();
+    }
+});
+
+document.addEventListener('spa:pageLoaded', (e) => {
+    if (e.detail?.page === 'favorite' || document.getElementById('fav-songs-list') || document.getElementById('fav-empty-state')) {
+        renderFavoritePage();
+    }
+});
+
 document.addEventListener('click', (e) => {
-    const navItem = e.target.closest('.sidebar-nav-item, .nav-item, a, button');
-    if (navItem && navItem.textContent.includes('Yêu Thích')) {
-        setTimeout(() => {
-            renderFavoritePage();
-        }, 150);
+    const navItem = e.target.closest('.sidebar-nav-item, .nav-item, [data-page="favorite"], a, button');
+    if (navItem && navItem.textContent && navItem.textContent.includes('Yêu Thích')) {
+        setTimeout(renderFavoritePage, 60);
     }
 });

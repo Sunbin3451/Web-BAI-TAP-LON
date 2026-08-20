@@ -78,9 +78,15 @@ export function initPlayer() {
 
     // 1. Play / Pause
     if (playBtn) {
-        playBtn.onclick = () => {
-            if (!audio.src) return;
-            audio.paused ? audio.play() : audio.pause();
+        playBtn.onclick = async () => {
+            if (audio.src) {
+                audio.paused ? audio.play().catch(() => { }) : audio.pause();
+                return;
+            }
+
+            if (playQueue.length > 0 && currentQueueIndex !== -1 && playQueue[currentQueueIndex]) {
+                await loadAndPlayAudio(playQueue[currentQueueIndex]);
+            }
         };
     }
 
@@ -92,11 +98,25 @@ export function initPlayer() {
         if (playIcon) playIcon.className = 'fa-solid fa-play';
     };
 
+    // Bắt lỗi âm thanh khi server stream từ chối kết nối
+    audio.onerror = () => {
+        const err = audio.error;
+        console.error('Lỗi phát âm thanh:', err ? err.code : 'unknown', err);
+
+        let errorMsg = '⚠️ Máy chủ phát nhạc đang bảo trì hoặc link bài hát đã hết hạn.';
+        if (err) {
+            if (err.code === 2) errorMsg = '⚠️ Lỗi mạng: Không thể kết nối đến máy chủ stream.';
+            if (err.code === 4) errorMsg = '⚠️ Nguồn nhạc không khả dụng hoặc bị từ chối truy cập (403/404).';
+        }
+        showNotification(errorMsg);
+        if (playIcon) playIcon.className = 'fa-solid fa-play';
+    };
+
     // 2. Cập nhật thời gian & thanh tiến độ
-    let isSeeking = false; // Cờ chặn ontimeupdate ghi đè khi đang kéo chuột
+    let isSeeking = false;
 
     audio.ontimeupdate = () => {
-        if (!audio.duration || isSeeking) return; // Nếu đang tua thì không cho ontimeupdate can thiệp
+        if (!audio.duration || isSeeking) return;
         const percent = (audio.currentTime / audio.duration) * 100;
         if (progressFill) progressFill.style.width = `${percent}%`;
         if (currTimeEl) currTimeEl.textContent = formatTime(audio.currentTime);
@@ -120,7 +140,6 @@ export function initPlayer() {
             if (currTimeEl) currTimeEl.textContent = formatTime(seekPos * audio.duration);
         };
 
-        // Khi bắt đầu nhấn chuột vào thanh
         progressBar.addEventListener('mousedown', (e) => {
             if (!audio.duration || isNaN(audio.duration)) return;
             isSeeking = true;
@@ -128,7 +147,6 @@ export function initPlayer() {
             updateSeekUI(e);
         });
 
-        // Khi đang di chuyển chuột
         window.addEventListener('mousemove', (e) => {
             if (isSeeking) {
                 e.preventDefault();
@@ -136,20 +154,12 @@ export function initPlayer() {
             }
         });
 
-        // Khi nhả chuột
         window.addEventListener('mouseup', () => {
             if (!isSeeking) return;
             isSeeking = false;
 
             if (audio.duration && !isNaN(audio.duration)) {
-                const targetTime = seekPos * audio.duration;
-
-                if (audio.seekable && audio.seekable.length > 0) {
-                    const maxSeekable = audio.seekable.end(audio.seekable.length - 1);
-                    audio.currentTime = Math.min(targetTime, maxSeekable);
-                } else {
-                    audio.currentTime = targetTime;
-                }
+                audio.currentTime = seekPos * audio.duration;
 
                 if (!wasPausedBeforeSeek) {
                     audio.play().catch(() => { });
@@ -197,7 +207,7 @@ export function initPlayer() {
     if (nextBtn) nextBtn.onclick = () => playNextSong();
     if (prevBtn) prevBtn.onclick = () => playPrevSong();
 
-    // 6. Xử lý khi bài hát kết thúc (Kiểm tra chế độ Repeat)
+    // 6. Xử lý khi bài hát kết thúc
     audio.onended = () => {
         if (isRepeat) {
             audio.currentTime = 0;
@@ -207,7 +217,7 @@ export function initPlayer() {
         }
     };
 
-    // 7. Bật / Tắt chế độ Repeat (Lặp lại 1 bài)
+    // 7. Bật / Tắt Repeat
     if (repeatBtn) {
         repeatBtn.onclick = (e) => {
             e.stopPropagation();
@@ -215,7 +225,6 @@ export function initPlayer() {
             repeatBtn.classList.toggle('active', isRepeat);
             repeatBtn.title = isRepeat ? 'Tắt lặp lại' : 'Lặp lại';
 
-            // Đổi màu tím sáng nổi bật khi active
             if (isRepeat) {
                 repeatBtn.style.color = 'var(--text-primary)';
             } else {
@@ -224,7 +233,7 @@ export function initPlayer() {
         };
     }
 
-    // 8. Bật / Tắt Danh Sách Phát (Queue Drawer)
+    // 8. Bật / Tắt Queue Drawer
     if (queueBtn && queueDrawer) {
         queueBtn.onclick = (e) => {
             e.stopPropagation();
@@ -246,12 +255,12 @@ export function initPlayer() {
         };
     }
 
-    // Đăng ký các hàm ra global
+    // Đăng ký toàn cục
     window.playSong = playSong;
     window.addToQueue = addToQueue;
     window.setPlayQueue = setPlayQueue;
 
-    // Khôi phục lại Queue từ localStorage khi nạp trang
+    // Khôi phục Queue
     restoreQueueFromStorage();
     if (playQueue.length > 0 && currentQueueIndex !== -1 && playQueue[currentQueueIndex]) {
         loadSongInfoOnly(playQueue[currentQueueIndex]);
@@ -259,7 +268,7 @@ export function initPlayer() {
     }
 }
 
-// Hàm chỉ nạp thông tin giao diện (tên, ca sĩ, cover) khi reload
+// Cập nhật thông tin giao diện phát nhạc
 function loadSongInfoOnly(song) {
     if (!song) return;
 
@@ -276,7 +285,7 @@ function loadSongInfoOnly(song) {
     }
 }
 
-// Xử lý nạp URL audio và phát nhạc
+// Nạp stream URL trực tiếp cho Audio element
 async function loadAndPlayAudio(song) {
     if (!song) return;
     loadSongInfoOnly(song);
@@ -317,6 +326,7 @@ async function loadAndPlayAudio(song) {
 
         audio.pause();
         audio.src = streamUrl;
+        audio.load();
 
         await audio.play().catch(err => {
             if (err.name !== 'AbortError') {
@@ -324,11 +334,11 @@ async function loadAndPlayAudio(song) {
             }
         });
     } catch (err) {
-        console.error('Lỗi khi nạp và phát nhạc:', err);
+        console.error('Lỗi khi nạp nhạc:', err);
     }
 }
 
-// Xử lý phát bài mới: Đưa bài mới vào ĐANG PHÁT, đẩy bài cũ xuống TIẾP THEO
+// Phát bài mới
 export async function playSong(song) {
     if (!song) return;
 
@@ -364,7 +374,7 @@ export function addToQueue(song) {
     renderQueueUI();
 }
 
-// Đặt toàn bộ danh sách (Dành cho Playlist/Album)
+// Đặt toàn bộ danh sách phát
 export function setPlayQueue(songList, startIndex = 0) {
     if (!Array.isArray(songList) || songList.length === 0) return;
 
@@ -419,12 +429,18 @@ export function renderQueueUI() {
                         <span class="queue-song-artist">${currentArtist}</span>
                     </div>
                 </div>
-                <button class="favorite-btn${liked ? ' active' : ''}" title="${liked ? 'Bỏ yêu thích' : 'Yêu thích'}">
-                    <i class="${liked ? 'fa-solid fa-heart' : 'fa-regular fa-heart'}"></i>
-                </button>
+                <div class="flex items-center gap-2">
+                    <button class="favorite-btn${liked ? ' active' : ''}" title="${liked ? 'Bỏ yêu thích' : 'Yêu thích'}">
+                        <i class="${liked ? 'fa-solid fa-heart' : 'fa-regular fa-heart'}"></i>
+                    </button>
+                    <button class="queue-btn-remove" title="Xóa khỏi hàng đợi">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
             </div>
         `;
 
+        // 1. Sự kiện nút tim yêu thích
         const favBtn = currentContainer.querySelector('.favorite-btn');
         if (favBtn) {
             favBtn.onclick = (e) => {
@@ -438,6 +454,34 @@ export function renderQueueUI() {
                     if (heartIcon) {
                         heartIcon.className = isLikedNow ? 'fa-solid fa-heart' : 'fa-regular fa-heart';
                     }
+                }
+            };
+        }
+
+        // 2. Sự kiện nút Xóa bài đang phát
+        const removeCurrentBtn = currentContainer.querySelector('.queue-btn-remove');
+        if (removeCurrentBtn) {
+            removeCurrentBtn.onclick = (e) => {
+                e.stopPropagation();
+                playQueue.splice(currentQueueIndex, 1);
+                saveQueueToStorage();
+
+                if (playQueue.length > 0) {
+                    currentQueueIndex = Math.min(currentQueueIndex, playQueue.length - 1);
+                    renderQueueUI();
+                    loadAndPlayAudio(playQueue[currentQueueIndex]);
+                } else {
+                    currentQueueIndex = -1;
+                    audio.pause();
+                    audio.src = '';
+                    renderQueueUI();
+
+                    const titleEl = document.querySelector('.song-title');
+                    const artistEl = document.querySelector('.song-subtitle');
+                    const thumbContainer = document.querySelector('.album-art-placeholder');
+                    if (titleEl) titleEl.textContent = 'Chưa chọn bài hát';
+                    if (artistEl) artistEl.textContent = '';
+                    if (thumbContainer) thumbContainer.innerHTML = '';
                 }
             };
         }

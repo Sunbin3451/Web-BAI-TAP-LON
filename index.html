@@ -17,6 +17,7 @@
     <link rel="stylesheet" href="./assets/css/scrollbar.css">
     <link rel="stylesheet" href="./assets/css/theloai.css">
     <link rel="stylesheet" href="./assets/css/search.css">
+    <link rel="stylesheet" href="./assets/css/playlist.css">
     <link rel="stylesheet" href="./assets/css/album.css">
     <link rel="stylesheet" href="./assets/css/favorite.css">
     <link rel="stylesheet" href="./assets/css/queue.css">
@@ -49,12 +50,44 @@
     <div id="player-placeholder"></div>
     <div id="queue-placeholder"></div>
 
+    <!-- Context Menu -->
+    <div id="song-context-menu" class="song-ctx-menu hidden">
+        <button class="song-ctx-item" data-action="play-now">
+            <i class="fa-solid fa-play"></i>
+            <span>Phát ngay</span>
+        </button>
+        <button class="song-ctx-item" data-action="add-queue">
+            <i class="fa-solid fa-list-ul"></i>
+            <span>Thêm vào hàng đợi</span>
+        </button>
+        <hr class="song-ctx-divider">
+        <button class="song-ctx-item" data-action="add-playlist">
+            <i class="fa-regular fa-square-plus"></i>
+            <span>Thêm vào playlist</span>
+        </button>
+    </div>
+
+    <!-- Popup chọn playlist để thêm -->
+    <div id="add-to-playlist-modal" class="playlist__modal-overlay hidden">
+        <div class="playlist__modal playlist__modal--add">
+            <h3 class="playlist__modal-title">Thêm vào playlist</h3>
+
+            <div id="modal-playlist-list" class="playlist__modal-list">
+
+            </div>
+
+            <button id="btn-modal-create-pl" class="playlist__modal-btn-create-new">
+                + Tạo playlist mới
+            </button>
+        </div>
+    </div>
+
     <!-- ============ Nhúng file javascript ============ -->
     <script type="module" src="./assets/javascript/main.js"></script>
     <script type="module" src="./assets/javascript/favorite.js"></script>
     <script type="module" src="./assets/javascript/search.js"></script>
     <script type="module" src="./assets/javascript/theloai.js"></script>
-    <script type="module" src="./assets/javascript/playlist-search.js"></script>
+    <script type="module" src="./assets/javascript/playlist.js"></script>
     <script type="module" src="./assets/javascript/music-player.js"></script>
     <script src="./assets/javascript/album.js"></script>
     <script src="./assets/javascript/album-detail.js"></script>
